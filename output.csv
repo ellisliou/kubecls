@@ -1,2 +1,2 @@
-1.1.1,Ensure that the API server pod  specification file permissions are set to 644 or more restrictive,600
-1.1.2,Ensure that the API server pod specification file ownership set to root:root,root:root
+1.1.1,Ensure that the API server pod  specification file permissions are set to 644 or more restrictive,600,Compliant
+1.1.2,Ensure that the API server pod specification file ownership set to root:root,root:root,Compliant
