@@ -25,29 +25,34 @@ def write_to_csv(ssh,i,k,config):
 	number = config[k]["checks"][i]["id"]
 	input, output, e = ssh.exec_command(command)
 	line=output.readlines()
-
-
 	if "type" in config[k]["checks"][i]:
 		print("warn")
 	else:	
 		test_item = config[k]["checks"][i]["tests"]["test_items"][0]
 		execute(test_item,line)
-
-	#print(number,line)
+	result = [number,title,command,line]
+	writer.writerow(result) 
+	print(number,line)
 
 def execute(test_item, line):
 	if "compare" in test_item.keys():
 		op = test_item["compare"]["op"]
-		if (op == "gte" || op == "gt", op == "lt", op == "lte"):
+		if op == "gte":
 			print(op)
-		elif (op == "bitmask"):
+		elif op == "gt":
 			print(op)
-		elif(op == "eq"):
-		
-		elif(op == "noteq"):
-		
-		elif(op == "has"):
-
+		elif op == "lt":
+			print(op)
+		elif op == "lte":
+			print(op)
+		elif op == "bitmask":
+			print(op)
+		elif op == "eq":
+			print(op)
+		elif op == "noteq":
+			print(op)
+		elif op == "has":
+			print(op)
 
 def main():
 	for k in range(len(ch)):
