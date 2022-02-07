@@ -5,3 +5,6 @@
 * define class of testItem, envTestItem, and flagTestItem 
 * define compare function
 
+## 2022.02.07
+* finish first edition of benchmark
+* 
