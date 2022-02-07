@@ -1,24 +1,28 @@
-from tabnanny import check
-import paramiko
 import csv
-from object import testItem
 from parseYaml import checks, parsed_yaml_file
 import re
+import glob
+import yaml
 
-ssh = paramiko.SSHClient()
-ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+def loadAllTest():
+    yamlList = []
+    for file in glob.glob('./cis_1_20/*.yaml'):
+        file = open(file)
+        file = yaml.load(file, Loader=yaml.FullLoader)
+        yamlList.append(file)
+    return yamlList
 
-host = '192.168.223.128'
-user = 'root'
-pass1 = '1234'
-ssh.connect(hostname=host, username=user, password=pass1, allow_agent = False)
-
-def main():
-    yf = parsed_yaml_file()
+def runTest(bm):
+    yf = parsed_yaml_file(bm)
     for k in range(yf.getMaxId()):
         for i in range(yf.getMaxSubId(k)):
-            yf.check = checks(k,i)
-            print(yf.check.execute(),yf.check.id, yf.check.text)            
+            yf.check = checks(k,i,bm)
+            print(yf.check.execute(),yf.check.id, yf.check.text)
+
+def main():
+    benchMarks = loadAllTest()
+    for i in range(len(benchMarks)):
+        runTest(benchMarks[i])
 
 if __name__ == "__main__":
     main()

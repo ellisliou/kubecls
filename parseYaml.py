@@ -1,20 +1,8 @@
-import imp
-import yaml
-import paramiko
 import strconv
 import re
-a_yaml_file = open("master.yaml")
-yf = yaml.load(a_yaml_file, Loader=yaml.FullLoader)
-ssh = paramiko.SSHClient()
-ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-
-host = '192.168.223.128'
-user = 'root'
-pass1 = '1234'
-ssh.connect(hostname=host, username=user, password=pass1, allow_agent = False)
-
+from connect import *
 class parsed_yaml_file:
-    def __init__(self):
+    def __init__(self,yf):
         self.yaml = yf["groups"]
         self.check = None
     def getMaxId(self):
@@ -27,15 +15,16 @@ class parsed_yaml_file:
         return self.yaml[id]["checks"][sub_id]
 
 class checks(parsed_yaml_file):
-    def __init__(self, id ,sub_id):
-        super().__init__()
+    def __init__(self, id ,sub_id ,yf):
+        super().__init__(yf)
         self.it = self.yaml[id]["checks"][sub_id]
-        self.id = self.yaml[id]["checks"][sub_id]["id"]
-        self.text = self.yaml[id]["checks"][sub_id]["text"]
+        self.id = self.it["id"]
+        self.text = self.it["text"]
         self.scored = self.it["scored"]
-        if "tests" in self.yaml[id]["checks"][sub_id]:
-            self.tests = self.yaml[id]["checks"][sub_id]["tests"]
-            self.audit = self.yaml[id]["checks"][sub_id]["audit"]
+    
+        if "tests" in self.it:
+            self.tests = self.it["tests"]
+            self.audit = self.it["audit"]
             self.line = runAudit(self.audit)
             self.type = "default"
 
@@ -49,17 +38,42 @@ class checks(parsed_yaml_file):
                 self.testItem = []
                 self.testItem.insert(0,testItem(self.it, id, sub_id, 0, self.line))
         else:
-            self.audit = self.yaml[id]["checks"][sub_id]["audit"]
-            self.line = runAudit(self.audit)
+            if "audit" in self.it:
+                self.audit = self.it["audit"]
+                self.line = runAudit(self.audit)
             self.type = "manual"
         
+        if "audit_config" in self.it:
+            self.auditConfig = self.it["audit_config"]
+        else:
+            self.auditConfig = ""
+
 
     def execute(self):
         result = []
+        expectedResultArr = []
         if self.type == "manual":
-            return "this is manual check"
+            return "WARN"
+        for i in range(len(self.testItem)):
+            sub_result = self.testItem[i].execute()
+            if (not sub_result.flagFound) and (self.auditConfig != ""):
+                self.testItem[i].auditUsed = "AuditConfig"
+                sub_result = self.testItem[i].execute()
+            if (not sub_result.flagFound) and (self.testItem[i].env != ""):
+                self.testItem[i].auditUsed = "AuditEnv"
+                sub_result = self.testItem[i].execute()
+            result.insert(i,sub_result)
+            expectedResultArr.insert(i,sub_result.expectedResult)
+        
         if self.binOp == "and" or self.binOp == "":
             totalResult = True
+            for i in range(len(result)):
+                totalResult = totalResult and result[i].testResult
+        else:
+            totalResult = False
+            for i in range(len(result)):
+                totalResult = totalResult or result[i].testResult
+            '''
             for item in range(len(self.testItem)):
                 result.insert(item, self.testItem[item].execute())
                 totalResult = totalResult and result[item].testResult
@@ -68,6 +82,8 @@ class checks(parsed_yaml_file):
             for item in range(len(self.testItem)):
                 result[item] = self.testItem[item].execute()
                 totalResult = totalResult or result[item].testResult
+        '''
+         
         if self.scored == "true":
             if not totalResult:
                 return "FAIL"
@@ -77,16 +93,7 @@ class checks(parsed_yaml_file):
             if not totalResult:
                 return "WARN"
             else:
-                return "PASS"
-        
-            
-def runAudit(command):
-    input, output, e = ssh.exec_command(command)
-    line=output.readlines()
-    if len(line) == 0:
-        line.insert(0,"")
-    return line
-            
+                return "PASS"           
 
 def failTestItem(line):
     x = testOutput()
@@ -125,18 +132,23 @@ class testItem():
         
         self.item =  it["tests"]["test_items"][item_number]
         self.line = line
+        self.auditUsed = "AuditCommand"
+        
         if "set" in self.item:
             self.set = self.item["set"]
         else:
             self.set = True
+        
         if "env" in self.item:
-            self.auditUsed = "env"
-            self.test = envTestItem(id, sub_id, item_number, line)
-
+            self.env = "env"
+        else:
+            self.env = ""
+        '''
         elif "flag" in self.item:
             self.test = flagTestItem(self.item)
             self.auditUsed = "flag"
-    
+        '''
+
     def execute(self):
         result = testOutput()
         output = []
@@ -156,7 +168,7 @@ class testItem():
     
     def evaluate(self, line):
         result = testOutput()
-        match, value, err = self.test.findValue(line)
+        match, value, err = self.findValue(line)
         if err != None:
             return failTestItem("err")
         if  self.set:
@@ -172,6 +184,18 @@ class testItem():
             result.testResult = not match
         result.flagFound = match
         return result
+    
+    def findValue(self, s):
+        if self.auditUsed == "AuditEnv":
+            self.test = envTestItem(self.item)
+            self.test.findValue(s)
+        '''
+        if self.auditUsed == "AuditConfig":
+            self.test = pathTestItem(t)
+            return self.test.findValue(s)
+        '''
+        self.test = flagTestItem(self.item)
+        return self.test.findValue(s)
 
 def compareOp(tCompareOp, flagVal, tCompareValue):
     expectedResultPattern = ""
@@ -286,6 +310,7 @@ class flagTestItem(testItem):
             self.comp = compare(item["compare"]["op"],item["compare"]["value"])
         else:
             self.comp = compare()
+    
     def findValue(self, line):
         if line == "" or self.flag == "":
             match = False
@@ -317,20 +342,40 @@ class envTestItem(testItem):
         if "compare" in item:
             self.comp = compare(item["compare"]["op"],item["compare"]["value"])
     
-    def findValue(self, line, match, value, error):
+    def findValue(self, line):
+        err = None
         if line != "" and self.env != "":
-            pttn = self.flag + '=.*(?:$|\\n)'
+            pttn = self.env + '=.*(?:$|\\n)'
             r = re.compile(pttn)
             out = r.search(line)
-            out = out.replace(out, "\n", "", 1)
-            out = out.replace(out, "{self.flag}=", "", 1)
+            #print("test:",r,"\n",line)
+            #out = out.replace(out, "\n", "", 1)
+            #out = out.replace(out, "{self.flag}=", "", 1)
         
             if out != None:
                 match = True
                 value = out
+                out = out.replace(out, "\n", "", 1)
+                out = out.replace(out, "{self.flag}=", "", 1)
+        
             else:
                 match = False
                 value = ""
-        
-        err = None
+        else:
+            print("fault")
+            err = "invalid flag in testItem definition"
+            match = None
+            value = ""
         return match, value, err
+
+class pathTestItem(testItem):
+    def __init__(self,item):
+        self.flag = item["flag"]
+        self.path = item["path"]
+        if "compare" in item:
+            self.comp = compare(item["compare"]["op"],item["compare"]["value"])
+        else:
+            self.comp = compare()
+
+    def findValue(self, s):
+        return None
