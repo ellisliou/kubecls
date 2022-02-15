@@ -1,3 +1,4 @@
+=======
 1.1.1,Ensure that the API server pod specification file permissions are set to 644 or more restrictive (Automated),/bin/sh -c 'if test -e /etc/kubernetes/manifests/kube-apiserver.yaml; then stat -c permissions=%a /etc/kubernetes/manifests/kube-apiserver.yaml; fi',['permissions=600\n']
 1.1.2,Ensure that the API server pod specification file ownership is set to root:root (Automated),/bin/sh -c 'if test -e /etc/kubernetes/manifests/kube-apiserver.yaml; then stat -c %U:%G /etc/kubernetes/manifests/kube-apiserver.yaml; fi',['root:root\n']
 1.1.3,Ensure that the controller manager pod specification file permissions are set to 644 or more restrictive (Automated),/bin/sh -c 'if test -e /etc/kubernetes/manifests/kube-controller-manager.yaml; then stat -c permissions=%a /etc/kubernetes/manifests/kube-controller-manager.yaml; fi',['permissions=600\n']
