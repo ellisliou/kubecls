@@ -25,11 +25,11 @@ class checks(parsed_yaml_file):
         if "tests" in self.it:
             self.tests = self.it["tests"]
             self.audit = self.it["audit"]
-            self.line = runAudit(self.audit)
+            self.line = runAudit(self.id,self.audit)
             self.type = "default"
 
-            if "bin_op" in self.it:
-                self.binOp = self.it["bin_op"]
+            if "bin_op" in self.tests:
+                self.binOp = self.tests["bin_op"]
                 self.testItem = []
                 for item in range(len(self.tests["test_items"])):
                     self.testItem.insert(item,testItem(self.it, id, sub_id, item, self.line))
@@ -40,7 +40,7 @@ class checks(parsed_yaml_file):
         else:
             if "audit" in self.it:
                 self.audit = self.it["audit"]
-                self.line = runAudit(self.audit)
+                self.line = runAudit(self.id,self.audit)
             self.type = "manual"
         
         if "audit_config" in self.it:
@@ -53,7 +53,7 @@ class checks(parsed_yaml_file):
         result = []
         expectedResultArr = []
         if self.type == "manual":
-            return "WARN"
+            return "MANUAL"
         for i in range(len(self.testItem)):
             sub_result = self.testItem[i].execute()
             if (not sub_result.flagFound) and (self.auditConfig != ""):
@@ -64,7 +64,6 @@ class checks(parsed_yaml_file):
                 sub_result = self.testItem[i].execute()
             result.insert(i,sub_result)
             expectedResultArr.insert(i,sub_result.expectedResult)
-        
         if self.binOp == "and" or self.binOp == "":
             totalResult = True
             for i in range(len(result)):
@@ -73,18 +72,7 @@ class checks(parsed_yaml_file):
             totalResult = False
             for i in range(len(result)):
                 totalResult = totalResult or result[i].testResult
-            '''
-            for item in range(len(self.testItem)):
-                result.insert(item, self.testItem[item].execute())
-                totalResult = totalResult and result[item].testResult
-        else:
-            totalResult = False
-            for item in range(len(self.testItem)):
-                result[item] = self.testItem[item].execute()
-                totalResult = totalResult or result[item].testResult
-        '''
-         
-        if self.scored == "true":
+        if self.scored == True:
             if not totalResult:
                 return "FAIL"
             else:
@@ -102,7 +90,7 @@ def failTestItem(line):
     return x 
 
 class compare:
-    def __init__(self, op = None, value = None) -> None:
+    def __init__(self, op = None, value = None):
         if op == None and value == None:
             self.op = ""
             self.value = ""
@@ -200,19 +188,20 @@ class testItem():
 def compareOp(tCompareOp, flagVal, tCompareValue):
     expectedResultPattern = ""
     testResult = False
-    
     if  tCompareOp == "eq":
         value = flagVal.lower()
         if value == "false" or value == "true":
             testResult = value == tCompareValue
 
         else:
+            tCompareValue = str(tCompareValue)
             testResult = flagVal == tCompareValue
 
     elif tCompareOp == "noteq":
+        tCompareValue = str(tCompareValue).lower()
         value = flagVal.lower()
         if value == "false" or value == "true":
-            testResult = value == tCompareValue
+            testResult = value != tCompareValue
 
         else:
             testResult = not (flagVal == tCompareValue)
@@ -312,27 +301,30 @@ class flagTestItem(testItem):
             self.comp = compare()
     
     def findValue(self, line):
+        value = ""
+        err = None
         if line == "" or self.flag == "":
             match = False
             value = ""
             err = None
             return match, value, err
         match = self.flag in line
-        pttn = '(' + self.flag + ')(=|: *)*([^\s]*) *'
-        flagRe = re.compile(pttn)
-        vals = flagRe.search(line)
-        err = None
-        value = None
-        if vals != None:
-            if vals[3] != "":
-                value = vals[3]
-            else:
-                if self.flag.startswith("--"):
-                    value = "true"
+        if match:
+            pttn = '(' + self.flag + ')(=|: *)*([^\s]*) *'
+            flagRe = re.compile(pttn)
+            vals = flagRe.search(line)
+            err = None
+            value = None
+            if vals != None:
+                if vals[3] != "":
+                    value = vals[3]
                 else:
-                    value = vals[1]
-        else:
-            err = "invalid flag in testItem definition"
+                    if self.flag.startswith("--"):
+                        value = "true"
+                    else:
+                        value = vals[1]
+            else:
+                err = "invalid flag in testItem definition"
         return match, value, err
 
 class envTestItem(testItem):

@@ -7,6 +7,7 @@ import yaml
 def loadAllTest():
     yamlList = []
     for file in glob.glob('./cis_1_20/*.yaml'):
+    #for file in glob.glob('./*.yaml'):
         file = open(file)
         file = yaml.load(file, Loader=yaml.FullLoader)
         yamlList.append(file)
