@@ -1,10 +1,12 @@
 import strconv
 import re
 from connect import *
+
 class parsed_yaml_file:
     def __init__(self,yf):
         self.yaml = yf["groups"]
         self.check = None
+        
     def getMaxId(self):
         return len(self.yaml)
 
@@ -41,6 +43,11 @@ class checks(parsed_yaml_file):
             if "audit" in self.it:
                 self.audit = self.it["audit"]
                 self.line = runAudit(self.id,self.audit)
+            elif "audit_function" in self.it:
+                if self.it["audit_function"] == "secret_check":
+                    self.line =k8s_config_check().secret_check(self.it["compareStr"],self.it["comareItem"])
+            else:
+                self.line =""
             self.type = "manual"
         
         if "audit_config" in self.it:

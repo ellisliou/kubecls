@@ -1,0 +1,258 @@
+apiVersion: v1
+items:
+- apiVersion: v1
+  kind: Node
+  metadata:
+    annotations:
+      flannel.alpha.coreos.com/backend-data: '{"VNI":1,"VtepMAC":"aa:32:bd:29:01:76"}'
+      flannel.alpha.coreos.com/backend-type: vxlan
+      flannel.alpha.coreos.com/kube-subnet-manager: "true"
+      flannel.alpha.coreos.com/public-ip: 192.168.118.209
+      kubeadm.alpha.kubernetes.io/cri-socket: /var/run/dockershim.sock
+      node.alpha.kubernetes.io/ttl: "0"
+      volumes.kubernetes.io/controller-managed-attach-detach: "true"
+    creationTimestamp: "2022-01-18T05:59:59Z"
+    labels:
+      beta.kubernetes.io/arch: amd64
+      beta.kubernetes.io/os: linux
+      kubernetes.io/arch: amd64
+      kubernetes.io/hostname: k8smaster
+      kubernetes.io/os: linux
+      node-role.kubernetes.io/control-plane: ""
+      node-role.kubernetes.io/master: ""
+      node.kubernetes.io/exclude-from-external-load-balancers: ""
+    name: k8smaster
+    resourceVersion: "52624"
+    uid: 50d99347-fa76-4fb8-93b1-70aced6b0369
+  spec:
+    podCIDR: 10.244.0.0/24
+    podCIDRs:
+    - 10.244.0.0/24
+    taints:
+    - effect: NoSchedule
+      key: node-role.kubernetes.io/master
+  status:
+    addresses:
+    - address: 192.168.118.209
+      type: InternalIP
+    - address: k8smaster
+      type: Hostname
+    allocatable:
+      cpu: "2"
+      ephemeral-storage: "70381371686"
+      hugepages-1Gi: "0"
+      hugepages-2Mi: "0"
+      memory: 1899496Ki
+      pods: "110"
+    capacity:
+      cpu: "2"
+      ephemeral-storage: 76368676Ki
+      hugepages-1Gi: "0"
+      hugepages-2Mi: "0"
+      memory: 2001896Ki
+      pods: "110"
+    conditions:
+    - lastHeartbeatTime: "2022-01-18T06:05:32Z"
+      lastTransitionTime: "2022-01-18T06:05:32Z"
+      message: Flannel is running on this node
+      reason: FlannelIsUp
+      status: "False"
+      type: NetworkUnavailable
+    - lastHeartbeatTime: "2022-06-22T08:33:12Z"
+      lastTransitionTime: "2022-06-21T14:24:55Z"
+      message: kubelet has sufficient memory available
+      reason: KubeletHasSufficientMemory
+      status: "False"
+      type: MemoryPressure
+    - lastHeartbeatTime: "2022-06-22T08:33:12Z"
+      lastTransitionTime: "2022-06-21T14:24:55Z"
+      message: kubelet has no disk pressure
+      reason: KubeletHasNoDiskPressure
+      status: "False"
+      type: DiskPressure
+    - lastHeartbeatTime: "2022-06-22T08:33:12Z"
+      lastTransitionTime: "2022-06-21T14:24:55Z"
+      message: kubelet has sufficient PID available
+      reason: KubeletHasSufficientPID
+      status: "False"
+      type: PIDPressure
+    - lastHeartbeatTime: "2022-06-22T08:33:12Z"
+      lastTransitionTime: "2022-06-21T14:24:55Z"
+      message: kubelet is posting ready status. AppArmor enabled
+      reason: KubeletReady
+      status: "True"
+      type: Ready
+    daemonEndpoints:
+      kubeletEndpoint:
+        Port: 10250
+    images:
+    - names:
+      - k8s.gcr.io/etcd@sha256:4ad90a11b55313b182afc186b9876c8e891531b8db4c9bf1541953021618d0e2
+      - k8s.gcr.io/etcd:3.4.13-0
+      sizeBytes: 253392289
+    - names:
+      - k8s.gcr.io/kube-apiserver@sha256:303737086912d90434bae8d696dd6b5aa3cf4e45301d8e9e5bc57a20871d240a
+      - k8s.gcr.io/kube-apiserver:v1.21.8
+      sizeBytes: 125746749
+    - names:
+      - k8s.gcr.io/kube-controller-manager@sha256:0d131bc6459d41b2efc485305dbbf7c4480f0cd314b65e655722171f81b73abc
+      - k8s.gcr.io/kube-controller-manager:v1.21.8
+      sizeBytes: 119947113
+    - names:
+      - k8s.gcr.io/kube-proxy@sha256:d5334eee53a3f0ddff4588b25e7e7f5bbd96b9a728eee0ae1a19c0e1b23c29d5
+      - k8s.gcr.io/kube-proxy:v1.21.8
+      sizeBytes: 103567283
+    - names:
+      - rancher/mirrored-flannelcni-flannel@sha256:c2965afde3cf75b89d280f3263151fcd4e58a5901885bef18e1ebfbeef69801e
+      - rancher/mirrored-flannelcni-flannel:v0.16.1
+      sizeBytes: 69870377
+    - names:
+      - k8s.gcr.io/kube-scheduler@sha256:4330e60b27af54d911608d0b8e4f1b96dd3cb8817fd6d4d6f0de409c356d538e
+      - k8s.gcr.io/kube-scheduler:v1.21.8
+      sizeBytes: 50888528
+    - names:
+      - k8s.gcr.io/coredns/coredns@sha256:cc8fb77bc2a0541949d1d9320a641b82fd392b0d3d8145469ca4709ae769980e
+      - k8s.gcr.io/coredns/coredns:v1.8.0
+      sizeBytes: 42454755
+    - names:
+      - rancher/mirrored-flannelcni-flannel-cni-plugin@sha256:bfe8f30c74bc6f31eba0cc6659e396dbdd5ab171314ed542cc238ae046660ede
+      - rancher/mirrored-flannelcni-flannel-cni-plugin:v1.0.0
+      sizeBytes: 9031177
+    - names:
+      - k8s.gcr.io/pause@sha256:6c3835cab3980f11b83277305d0d736051c32b17606f5ec59f1dda67c9ba3810
+      - k8s.gcr.io/pause:3.4.1
+      sizeBytes: 682696
+    nodeInfo:
+      architecture: amd64
+      bootID: bf0b8b8a-0367-49a0-90db-0cb3bb7ed8ad
+      containerRuntimeVersion: docker://20.10.7
+      kernelVersion: 5.4.0-94-generic
+      kubeProxyVersion: v1.21.7
+      kubeletVersion: v1.21.7
+      machineID: c8a55331f6724b72996ef0acc4c96f3b
+      operatingSystem: linux
+      osImage: Ubuntu 20.04.3 LTS
+      systemUUID: b9c84d56-da82-44a2-c884-c65919e3ac39
+- apiVersion: v1
+  kind: Node
+  metadata:
+    annotations:
+      flannel.alpha.coreos.com/backend-data: '{"VNI":1,"VtepMAC":"92:2b:05:05:f6:9b"}'
+      flannel.alpha.coreos.com/backend-type: vxlan
+      flannel.alpha.coreos.com/kube-subnet-manager: "true"
+      flannel.alpha.coreos.com/public-ip: 192.168.118.208
+      kubeadm.alpha.kubernetes.io/cri-socket: /var/run/dockershim.sock
+      node.alpha.kubernetes.io/ttl: "0"
+      volumes.kubernetes.io/controller-managed-attach-detach: "true"
+    creationTimestamp: "2022-01-18T06:07:21Z"
+    labels:
+      beta.kubernetes.io/arch: amd64
+      beta.kubernetes.io/os: linux
+      kubernetes.io/arch: amd64
+      kubernetes.io/hostname: k8snode1
+      kubernetes.io/os: linux
+    name: k8snode1
+    resourceVersion: "36226"
+    uid: b40cb981-be9a-4c59-92c9-b7012bfc8653
+  spec:
+    podCIDR: 10.244.1.0/24
+    podCIDRs:
+    - 10.244.1.0/24
+    taints:
+    - effect: NoSchedule
+      key: node.kubernetes.io/unreachable
+      timeAdded: "2022-06-20T08:11:19Z"
+    - effect: NoExecute
+      key: node.kubernetes.io/unreachable
+      timeAdded: "2022-06-21T14:27:43Z"
+  status:
+    addresses:
+    - address: 192.168.118.208
+      type: InternalIP
+    - address: k8snode1
+      type: Hostname
+    allocatable:
+      cpu: "2"
+      ephemeral-storage: "70381371686"
+      hugepages-1Gi: "0"
+      hugepages-2Mi: "0"
+      memory: 1899496Ki
+      pods: "110"
+    capacity:
+      cpu: "2"
+      ephemeral-storage: 76368676Ki
+      hugepages-1Gi: "0"
+      hugepages-2Mi: "0"
+      memory: 2001896Ki
+      pods: "110"
+    conditions:
+    - lastHeartbeatTime: "2022-01-18T06:08:10Z"
+      lastTransitionTime: "2022-01-18T06:08:10Z"
+      message: Flannel is running on this node
+      reason: FlannelIsUp
+      status: "False"
+      type: NetworkUnavailable
+    - lastHeartbeatTime: "2022-06-20T08:10:07Z"
+      lastTransitionTime: "2022-06-20T08:11:19Z"
+      message: Kubelet stopped posting node status.
+      reason: NodeStatusUnknown
+      status: Unknown
+      type: MemoryPressure
+    - lastHeartbeatTime: "2022-06-20T08:10:07Z"
+      lastTransitionTime: "2022-06-20T08:11:19Z"
+      message: Kubelet stopped posting node status.
+      reason: NodeStatusUnknown
+      status: Unknown
+      type: DiskPressure
+    - lastHeartbeatTime: "2022-06-20T08:10:07Z"
+      lastTransitionTime: "2022-06-20T08:11:19Z"
+      message: Kubelet stopped posting node status.
+      reason: NodeStatusUnknown
+      status: Unknown
+      type: PIDPressure
+    - lastHeartbeatTime: "2022-06-20T08:10:07Z"
+      lastTransitionTime: "2022-06-20T08:11:19Z"
+      message: Kubelet stopped posting node status.
+      reason: NodeStatusUnknown
+      status: Unknown
+      type: Ready
+    daemonEndpoints:
+      kubeletEndpoint:
+        Port: 10250
+    images:
+    - names:
+      - k8s.gcr.io/kube-proxy@sha256:d5334eee53a3f0ddff4588b25e7e7f5bbd96b9a728eee0ae1a19c0e1b23c29d5
+      - k8s.gcr.io/kube-proxy:v1.21.8
+      sizeBytes: 103567283
+    - names:
+      - rancher/mirrored-flannelcni-flannel@sha256:c2965afde3cf75b89d280f3263151fcd4e58a5901885bef18e1ebfbeef69801e
+      - rancher/mirrored-flannelcni-flannel:v0.16.1
+      sizeBytes: 69870377
+    - names:
+      - aquasec/kube-bench@sha256:0dde2f08aac8288bee85f91bbaa2d91c84fedaf3fd7b5b9c7992ac4091c77d65
+      - aquasec/kube-bench:v0.6.8
+      sizeBytes: 50980001
+    - names:
+      - rancher/mirrored-flannelcni-flannel-cni-plugin@sha256:bfe8f30c74bc6f31eba0cc6659e396dbdd5ab171314ed542cc238ae046660ede
+      - rancher/mirrored-flannelcni-flannel-cni-plugin:v1.0.0
+      sizeBytes: 9031177
+    - names:
+      - k8s.gcr.io/pause@sha256:6c3835cab3980f11b83277305d0d736051c32b17606f5ec59f1dda67c9ba3810
+      - k8s.gcr.io/pause:3.4.1
+      sizeBytes: 682696
+    nodeInfo:
+      architecture: amd64
+      bootID: b1a92fae-892e-4932-9f4a-df08281c7127
+      containerRuntimeVersion: docker://20.10.7
+      kernelVersion: 5.4.0-94-generic
+      kubeProxyVersion: v1.21.7
+      kubeletVersion: v1.21.7
+      machineID: c8a55331f6724b72996ef0acc4c96f3b
+      operatingSystem: linux
+      osImage: Ubuntu 20.04.3 LTS
+      systemUUID: f6914d56-18fb-324b-d0ba-fd189b841a3c
+kind: List
+metadata:
+  resourceVersion: ""
+  selfLink: ""
+  

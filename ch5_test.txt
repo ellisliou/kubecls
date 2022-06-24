@@ -1,0 +1,152 @@
+5.1.1
+Ensure that the cluster-admin role is only used where required (Manual)
+===Audit Result===
+NAME ROLE SUBJECT
+cluster-admin cluster-admin system:masters
+===Audit Result===
+
+5.1.2
+Minimize access to secrets (Manual)
+===Audit Result===
+**ClusterRoles**
+Name apiGroups verbs
+admin[,][,get,list,watch]
+admin[,][,create,delete,deletecollection,patch,update]
+edit[,][,get,list,watch]
+edit[,][,create,delete,deletecollection,patch,update]
+system:aggregate-to-edit[,][,get,list,watch]
+system:aggregate-to-edit[,][,create,delete,deletecollection,patch,update]
+system:controller:expand-controller[,][,get]
+system:controller:persistent-volume-binder[,][,get]
+system:kube-controller-manager[,][,create]
+system:kube-controller-manager[,][,delete]
+system:kube-controller-manager[,][,get]
+system:kube-controller-manager[,][,update]
+system:node[,][,get,list,watch]
+===Audit Result===
+
+5.1.3
+Minimize wildcard use in Roles and ClusterRoles (Manual)
+===Audit Result===
+**ClusterRoles**
+Name apiGroups verbs
+cluster-admin[,*][,*]
+cluster-admin [,*]
+system:kubelet-api-admin[,][,*]
+===Audit Result===
+
+5.1.4
+Minimize access to create pods (Manual)
+===Audit Result===
+===Audit Result===
+
+5.1.5
+Ensure that default service accounts are not actively used. (Manual)
+===Audit Result===
+===Audit Result===
+
+5.1.6
+Ensure that Service Account Tokens are only mounted where necessary (Manual)
+===Audit Result===
+===Audit Result===
+
+5.1.7
+Avoid use of system:masters group (Manual)
+===Audit Result===
+===Audit Result===
+
+5.1.8
+Limit use of the Bind, Impersonate and Escalate permissions in the Kubernetes cluster (Manual)
+===Audit Result===
+===Audit Result===
+
+5.2.1
+Minimize the admission of privileged containers (Automated)
+===Audit Result===
+===Audit Result===
+
+5.2.2
+Minimize the admission of containers wishing to share the host process ID namespace (Automated)
+===Audit Result===
+===Audit Result===
+
+5.2.3
+Minimize the admission of containers wishing to share the host IPC namespace (Automated)
+===Audit Result===
+===Audit Result===
+
+5.2.4
+Minimize the admission of containers wishing to share the host network namespace (Automated)
+===Audit Result===
+===Audit Result===
+
+5.2.5
+Minimize the admission of containers with allowPrivilegeEscalation (Automated)
+===Audit Result===
+===Audit Result===
+
+5.2.6
+Minimize the admission of root containers (Automated)
+===Audit Result===
+===Audit Result===
+
+5.2.7
+Minimize the admission of containers with the NET_RAW capability (Automated)
+===Audit Result===
+===Audit Result===
+
+5.2.8
+Minimize the admission of containers with added capabilities (Automated)
+===Audit Result===
+===Audit Result===
+
+5.2.9
+Minimize the admission of containers with capabilities assigned (Manual)
+===Audit Result===
+===Audit Result===
+
+5.3.1
+Ensure that the CNI in use supports Network Policies (Manual)
+===Audit Result===
+===Audit Result===
+
+5.3.2
+Ensure that all Namespaces have Network Policies defined (Manual)
+===Audit Result===
+===Audit Result===
+
+5.4.1
+Prefer using secrets as files over secrets as environment variables (Manual)
+===Audit Result===
+===Audit Result===
+
+5.4.2
+Consider external secret storage (Manual)
+===Audit Result===
+===Audit Result===
+
+5.5.1
+Configure Image Provenance using ImagePolicyWebhook admission controller (Manual)
+===Audit Result===
+===Audit Result===
+
+5.7.1
+Create administrative boundaries between resources using namespaces (Manual)
+===Audit Result===
+===Audit Result===
+
+5.7.2
+Ensure that the seccomp profile is set to docker/default in your pod definitions (Manual)
+===Audit Result===
+===Audit Result===
+
+5.7.3
+Apply Security Context to Your Pods and Containers (Manual)
+===Audit Result===
+===Audit Result===
+
+5.7.4
+The default namespace should not be used (Manual)
+===Audit Result===
+===Audit Result===
+

@@ -1,0 +1,6 @@
+5.1.1
+Ensure that the cluster-admin role is only used where required (Manual)
+echo "NAME ROLE SUBJECT";kubectl get clusterrolebindings -o=custom-columns=NAME:.metadata.name,ROLE:.roleRef.name,SUBJECT:.subjects[*].name|grep cluster-admin| sed 's/[ ]\+/ /g'
+5.1.2
+Minimize access to secrets
+echo "NAME Resource Verbs";kubectl get ClusterRoles -o=custom-columns=NAME:.metadata.name,Resource:.rules[*].resources,Verbs:.rules[*].verbs|grep secrets| sed 's/[ ]\+/ /g'

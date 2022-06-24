@@ -13,11 +13,11 @@ ssh = paramiko.SSHClient()
 ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
 
 
-host = '192.168.223.128'
-user = 'test'
-pass1 = '1234'
+host = '192.168.118.209'
+user = 'k'
+pass1 = '12'
 
-
+print("xxxx")
 ssh.connect(hostname=host, username=user, password=pass1, allow_agent = False)
 
 f = open('output.csv', 'w')
