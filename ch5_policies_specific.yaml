@@ -11,7 +11,7 @@ groups:
       - id: 5.1.1
         text: "Ensure that the cluster-admin role is only used where required (Manual)"
         type: "manual"
-        audit: 'base64 -d <<< ZWNobyAiTkFNRSBST0xFIFNVQkpFQ1QiO2t1YmVjdGwgZ2V0IGNsdXN0ZXJyb2xlYmluZGluZ3MgLW89Y3VzdG9tLWNvbHVtbnM9TkFNRToubWV0YWRhdGEubmFtZSxST0xFOi5yb2xlUmVmLm5hbWUsU1VCSkVDVDouc3ViamVjdHNbKl0ubmFtZXxncmVwIGNsdXN0ZXItYWRtaW58IHNlZCAncy9bIF1cKy8gL2cn | sh'
+        audit: 'base64 -d <<< ZWNobyAiVXNlcl9OYW1lIGNsdXN0ZXJSb2xlX05hbWUgU1VCSkVDVCI7a3ViZWN0bCBnZXQgY2x1c3RlcnJvbGViaW5kaW5ncyAtbz1jdXN0b20tY29sdW1ucz1OQU1FOi5tZXRhZGF0YS5uYW1lLFJPTEU6LnJvbGVSZWYubmFtZSxTVUJKRUNUOi5zdWJqZWN0c1sqXS5uYW1lfGdyZXAgY2x1c3Rlci1hZG1pbnwgc2VkICdzL1sgXVwrLyAvZyc= | sh'
         remediation: |
           Identify all clusterrolebindings to the cluster-admin role. Check if they are used and
           if they need this role or if they could use a role with fewer privileges.
@@ -44,6 +44,11 @@ groups:
       - id: 5.1.4
         text: "Minimize access to create pods (Manual)"
         type: "manual"
+        audit_function: "twoItem_check"
+        compareStr: "pods"
+        comareItem: "resources"
+        compareStr2: "create"
+        comareItem2: "verbs"
         remediation: |
           Where possible, remove create access to pod objects in the cluster.
         scored: false
@@ -51,6 +56,8 @@ groups:
       - id: 5.1.5
         text: "Ensure that default service accounts are not actively used. (Manual)"
         type: "manual"
+        audit_function: "serviceaccounts"
+        audit_name: "default"
         remediation: |
           Create explicit service accounts wherever a Kubernetes workload requires specific access
           to the Kubernetes API server.
@@ -61,6 +68,7 @@ groups:
       - id: 5.1.6
         text: "Ensure that Service Account Tokens are only mounted where necessary (Manual)"
         type: "manual"
+        audit_function: "automountServiceAccountToken"
         remediation: |
           Modify the definition of pods and service accounts which do not need to mount service
           account tokens to disable it.
@@ -69,6 +77,7 @@ groups:
       - id: 5.1.7
         text: "Avoid use of system:masters group (Manual)"
         type: "manual"
+        audit: 'base64 -d <<< ZWNobyAiVXNlcl9OYW1lIGNsdXN0ZXJSb2xlX05hbWUgU1VCSkVDVCI7a3ViZWN0bCBnZXQgY2x1c3RlcnJvbGViaW5kaW5ncyAtbz1jdXN0b20tY29sdW1ucz1OQU1FOi5tZXRhZGF0YS5uYW1lLFJPTEU6LnJvbGVSZWYubmFtZSxTVUJKRUNUOi5zdWJqZWN0c1sqXS5uYW1lfGdyZXAgc3lzdGVtOm1hc3RlcnN8IHNlZCAncy9bIF1cKy8gL2cn | sh'
         remediation: |
           Remove the system:masters group from all users in the cluster.
         scored: false
@@ -76,6 +85,9 @@ groups:
       - id: 5.1.8
         text: "Limit use of the Bind, Impersonate and Escalate permissions in the Kubernetes cluster (Manual)"
         type: "manual"
+        audit_function: "secret_check"
+        compareStr: "impersonate/bind/escalate"
+        comareItem: "verbs"
         remediation: |
           Where possible, remove the impersonate, bind and escalate rights from subjects.
         scored: false

@@ -1,7 +1,7 @@
 5.1.1
 Ensure that the cluster-admin role is only used where required (Manual)
 ===Audit Result===
-NAME ROLE SUBJECT
+User_Name clusterRole_Name SUBJECT
 cluster-admin cluster-admin system:masters
 ===Audit Result===
 
@@ -9,55 +9,122 @@ cluster-admin cluster-admin system:masters
 Minimize access to secrets (Manual)
 ===Audit Result===
 **ClusterRoles**
-Name apiGroups verbs
-admin[,][,get,list,watch]
-admin[,][,create,delete,deletecollection,patch,update]
-edit[,][,get,list,watch]
-edit[,][,create,delete,deletecollection,patch,update]
-system:aggregate-to-edit[,][,get,list,watch]
-system:aggregate-to-edit[,][,create,delete,deletecollection,patch,update]
-system:controller:expand-controller[,][,get]
-system:controller:persistent-volume-binder[,][,get]
-system:kube-controller-manager[,][,create]
-system:kube-controller-manager[,][,delete]
-system:kube-controller-manager[,][,get]
-system:kube-controller-manager[,][,update]
-system:node[,][,get,list,watch]
+User_Name ClusterRole_Name apiGroups verbs
+system:controller:expand-controller  system:controller:expand-controller  [,]  [,get]
+system:controller:persistent-volume-binder  system:controller:persistent-volume-binder  [,]  [,get]
+system:kube-controller-manager  system:kube-controller-manager  [,]  [,create]
+system:kube-controller-manager  system:kube-controller-manager  [,]  [,delete]
+system:kube-controller-manager  system:kube-controller-manager  [,]  [,get]
+system:kube-controller-manager  system:kube-controller-manager  [,]  [,update]
+system:node  system:node  [,]  [,get,list,watch]
 ===Audit Result===
 
 5.1.3
 Minimize wildcard use in Roles and ClusterRoles (Manual)
 ===Audit Result===
 **ClusterRoles**
-Name apiGroups verbs
-cluster-admin[,*][,*]
-cluster-admin [,*]
-system:kubelet-api-admin[,][,*]
+User_Name ClusterRole_Name apiGroups verbs
+cluster-admin  cluster-admin  [,*]  [,*]
+cluster-admin  cluster-admin  NONE  [,*]
 ===Audit Result===
 
 5.1.4
 Minimize access to create pods (Manual)
 ===Audit Result===
+**ClusterRoles**
+User_Name ClusterRole_Name apiGroups verbs
+system:controller:daemon-set-controller  system:controller:daemon-set-controller  [,]  [,create,delete,list,patch,watch]
+system:controller:job-controller  system:controller:job-controller  [,]  [,create,delete,list,patch,watch]
+system:controller:persistent-volume-binder  system:controller:persistent-volume-binder  [,]  [,create,delete,get,list,watch]
+system:controller:replicaset-controller  system:controller:replicaset-controller  [,]  [,create,delete,list,patch,watch]
+system:controller:replication-controller  system:controller:replication-controller  [,]  [,create,delete,list,patch,watch]
+system:controller:statefulset-controller  system:controller:statefulset-controller  [,]  [,create,delete,get,patch,update]
+system:node  system:node  [,]  [,create,delete]
 ===Audit Result===
 
 5.1.5
 Ensure that default service accounts are not actively used. (Manual)
 ===Audit Result===
+**Service_Accounts**
+Name Namespace secrets
+default  default  default-token-dp5jf
+default  kube-node-lease  default-token-dxrfm
+default  kube-public  default-token-2bk6m
+default  kube-system  default-token-lxrgx
 ===Audit Result===
 
 5.1.6
 Ensure that Service Account Tokens are only mounted where necessary (Manual)
 ===Audit Result===
+**Pods**
+pod_Name Namespace
+coredns-558bd4d5db-blprt  kube-system  
+coredns-558bd4d5db-nqxnp  kube-system  
+etcd-k8smaster  kube-system  
+kube-apiserver-k8smaster  kube-system  
+kube-controller-manager-k8smaster  kube-system  
+kube-flannel-ds-6hs6k  kube-system  
+kube-flannel-ds-d2zcj  kube-system  
+kube-proxy-7rsmf  kube-system  
+kube-proxy-fx9mp  kube-system  
+kube-scheduler-k8smaster  kube-system  
+================================================
+**Service_Accounts**
+Name Namespace secrets
+default  default  
+default  kube-node-lease  
+default  kube-public  
+attachdetach-controller  kube-system  
+bootstrap-signer  kube-system  
+certificate-controller  kube-system  
+clusterrole-aggregation-controller  kube-system  
+coredns  kube-system  
+cronjob-controller  kube-system  
+daemon-set-controller  kube-system  
+default  kube-system  
+deployment-controller  kube-system  
+disruption-controller  kube-system  
+endpoint-controller  kube-system  
+endpointslice-controller  kube-system  
+endpointslicemirroring-controller  kube-system  
+ephemeral-volume-controller  kube-system  
+expand-controller  kube-system  
+flannel  kube-system  
+generic-garbage-collector  kube-system  
+horizontal-pod-autoscaler  kube-system  
+job-controller  kube-system  
+kube-proxy  kube-system  
+namespace-controller  kube-system  
+node-controller  kube-system  
+persistent-volume-binder  kube-system  
+pod-garbage-collector  kube-system  
+pv-protection-controller  kube-system  
+pvc-protection-controller  kube-system  
+replicaset-controller  kube-system  
+replication-controller  kube-system  
+resourcequota-controller  kube-system  
+root-ca-cert-publisher  kube-system  
+service-account-controller  kube-system  
+service-controller  kube-system  
+statefulset-controller  kube-system  
+token-cleaner  kube-system  
+ttl-after-finished-controller  kube-system  
+ttl-controller  kube-system  
 ===Audit Result===
 
 5.1.7
 Avoid use of system:masters group (Manual)
 ===Audit Result===
+User_Name clusterRole_Name SUBJECT
+cluster-admin cluster-admin system:masters
 ===Audit Result===
 
 5.1.8
 Limit use of the Bind, Impersonate and Escalate permissions in the Kubernetes cluster (Manual)
 ===Audit Result===
+**ClusterRoles**
+User_Name ClusterRole_Name apiGroups verbs
+system:controller:clusterrole-aggregation-controller  system:controller:clusterrole-aggregation-controller  [,rbac.authorization.k8s.io]  [,escalate,get,list,patch,update,watch]
 ===Audit Result===
 
 5.2.1
