@@ -27,6 +27,7 @@ class checks(parsed_yaml_file):
         if "tests" in self.it:
             self.tests = self.it["tests"]
             self.audit = self.it["audit"]
+            #print(self.audit)
             self.line = runAudit(self.id,self.audit)
             self.type = "default"
 

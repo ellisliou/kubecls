@@ -98,6 +98,8 @@ groups:
       - id: 5.2.1
         text: "Minimize the admission of privileged containers (Automated)"
         type: "manual"
+        audit_function: 'pspcheck'
+        compareStr: 'privileged'
         remediation: |
           Create a PSP as described in the Kubernetes documentation, ensuring that
           the .spec.privileged field is omitted or set to false.
@@ -106,6 +108,8 @@ groups:
       - id: 5.2.2
         text: "Minimize the admission of containers wishing to share the host process ID namespace (Automated)"
         type: "manual"
+        audit_function: 'pspcheck'
+        compareStr: 'hostPID'
         remediation: |
           Create a PSP as described in the Kubernetes documentation, ensuring that the
           .spec.hostPID field is omitted or set to false.
@@ -114,6 +118,8 @@ groups:
       - id: 5.2.3
         text: "Minimize the admission of containers wishing to share the host IPC namespace (Automated)"
         type: "manual"
+        audit_function: 'pspcheck'
+        compareStr: 'hostIPC'
         remediation: |
           Create a PSP as described in the Kubernetes documentation, ensuring that the
           .spec.hostIPC field is omitted or set to false.
@@ -122,6 +128,8 @@ groups:
       - id: 5.2.4
         text: "Minimize the admission of containers wishing to share the host network namespace (Automated)"
         type: "manual"
+        audit_function: 'pspcheck'
+        compareStr: 'hostNetwork'
         remediation: |
           Create a PSP as described in the Kubernetes documentation, ensuring that the
           .spec.hostNetwork field is omitted or set to false.
@@ -130,6 +138,8 @@ groups:
       - id: 5.2.5
         text: "Minimize the admission of containers with allowPrivilegeEscalation (Automated)"
         type: "manual"
+        audit_function: 'pspcheck'
+        compareStr: 'allowPrivilegeEscalation'
         remediation: |
           Create a PSP as described in the Kubernetes documentation, ensuring that the
           .spec.allowPrivilegeEscalation field is omitted or set to false.
@@ -138,6 +148,8 @@ groups:
       - id: 5.2.6
         text: "Minimize the admission of root containers (Automated)"
         type: "manual"
+        audit_function: 'pspcheck'
+        compareStr: 'runAsUser'
         remediation: |
           Create a PSP as described in the Kubernetes documentation, ensuring that the
           .spec.runAsUser.rule is set to either MustRunAsNonRoot or MustRunAs with the range of
@@ -147,6 +159,8 @@ groups:
       - id: 5.2.7
         text: "Minimize the admission of containers with the NET_RAW capability (Automated)"
         type: "manual"
+        audit_function: 'pspcheck'
+        compareStr: 'requiredDropCapabilities'
         remediation: |
           Create a PSP as described in the Kubernetes documentation, ensuring that the
           .spec.requiredDropCapabilities is set to include either NET_RAW or ALL.
@@ -155,6 +169,8 @@ groups:
       - id: 5.2.8
         text: "Minimize the admission of containers with added capabilities (Automated)"
         type: "manual"
+        audit_function: 'pspcheck'
+        compareStr: 'allowedCapabilities'
         remediation: |
           Ensure that allowedCapabilities is not present in PSPs for the cluster unless
           it is set to an empty array.
@@ -163,6 +179,8 @@ groups:
       - id: 5.2.9
         text: "Minimize the admission of containers with capabilities assigned (Manual)"
         type: "manual"
+        audit_function: 'pspcheck'
+        compareStr: 'requiredDropCapabilities'
         remediation: |
           Review the use of capabilites in applications running on your cluster. Where a namespace
           contains applicaions which do not require any Linux capabities to operate consider adding

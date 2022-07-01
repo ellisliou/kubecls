@@ -130,46 +130,65 @@ system:controller:clusterrole-aggregation-controller  system:controller:clusterr
 5.2.1
 Minimize the admission of privileged containers (Automated)
 ===Audit Result===
+**PodSecurityPolicy**
 ===Audit Result===
 
 5.2.2
 Minimize the admission of containers wishing to share the host process ID namespace (Automated)
 ===Audit Result===
+**PodSecurityPolicy**
 ===Audit Result===
 
 5.2.3
 Minimize the admission of containers wishing to share the host IPC namespace (Automated)
 ===Audit Result===
+**PodSecurityPolicy**
 ===Audit Result===
 
 5.2.4
 Minimize the admission of containers wishing to share the host network namespace (Automated)
 ===Audit Result===
+**PodSecurityPolicy**
+PSP_Name
+psp.flannel.unprivileged
 ===Audit Result===
 
 5.2.5
 Minimize the admission of containers with allowPrivilegeEscalation (Automated)
 ===Audit Result===
+**PodSecurityPolicy**
 ===Audit Result===
 
 5.2.6
 Minimize the admission of root containers (Automated)
 ===Audit Result===
+**PodSecurityPolicy**
+PSP_Name runAsUser
+psp.flannel.unprivileged  RunAsAny
 ===Audit Result===
 
 5.2.7
 Minimize the admission of containers with the NET_RAW capability (Automated)
 ===Audit Result===
+**PodSecurityPolicy**
+PSP_Name requiredDropCapabilities
+psp.flannel.unprivileged requiredDropCapabilities not be setted
 ===Audit Result===
 
 5.2.8
 Minimize the admission of containers with added capabilities (Automated)
 ===Audit Result===
+**PodSecurityPolicy**
+PSP_Name allowedCapabilities
+psp.flannel.unprivileged  [,NET_ADMIN,NET_RAW]
 ===Audit Result===
 
 5.2.9
 Minimize the admission of containers with capabilities assigned (Manual)
 ===Audit Result===
+**PodSecurityPolicy**
+PSP_Name requiredDropCapabilities
+psp.flannel.unprivileged requiredDropCapabilities not be setted
 ===Audit Result===
 
 5.3.1

@@ -17,7 +17,7 @@ items:
       kind: ReplicaSet
       name: coredns-558bd4d5db
       uid: 909485f5-663e-486f-8012-4a91e4395540
-    resourceVersion: "138261"
+    resourceVersion: "165189"
     uid: 69c40aa2-f202-4388-abe3-b94007f63494
   spec:
     containers:
@@ -157,19 +157,19 @@ items:
       status: "True"
       type: PodScheduled
     containerStatuses:
-    - containerID: docker://56d9133d59a68babcc87c89b835492e8648678e9d9038ba91c3657d7535a7b47
+    - containerID: docker://c3bfea5252e38e1aeebac2c2db90802a4352f53e020575f259b1ab7d47e2e19e
       image: k8s.gcr.io/coredns/coredns:v1.8.0
       imageID: docker-pullable://k8s.gcr.io/coredns/coredns@sha256:cc8fb77bc2a0541949d1d9320a641b82fd392b0d3d8145469ca4709ae769980e
       lastState:
         terminated:
-          containerID: docker://56d9133d59a68babcc87c89b835492e8648678e9d9038ba91c3657d7535a7b47
+          containerID: docker://c3bfea5252e38e1aeebac2c2db90802a4352f53e020575f259b1ab7d47e2e19e
           exitCode: 0
-          finishedAt: "2022-06-26T03:32:27Z"
+          finishedAt: "2022-07-01T03:12:36Z"
           reason: Completed
-          startedAt: "2022-06-26T03:30:27Z"
+          startedAt: "2022-07-01T03:10:36Z"
       name: coredns
       ready: false
-      restartCount: 336
+      restartCount: 421
       started: false
       state:
         waiting:
@@ -199,7 +199,7 @@ items:
       kind: ReplicaSet
       name: coredns-558bd4d5db
       uid: 909485f5-663e-486f-8012-4a91e4395540
-    resourceVersion: "138563"
+    resourceVersion: "165090"
     uid: a5f24f97-3410-4d67-97d7-ae013ef5527d
   spec:
     containers:
@@ -339,23 +339,24 @@ items:
       status: "True"
       type: PodScheduled
     containerStatuses:
-    - containerID: docker://b972e5ce272b642605827cbffa66fdd54191359c24e11effd252c95fdecf1c64
+    - containerID: docker://83cab2b34135468c050650582f52be24a504e9c29b6331deca61a2309b4d4273
       image: k8s.gcr.io/coredns/coredns:v1.8.0
       imageID: docker-pullable://k8s.gcr.io/coredns/coredns@sha256:cc8fb77bc2a0541949d1d9320a641b82fd392b0d3d8145469ca4709ae769980e
       lastState:
         terminated:
-          containerID: docker://160201572b9c36286d26878e03eb1f46edca590662642966fbc40e1fed4e53c5
+          containerID: docker://83cab2b34135468c050650582f52be24a504e9c29b6331deca61a2309b4d4273
           exitCode: 0
-          finishedAt: "2022-06-26T03:31:27Z"
+          finishedAt: "2022-07-01T03:11:16Z"
           reason: Completed
-          startedAt: "2022-06-26T03:29:27Z"
+          startedAt: "2022-07-01T03:06:38Z"
       name: coredns
       ready: false
-      restartCount: 335
-      started: true
+      restartCount: 420
+      started: false
       state:
-        running:
-          startedAt: "2022-06-26T03:36:38Z"
+        waiting:
+          message: back-off 5m0s restarting failed container=coredns pod=coredns-558bd4d5db-nqxnp_kube-system(a5f24f97-3410-4d67-97d7-ae013ef5527d)
+          reason: CrashLoopBackOff
     hostIP: 192.168.118.209
     phase: Running
     podIP: 10.244.0.3
@@ -524,7 +525,7 @@ items:
       kind: Node
       name: k8smaster
       uid: 50d99347-fa76-4fb8-93b1-70aced6b0369
-    resourceVersion: "126665"
+    resourceVersion: "159024"
     uid: 0fc139c0-a6be-4f3e-b0d2-12bfdaba2536
   spec:
     containers:
@@ -663,11 +664,11 @@ items:
       status: "True"
       type: Initialized
     - lastProbeTime: null
-      lastTransitionTime: "2022-06-25T14:31:02Z"
+      lastTransitionTime: "2022-07-01T01:44:24Z"
       status: "True"
       type: Ready
     - lastProbeTime: null
-      lastTransitionTime: "2022-06-25T14:31:02Z"
+      lastTransitionTime: "2022-07-01T01:44:24Z"
       status: "True"
       type: ContainersReady
     - lastProbeTime: null

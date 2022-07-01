@@ -22,7 +22,7 @@ items:
       node-role.kubernetes.io/master: ""
       node.kubernetes.io/exclude-from-external-load-balancers: ""
     name: k8smaster
-    resourceVersion: "138589"
+    resourceVersion: "164943"
     uid: 50d99347-fa76-4fb8-93b1-70aced6b0369
   spec:
     podCIDR: 10.244.0.0/24
@@ -58,25 +58,25 @@ items:
       reason: FlannelIsUp
       status: "False"
       type: NetworkUnavailable
-    - lastHeartbeatTime: "2022-06-26T03:36:57Z"
+    - lastHeartbeatTime: "2022-07-01T03:05:38Z"
       lastTransitionTime: "2022-06-21T14:24:55Z"
       message: kubelet has sufficient memory available
       reason: KubeletHasSufficientMemory
       status: "False"
       type: MemoryPressure
-    - lastHeartbeatTime: "2022-06-26T03:36:57Z"
+    - lastHeartbeatTime: "2022-07-01T03:05:38Z"
       lastTransitionTime: "2022-06-21T14:24:55Z"
       message: kubelet has no disk pressure
       reason: KubeletHasNoDiskPressure
       status: "False"
       type: DiskPressure
-    - lastHeartbeatTime: "2022-06-26T03:36:57Z"
+    - lastHeartbeatTime: "2022-07-01T03:05:38Z"
       lastTransitionTime: "2022-06-21T14:24:55Z"
       message: kubelet has sufficient PID available
       reason: KubeletHasSufficientPID
       status: "False"
       type: PIDPressure
-    - lastHeartbeatTime: "2022-06-26T03:36:57Z"
+    - lastHeartbeatTime: "2022-07-01T03:05:38Z"
       lastTransitionTime: "2022-06-21T14:24:55Z"
       message: kubelet is posting ready status. AppArmor enabled
       reason: KubeletReady

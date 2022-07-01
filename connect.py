@@ -16,7 +16,7 @@ ssh = paramiko.SSHClient()
 ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
 #pass1 = getpass.getpass('password: ')
 pass1='12'
-ssh.connect(hostname='192.168.118.209', username='k', password=pass1, allow_agent = False)
+ssh.connect(hostname='192.168.118.209', username='k', password=pass1, allow_agent = 'true')
 
 class k8s_config_check:
     def __init__(self,yf):
@@ -141,6 +141,34 @@ class k8s_config_check:
                     secretList=secretList+"\n"
         return secretList
 
+    def pspcheck(self,compareStr,configYamlList):
+        secretList=""
+        if configYamlList[7] is None: #k8s_psp
+            self.items=""
+        else:
+            self.items=configYamlList[7]["items"]
+
+        secretList="**PodSecurityPolicy**\n"
+        for i in range(len(self.items)):
+            if compareStr in self.items[i]['spec']:
+                if compareStr=="runAsUser":
+                    if self.items[i]['spec'][compareStr]["rule"]=="RunAsAny":
+                        secretList=secretList+"PSP_Name runAsUser\n"+self.items[i]["metadata"]["name"]+"  RunAsAny\n"
+                    elif self.items[i]['spec'][compareStr]["rule"]=="MustRunAs":
+                        if self.items[i]['spec'][compareStr]["ranges"][0]["min"]=="0":
+                            secretList=secretList+"PSP_Name runAsUser\n"+self.items[i]["metadata"]["name"]+"  "+listToStr(self.items[i]['spec'][compareStr])+"\n"
+                elif compareStr=="requiredDropCapabilities":
+                    if not(("ALL" in self.items[i]['spec'][compareStr]) or ("NET_RAW" in self.items[i]['spec'][compareStr])):
+                        secretList=secretList+"PSP_Name requiredDropCapabilities\n"+self.items[i]["metadata"]["name"]+"  "+listToStr(self.items[i]['spec'][compareStr])+"\n"
+                elif compareStr=="allowedCapabilities":
+                    if self.items[i]['spec'][compareStr] is not None:
+                        secretList=secretList+"PSP_Name allowedCapabilities\n"+self.items[i]["metadata"]["name"]+"  "+listToStr(self.items[i]['spec'][compareStr])+"\n"
+                elif self.items[i]['spec'][compareStr] is True:
+                    secretList=secretList+"PSP_Name\n"+self.items[i]["metadata"]["name"]+"\n"
+            elif compareStr=="requiredDropCapabilities":
+                secretList=secretList+"PSP_Name requiredDropCapabilities\n"+self.items[i]["metadata"]["name"]+" requiredDropCapabilities not be setted\n"
+        return secretList
+
     def getMaxId(self):
         return len(self.yaml)
 
@@ -165,6 +193,8 @@ class k8sChecks(k8s_config_check):
                 self.line =self.serviceaccounts(self.it["audit_name"],configYamlList)
             elif self.it["audit_function"] == "automountServiceAccountToken":
                 self.line =self.automountServiceAccountTokenCheck(configYamlList)
+            elif self.it["audit_function"] == "pspcheck":
+                self.line =self.pspcheck(self.it["compareStr"],configYamlList)
         else:
             self.line =""
 

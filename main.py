@@ -17,7 +17,8 @@ k8sConfigList={
 "kubectl get ClusterRoles -o yaml":"k8s_ClusterRoles",
 "kubectl get Roles -o yaml":"k8s_Roles",
 "kubectl get serviceaccounts -A -o yaml":"k8s_serviceaccounts",
-"kubectl get pods -A -o yaml":"k8s_pods"
+"kubectl get pods -A -o yaml":"k8s_pods",
+"kubectl get psp -o yaml":"k8s_psp"
 }
 count=0
 for i in range(len(k8sConfigList)):
@@ -46,7 +47,6 @@ def runTest(bm):
     for k in range(yf.getMaxId()):
         for i in range(yf.getMaxSubId(k)):
             yf.check = checks(k,i,bm)
-            #print(yf.check.execute(),yf.check.id, yf.check.text)
             writer.writerow([yf.check.execute(),yf.check.id, yf.check.text])
 
 def main():
