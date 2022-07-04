@@ -18,7 +18,8 @@ k8sConfigList={
 "kubectl get Roles -o yaml":"k8s_Roles",
 "kubectl get serviceaccounts -A -o yaml":"k8s_serviceaccounts",
 "kubectl get pods -A -o yaml":"k8s_pods",
-"kubectl get psp -o yaml":"k8s_psp"
+"kubectl get psp -o yaml":"k8s_psp",
+"/bin/ps -ef | grep kube-apiserver | grep -v grep":"_k8s_api"
 }
 count=0
 for i in range(len(k8sConfigList)):

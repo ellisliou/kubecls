@@ -169,6 +169,23 @@ class k8s_config_check:
                 secretList=secretList+"PSP_Name requiredDropCapabilities\n"+self.items[i]["metadata"]["name"]+" requiredDropCapabilities not be setted\n"
         return secretList
 
+    def apicheck(self,compareStr,configYamlList):
+        secretList=""
+        if configYamlList[8] is not None:
+            apiDict={}
+            tmpstrList=configYamlList[8].split("--")
+            for i in range(1,len(tmpstrList)):
+                tmp2strList=tmpstrList[i].split("=")
+                if i==len(tmpstrList)-1:
+                    apiDict[tmp2strList[0]]=tmp2strList[1]
+                else:
+                    apiDict[tmp2strList[0]]=tmp2strList[1][0:-1]
+        if apiDict is not None and compareStr in apiDict: #k8s_api
+            secretList=secretList+apiDict[compareStr]+"\n"
+        else:
+            secretList=secretList+"admission-control-config-file is not setted!\n"
+        return secretList
+
     def getMaxId(self):
         return len(self.yaml)
 
@@ -195,6 +212,8 @@ class k8sChecks(k8s_config_check):
                 self.line =self.automountServiceAccountTokenCheck(configYamlList)
             elif self.it["audit_function"] == "pspcheck":
                 self.line =self.pspcheck(self.it["compareStr"],configYamlList)
+            elif self.it["audit_function"] == "apicheck":
+                self.line =self.apicheck(self.it["compareStr"],configYamlList)
         else:
             self.line =""
 
