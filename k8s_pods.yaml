@@ -17,7 +17,7 @@ items:
       kind: ReplicaSet
       name: coredns-558bd4d5db
       uid: 909485f5-663e-486f-8012-4a91e4395540
-    resourceVersion: "189852"
+    resourceVersion: "290226"
     uid: 69c40aa2-f202-4388-abe3-b94007f63494
   spec:
     containers:
@@ -157,23 +157,24 @@ items:
       status: "True"
       type: PodScheduled
     containerStatuses:
-    - containerID: docker://ec47a2354327dae98d88bde5124cebdd59616792f3c3068b5eb28b4bf64b4a52
+    - containerID: docker://b74b50465ed78aa2a7c006de93b926a733d570f75fd6fb18292518eae2a9b410
       image: k8s.gcr.io/coredns/coredns:v1.8.0
       imageID: docker-pullable://k8s.gcr.io/coredns/coredns@sha256:cc8fb77bc2a0541949d1d9320a641b82fd392b0d3d8145469ca4709ae769980e
       lastState:
         terminated:
-          containerID: docker://1c3195ada175816d6f91b802d36becc329bc48975a49ee128f4b1421d7e9a7de
+          containerID: docker://b74b50465ed78aa2a7c006de93b926a733d570f75fd6fb18292518eae2a9b410
           exitCode: 0
-          finishedAt: "2022-07-04T05:58:01Z"
+          finishedAt: "2022-07-26T08:59:54Z"
           reason: Completed
-          startedAt: "2022-07-04T05:56:01Z"
+          startedAt: "2022-07-26T08:57:55Z"
       name: coredns
       ready: false
-      restartCount: 501
-      started: true
+      restartCount: 828
+      started: false
       state:
-        running:
-          startedAt: "2022-07-04T06:03:06Z"
+        waiting:
+          message: back-off 5m0s restarting failed container=coredns pod=coredns-558bd4d5db-blprt_kube-system(69c40aa2-f202-4388-abe3-b94007f63494)
+          reason: CrashLoopBackOff
     hostIP: 192.168.118.209
     phase: Running
     podIP: 10.244.0.2
@@ -198,7 +199,7 @@ items:
       kind: ReplicaSet
       name: coredns-558bd4d5db
       uid: 909485f5-663e-486f-8012-4a91e4395540
-    resourceVersion: "189858"
+    resourceVersion: "290201"
     uid: a5f24f97-3410-4d67-97d7-ae013ef5527d
   spec:
     containers:
@@ -338,23 +339,24 @@ items:
       status: "True"
       type: PodScheduled
     containerStatuses:
-    - containerID: docker://d114217380a12ffa5d339eb750d21797af944f2270db87bb0724443f766cdd19
+    - containerID: docker://085552924f4b3791adb23f89cef20012142376a724c6a3f41cd351830e8fefae
       image: k8s.gcr.io/coredns/coredns:v1.8.0
       imageID: docker-pullable://k8s.gcr.io/coredns/coredns@sha256:cc8fb77bc2a0541949d1d9320a641b82fd392b0d3d8145469ca4709ae769980e
       lastState:
         terminated:
-          containerID: docker://413b466d4ed0e4028bbaf801dedfe159e6c3df42451c6af21cb498ed0c8ee6ab
+          containerID: docker://085552924f4b3791adb23f89cef20012142376a724c6a3f41cd351830e8fefae
           exitCode: 0
-          finishedAt: "2022-07-04T05:58:01Z"
+          finishedAt: "2022-07-26T08:59:34Z"
           reason: Completed
-          startedAt: "2022-07-04T05:56:01Z"
+          startedAt: "2022-07-26T08:57:35Z"
       name: coredns
       ready: false
-      restartCount: 500
-      started: true
+      restartCount: 826
+      started: false
       state:
-        running:
-          startedAt: "2022-07-04T06:03:10Z"
+        waiting:
+          message: back-off 5m0s restarting failed container=coredns pod=coredns-558bd4d5db-nqxnp_kube-system(a5f24f97-3410-4d67-97d7-ae013ef5527d)
+          reason: CrashLoopBackOff
     hostIP: 192.168.118.209
     phase: Running
     podIP: 10.244.0.3
@@ -523,7 +525,7 @@ items:
       kind: Node
       name: k8smaster
       uid: 50d99347-fa76-4fb8-93b1-70aced6b0369
-    resourceVersion: "178418"
+    resourceVersion: "282296"
     uid: 0fc139c0-a6be-4f3e-b0d2-12bfdaba2536
   spec:
     containers:
@@ -662,11 +664,11 @@ items:
       status: "True"
       type: Initialized
     - lastProbeTime: null
-      lastTransitionTime: "2022-07-04T02:30:37Z"
+      lastTransitionTime: "2022-07-26T06:18:43Z"
       status: "True"
       type: Ready
     - lastProbeTime: null
-      lastTransitionTime: "2022-07-04T02:30:37Z"
+      lastTransitionTime: "2022-07-26T06:18:43Z"
       status: "True"
       type: ContainersReady
     - lastProbeTime: null
@@ -674,17 +676,23 @@ items:
       status: "True"
       type: PodScheduled
     containerStatuses:
-    - containerID: docker://7a33ec2fc3fad961bbd7dd4cd70e4258026581124a82700f5ef805dc90159b3a
+    - containerID: docker://7f7b1af3c26e4433bdb037231a3bcb8713cad5edf363f3ae603f3314c21dfff9
       image: k8s.gcr.io/kube-apiserver:v1.21.8
       imageID: docker-pullable://k8s.gcr.io/kube-apiserver@sha256:303737086912d90434bae8d696dd6b5aa3cf4e45301d8e9e5bc57a20871d240a
-      lastState: {}
+      lastState:
+        terminated:
+          containerID: docker://cacbe6eeab5931c67f89204247974c3d47418c5e142ac54279c2c9a2782dadc7
+          exitCode: 137
+          finishedAt: "2022-07-26T06:16:03Z"
+          reason: Error
+          startedAt: "2022-07-13T06:27:13Z"
       name: kube-apiserver
       ready: true
-      restartCount: 0
+      restartCount: 8
       started: true
       state:
         running:
-          startedAt: "2022-01-18T05:59:44Z"
+          startedAt: "2022-07-26T06:16:04Z"
     hostIP: 192.168.118.209
     phase: Running
     podIP: 192.168.118.209
@@ -712,7 +720,7 @@ items:
       kind: Node
       name: k8smaster
       uid: 50d99347-fa76-4fb8-93b1-70aced6b0369
-    resourceVersion: "36180"
+    resourceVersion: "282298"
     uid: 072db43b-1a5c-4894-bb93-c504021a4f26
   spec:
     containers:
@@ -844,11 +852,11 @@ items:
       status: "True"
       type: Initialized
     - lastProbeTime: null
-      lastTransitionTime: "2022-06-21T14:24:56Z"
+      lastTransitionTime: "2022-07-26T06:14:45Z"
       status: "True"
       type: Ready
     - lastProbeTime: null
-      lastTransitionTime: "2022-06-21T14:24:56Z"
+      lastTransitionTime: "2022-07-26T06:14:45Z"
       status: "True"
       type: ContainersReady
     - lastProbeTime: null
@@ -856,23 +864,23 @@ items:
       status: "True"
       type: PodScheduled
     containerStatuses:
-    - containerID: docker://c1ac18712c0f416cb4f124284b6dd6c79d1ddd7a1ab847d761fae4ce5b67052a
+    - containerID: docker://e122f285a6ce835b3567e18e21050b8e3049afd36bc1aad5b7808465a2ba848f
       image: k8s.gcr.io/kube-controller-manager:v1.21.8
       imageID: docker-pullable://k8s.gcr.io/kube-controller-manager@sha256:0d131bc6459d41b2efc485305dbbf7c4480f0cd314b65e655722171f81b73abc
       lastState:
         terminated:
-          containerID: docker://e5a37b53ea686295f79280997eca64eea5ca33800b7e8475808603374ca6fdd3
+          containerID: docker://10917b371ed433b217a17d021854e6fc4c1d15a81343c3c44cc9f9acf6629bc7
           exitCode: 255
-          finishedAt: "2022-06-21T09:16:00Z"
+          finishedAt: "2022-07-26T06:14:33Z"
           reason: Error
-          startedAt: "2022-01-18T06:00:00Z"
+          startedAt: "2022-07-13T06:25:37Z"
       name: kube-controller-manager
       ready: true
-      restartCount: 1
+      restartCount: 4
       started: true
       state:
         running:
-          startedAt: "2022-06-21T09:16:01Z"
+          startedAt: "2022-07-26T06:14:34Z"
     hostIP: 192.168.118.209
     phase: Running
     podIP: 192.168.118.209
@@ -1738,7 +1746,7 @@ items:
       kind: Node
       name: k8smaster
       uid: 50d99347-fa76-4fb8-93b1-70aced6b0369
-    resourceVersion: "36162"
+    resourceVersion: "282297"
     uid: 4062723d-52d1-43d6-b050-42ad0c6b095a
   spec:
     containers:
@@ -1810,11 +1818,11 @@ items:
       status: "True"
       type: Initialized
     - lastProbeTime: null
-      lastTransitionTime: "2022-06-21T14:24:54Z"
+      lastTransitionTime: "2022-07-26T06:14:45Z"
       status: "True"
       type: Ready
     - lastProbeTime: null
-      lastTransitionTime: "2022-06-21T14:24:54Z"
+      lastTransitionTime: "2022-07-26T06:14:45Z"
       status: "True"
       type: ContainersReady
     - lastProbeTime: null
@@ -1822,23 +1830,23 @@ items:
       status: "True"
       type: PodScheduled
     containerStatuses:
-    - containerID: docker://8cb68aad9103222549f0c3f066a6dad389d25218987635366299bcdb6f31ea2f
+    - containerID: docker://a6c48f24b501c45e2bd31b4d247fb1cd6708933a1d595a5576594172b76ca6f2
       image: k8s.gcr.io/kube-scheduler:v1.21.8
       imageID: docker-pullable://k8s.gcr.io/kube-scheduler@sha256:4330e60b27af54d911608d0b8e4f1b96dd3cb8817fd6d4d6f0de409c356d538e
       lastState:
         terminated:
-          containerID: docker://f5efb7da740317f1dc4606f428fb4dfaa70f56c68d3acd9ec1c7914fdb63c6a7
+          containerID: docker://10e6435407109760bbd2e91ef9f85f9442ee58b0522f61b337af7922d0ca92cc
           exitCode: 255
-          finishedAt: "2022-06-21T09:16:00Z"
+          finishedAt: "2022-07-26T06:14:32Z"
           reason: Error
-          startedAt: "2022-01-18T06:00:10Z"
+          startedAt: "2022-07-13T06:25:36Z"
       name: kube-scheduler
       ready: true
-      restartCount: 1
+      restartCount: 4
       started: true
       state:
         running:
-          startedAt: "2022-06-21T09:16:01Z"
+          startedAt: "2022-07-26T06:14:34Z"
     hostIP: 192.168.118.209
     phase: Running
     podIP: 192.168.118.209

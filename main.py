@@ -4,6 +4,7 @@ from connect import *
 import re
 import glob
 import yaml
+#import json
 
 f = open('output.csv', 'w')
 writer = csv.writer(f)
@@ -63,6 +64,7 @@ def main():
     for k in range(ch5Yf.getMaxId()):
         for i in range(ch5Yf.getMaxSubId(k)):
             ch5Yf.check = k8sChecks(k,i,ch5_yaml,configYamlList)
+            #print(ch5Yf.check.id+"\n")
             f_ch5_test.writelines([ch5Yf.check.id+"\n",ch5Yf.check.text+"\n"])
             f_ch5_test.write("===Audit Result===\n")
             f_ch5_test.writelines(ch5Yf.check.line)

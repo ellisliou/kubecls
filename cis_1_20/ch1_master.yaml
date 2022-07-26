@@ -9,6 +9,7 @@ groups:
     text: "Master Node Configuration Files"
     checks:
       - id: 1.1.1
+        3GPP818ID: "2.6"
         text: "Ensure that the API server pod specification file permissions are set to 644 or more restrictive (Automated)"
         audit: "/bin/sh -c 'if test -e /etc/kubernetes/manifests/kube-apiserver.yaml; then stat -c permissions=%a /etc/kubernetes/manifests/kube-apiserver.yaml; fi'"
         tests:

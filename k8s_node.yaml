@@ -22,7 +22,7 @@ items:
       node-role.kubernetes.io/master: ""
       node.kubernetes.io/exclude-from-external-load-balancers: ""
     name: k8smaster
-    resourceVersion: "189839"
+    resourceVersion: "290363"
     uid: 50d99347-fa76-4fb8-93b1-70aced6b0369
   spec:
     podCIDR: 10.244.0.0/24
@@ -58,25 +58,25 @@ items:
       reason: FlannelIsUp
       status: "False"
       type: NetworkUnavailable
-    - lastHeartbeatTime: "2022-07-04T06:02:55Z"
+    - lastHeartbeatTime: "2022-07-26T09:01:50Z"
       lastTransitionTime: "2022-06-21T14:24:55Z"
       message: kubelet has sufficient memory available
       reason: KubeletHasSufficientMemory
       status: "False"
       type: MemoryPressure
-    - lastHeartbeatTime: "2022-07-04T06:02:55Z"
+    - lastHeartbeatTime: "2022-07-26T09:01:50Z"
       lastTransitionTime: "2022-06-21T14:24:55Z"
       message: kubelet has no disk pressure
       reason: KubeletHasNoDiskPressure
       status: "False"
       type: DiskPressure
-    - lastHeartbeatTime: "2022-07-04T06:02:55Z"
+    - lastHeartbeatTime: "2022-07-26T09:01:50Z"
       lastTransitionTime: "2022-06-21T14:24:55Z"
       message: kubelet has sufficient PID available
       reason: KubeletHasSufficientPID
       status: "False"
       type: PIDPressure
-    - lastHeartbeatTime: "2022-07-04T06:02:55Z"
+    - lastHeartbeatTime: "2022-07-26T09:01:50Z"
       lastTransitionTime: "2022-06-21T14:24:55Z"
       message: kubelet is posting ready status. AppArmor enabled
       reason: KubeletReady
@@ -152,7 +152,7 @@ items:
       kubernetes.io/hostname: k8snode1
       kubernetes.io/os: linux
     name: k8snode1
-    resourceVersion: "36226"
+    resourceVersion: "282368"
     uid: b40cb981-be9a-4c59-92c9-b7012bfc8653
   spec:
     podCIDR: 10.244.1.0/24
@@ -164,7 +164,7 @@ items:
       timeAdded: "2022-06-20T08:11:19Z"
     - effect: NoExecute
       key: node.kubernetes.io/unreachable
-      timeAdded: "2022-06-21T14:27:43Z"
+      timeAdded: "2022-07-26T06:19:09Z"
   status:
     addresses:
     - address: 192.168.118.208

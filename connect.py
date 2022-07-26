@@ -5,8 +5,14 @@ import yaml
 import re
 import glob
 
+global pass1
+
 def runAudit(num, command):
+    #print(command+"\n")
     input, output, e = ssh.exec_command(command)
+    if command[0:7]=="sudo -S":
+        input.write(pass1+ "\n")
+        input.flush()
     line=output.readlines()
     if len(line) == 0:
         line.insert(0,"")
@@ -186,6 +192,22 @@ class k8s_config_check:
             secretList=secretList+"admission-control-config-file is not setted!\n"
         return secretList
 
+    def privateKeyLength(self,configYamlList):
+        secretList=""
+        directoryList=runAudit(0,"find /etc/kubernetes/pki/ -name \*.key -type f")
+        for i in range(len(directoryList)):
+            keyContent=runAudit(0,"sudo -S openssl rsa -in "+directoryList[i][0:-1]+" -noout -text|grep \"RSA Private-Key\"")
+            secretList=secretList+directoryList[i][0:-1]+" : "+keyContent[0]
+        return secretList
+
+    def privateKeyAlgorithmh(self,configYamlList):
+        secretList=""
+        directoryList=runAudit(0,"find /etc/kubernetes/pki/ -name \*.crt -type f")
+        for i in range(len(directoryList)):
+            keyContent=runAudit(0,"sudo -S openssl x509 -in "+directoryList[i][0:-1]+" -noout -text|grep \"Signature Algorithm\"")
+            secretList=secretList+directoryList[i][0:-1]+" : "+keyContent[0]
+        return secretList
+
     def getMaxId(self):
         return len(self.yaml)
 
@@ -214,6 +236,10 @@ class k8sChecks(k8s_config_check):
                 self.line =self.pspcheck(self.it["compareStr"],configYamlList)
             elif self.it["audit_function"] == "apicheck":
                 self.line =self.apicheck(self.it["compareStr"],configYamlList)
+            elif self.it["audit_function"] == "privateKeyLength":
+                self.line =self.privateKeyLength(configYamlList)
+            elif self.it["audit_function"] == "privateKeyAlgorithmh":
+                self.line =self.privateKeyAlgorithmh(configYamlList)
         else:
             self.line =""
 

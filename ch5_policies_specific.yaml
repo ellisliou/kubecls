@@ -281,3 +281,30 @@ groups:
           Ensure that namespaces are created to allow for appropriate segregation of Kubernetes
           resources and that all new resources are created in a specific namespace.
         scored: false
+
+      - id: "3GPP 818-2.3"
+        text: "External Device Boot(開機僅可透過合法的韌體)"
+        type: "manual"
+        audit: uname -mrs;dpkg --list | grep linux-image 2>/dev/null;yum list kernel 2>/dev/null
+        remediation: |
+          Ensure that namespaces are created to allow for appropriate segregation of Kubernetes
+          resources and that all new resources are created in a specific namespace.
+        scored: false
+
+      - id: "3GPP 818-4.1"
+        text: "Poor key generation(應使用安全金鑰長度)"
+        type: "manual"
+        audit_function: "privateKeyLength"
+        remediation: |
+          Ensure that namespaces are created to allow for appropriate segregation of Kubernetes
+          resources and that all new resources are created in a specific namespace.
+        scored: false
+
+      - id: "3GPP 818-4.3"
+        text: "Weak cryptographic algorithms(應使用安全金鑰演算法)"
+        type: "manual"
+        audit_function: "privateKeyAlgorithmh"
+        remediation: |
+          Ensure that namespaces are created to allow for appropriate segregation of Kubernetes
+          resources and that all new resources are created in a specific namespace.
+        scored: false
