@@ -4,11 +4,16 @@ from connect import *
 import re
 import glob
 import yaml
-#import json
+import json
+
+global outputDirectory
+outputDirectory={}
 
 f = open('output.csv', 'w')
 writer = csv.writer(f)
 f_ch5_test = open('ch5_test.txt', 'w')
+map_table=open("map_table.yaml")
+map_table = yaml.load(map_table, Loader=yaml.FullLoader)
 
 configYamlList= []
 k8sConfigList={
@@ -50,6 +55,44 @@ def runTest(bm):
         for i in range(yf.getMaxSubId(k)):
             yf.check = checks(k,i,bm)
             writer.writerow([yf.check.execute(),yf.check.id, yf.check.text])
+            if map_table[yf.check.id] not in outputDirectory.keys():
+                outputDirectory[map_table[yf.check.id]]=[{'3GPP818ID':str(map_table[yf.check.id])},{'CISID': yf.check.id,'CISResult':yf.check.execute(),'audit output':yf.check.line}]
+            else:
+                outputDirectory[map_table[yf.check.id]]=outputDirectory[map_table[yf.check.id]]+[{'CISID': yf.check.id,'CISResult':yf.check.execute(),'audit output':yf.check.line}]
+            #print(outputDirectory)
+
+def outputDirectorySortedResult(directoryList):
+    tmpdirectory ={}
+    tmpList=sorted(directoryList.keys())
+    for i in range(len(tmpList)):
+        resultList=[]
+        resultCount=0
+        finalResult=""
+        for x in range(1,len(directoryList[tmpList[i]])):
+            CISResult=directoryList[tmpList[i]][x].get("CISResult")
+            resultList.append(CISResult)
+            if CISResult=="PASS":
+                resultCount=resultCount+1
+            elif CISResult=="WARN":
+                resultCount=resultCount+2
+            elif CISResult=="FAIL":
+                resultCount=resultCount+100
+            else:
+                resultCount=resultCount+1000
+        if resultCount==len(directoryList[tmpList[i]])-1:
+            finalResult="PASS"
+        elif resultCount<=2*(len(directoryList[tmpList[i]])-1):
+            finalResult="WARN"
+        elif resultCount==100*(len(directoryList[tmpList[i]])-1):
+            finalResult="FAIL"
+        else:
+            finalResult="Manual"
+        directoryList[tmpList[i]][0]['Final Result']=finalResult
+        tmpdirectory[tmpList[i]]=directoryList[tmpList[i]]
+        #print(tmpList[i],":",resultList,":",finalResult)
+        #print(directoryList[x][0]['3GPP818ID'])
+    return tmpdirectory
+
 
 def main():
     benchMarks = loadAllTest()
@@ -65,12 +108,29 @@ def main():
         for i in range(ch5Yf.getMaxSubId(k)):
             ch5Yf.check = k8sChecks(k,i,ch5_yaml,configYamlList)
             #print(ch5Yf.check.id+"\n")
-            f_ch5_test.writelines([ch5Yf.check.id+"\n",ch5Yf.check.text+"\n"])
+            f_ch5_test.writelines([str(ch5Yf.check.id),"\n",ch5Yf.check.text,"\n"])
             f_ch5_test.write("===Audit Result===\n")
             f_ch5_test.writelines(ch5Yf.check.line)
             f_ch5_test.write("===Audit Result===\n\n")
+            if ch5Yf.check.type=="3GPP818":
+                if ch5Yf.check.id not in outputDirectory.keys():
+                    outputDirectory[ch5Yf.check.id]=[{'3GPP818ID':str(ch5Yf.check.id)},{'CISResult':"Manual",'audit output':ch5Yf.check.line}]
+                else:
+                    outputDirectory[ch5Yf.check.id]=outputDirectory[ch5Yf.check.id]+[{'CISResult':"Manual",'audit output':ch5Yf.check.line}]
+            elif ch5Yf.check.type=="CIS":
+                if map_table[ch5Yf.check.id] not in outputDirectory.keys():
+                    outputDirectory[map_table[ch5Yf.check.id]]=[{'3GPP818ID':str(map_table[ch5Yf.check.id])},{'CISID': ch5Yf.check.id,'CISResult':"Manual",'audit output':ch5Yf.check.line}]
+                else:
+                    outputDirectory[map_table[ch5Yf.check.id]]=outputDirectory[map_table[ch5Yf.check.id]]+[{'CISID': ch5Yf.check.id,'CISResult':"Manual",'audit output':ch5Yf.check.line}]
             count+=1
             #print(count)
+    #print(json.dumps(outputDirectory, indent = 4))
+    #print(outputDirectory.keys())
+
+    #outputDirectory=outputDirectorySortedResult(outputDirectory)
+    print(json.dumps(outputDirectorySortedResult(outputDirectory), indent = 4))
+    with open("output.json", "w") as outfile:
+        json.dump(outputDirectorySortedResult(outputDirectory), outfile)
 
 
 if __name__ == "__main__":

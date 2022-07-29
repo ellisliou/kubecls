@@ -218,7 +218,12 @@ class k8sChecks(k8s_config_check):
     def __init__(self, id ,sub_id ,yf,configYamlList):
         super().__init__(yf)
         self.it = self.yaml[id]["checks"][sub_id]
-        self.id = self.it["id"]
+        if "id" in self.it:
+            self.id = self.it["id"]
+            self.type="CIS"
+        elif "3GPP818id" in self.it:
+            self.id = self.it["3GPP818id"]
+            self.type="3GPP818"
         self.text = self.it["text"]
         if "audit" in self.it:
             self.audit = self.it["audit"]
