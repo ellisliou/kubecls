@@ -2,9 +2,10 @@
 # -*- coding: utf-8 -*-
 import base64
 import yaml
+from getpass import getpass
 
-tmpstr=[1.1,3.1,1.2]
-print(type(tmpstr[0]))
+password = getpass(prompt='Input your password: ') # the default prompt is 'Password: '
+print(password)
 
 
 

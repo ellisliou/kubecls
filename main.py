@@ -5,6 +5,7 @@ import re
 import glob
 import yaml
 import json
+import argparse
 
 global outputDirectory
 outputDirectory={}
@@ -14,6 +15,7 @@ writer = csv.writer(f)
 f_ch5_test = open('ch5_test.txt', 'w')
 map_table=open("map_table.yaml")
 map_table = yaml.load(map_table, Loader=yaml.FullLoader)
+print('[*]Load mapping table between 3GPP-818-ID and CIS-1.20-ID')
 
 configYamlList= []
 k8sConfigList={
@@ -38,6 +40,7 @@ for i in range(len(k8sConfigList)):
     configYamlList.append(file)
     count+=1
     #print(count)
+print('[*]Retrieve related configuration in k8s with yaml format')
 
 def loadAllTest():
     yamlList = []
@@ -98,6 +101,7 @@ def main():
     benchMarks = loadAllTest()
     for i in range(len(benchMarks)):
         runTest(benchMarks[i])
+    print('[*]CIS-CH1、CIS-CH2、CIS-CH3 are audited!')
 
     ch5_yaml = open('./ch5_policies_specific.yaml')
     ch5_yaml = yaml.load(ch5_yaml, Loader=yaml.FullLoader)
@@ -124,10 +128,9 @@ def main():
                     outputDirectory[map_table[ch5Yf.check.id]]=outputDirectory[map_table[ch5Yf.check.id]]+[{'CISID': ch5Yf.check.id,'CISResult':"Manual",'audit output':ch5Yf.check.line}]
             count+=1
             #print(count)
-    #print(json.dumps(outputDirectory, indent = 4))
-    #print(outputDirectory.keys())
 
-    #outputDirectory=outputDirectorySortedResult(outputDirectory)
+    print('[*]CIS-CH5 completed!')
+
     print(json.dumps(outputDirectorySortedResult(outputDirectory), indent = 4))
     with open("output.json", "w") as outfile:
         json.dump(outputDirectorySortedResult(outputDirectory), outfile)

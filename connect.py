@@ -4,6 +4,7 @@ import json
 import yaml
 import re
 import glob
+import argparse
 
 global pass1
 
@@ -18,11 +19,17 @@ def runAudit(num, command):
         line.insert(0,"")
     return line
 
+parser = argparse.ArgumentParser()
+parser.add_argument("-TargetedIP", help="Target IP address of kubernetes you want to login via ssh connection)")
+parser.add_argument("-Username", help="User name to login via ssh connection")
+args = parser.parse_args()
+
 ssh = paramiko.SSHClient()
 ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-#pass1 = getpass.getpass('password: ')
-pass1='12'
-ssh.connect(hostname='192.168.118.209', username='k', password=pass1, allow_agent = 'true')
+pass1 = getpass.getpass('Please input password to login via ssh connection: ')
+#pass1='12'
+ssh.connect(hostname=args.TargetedIP, username=args.Username, password=pass1, allow_agent = 'true', timeout=10)
+print('[*]Login successfully with SSH connection ')
 
 class k8s_config_check:
     def __init__(self,yf):

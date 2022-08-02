@@ -17,7 +17,7 @@ items:
       kind: ReplicaSet
       name: coredns-558bd4d5db
       uid: 909485f5-663e-486f-8012-4a91e4395540
-    resourceVersion: "318054"
+    resourceVersion: "338495"
     uid: 69c40aa2-f202-4388-abe3-b94007f63494
   spec:
     containers:
@@ -157,23 +157,23 @@ items:
       status: "True"
       type: PodScheduled
     containerStatuses:
-    - containerID: docker://29931049b1224b87e1cf7e33be638feeb8b4efd674f65776fe78501002cac952
+    - containerID: docker://0a50b3d8d454956d833887632776e1fcff94bc7fb3c14aa3b25ea807d6711ad2
       image: k8s.gcr.io/coredns/coredns:v1.8.0
       imageID: docker-pullable://k8s.gcr.io/coredns/coredns@sha256:cc8fb77bc2a0541949d1d9320a641b82fd392b0d3d8145469ca4709ae769980e
       lastState:
         terminated:
-          containerID: docker://6ea48bc7f73e9e6ef942b396c96e458d9ca1503843977c922d2734a5e6991a79
+          containerID: docker://332ff3d7a014185bf5deed15c74c4447b63519305356306a2527f90b48a67f07
           exitCode: 0
-          finishedAt: "2022-07-29T04:05:07Z"
+          finishedAt: "2022-08-02T07:15:09Z"
           reason: Completed
-          startedAt: "2022-07-29T04:03:17Z"
+          startedAt: "2022-07-29T09:08:51Z"
       name: coredns
       ready: false
-      restartCount: 918
+      restartCount: 982
       started: true
       state:
         running:
-          startedAt: "2022-07-29T04:10:18Z"
+          startedAt: "2022-08-02T07:15:09Z"
     hostIP: 192.168.118.209
     phase: Running
     podIP: 10.244.0.2
@@ -198,7 +198,7 @@ items:
       kind: ReplicaSet
       name: coredns-558bd4d5db
       uid: 909485f5-663e-486f-8012-4a91e4395540
-    resourceVersion: "318072"
+    resourceVersion: "338496"
     uid: a5f24f97-3410-4d67-97d7-ae013ef5527d
   spec:
     containers:
@@ -338,23 +338,23 @@ items:
       status: "True"
       type: PodScheduled
     containerStatuses:
-    - containerID: docker://ef58996666dbe0e1a15418af4e2157a295e0cfdd1fbc28a1ccf52d0cbb79ef3c
+    - containerID: docker://8a7799f2bd251f9ee497c4483c38d01fca65c601777d56a9450f546bdfb7f4f4
       image: k8s.gcr.io/coredns/coredns:v1.8.0
       imageID: docker-pullable://k8s.gcr.io/coredns/coredns@sha256:cc8fb77bc2a0541949d1d9320a641b82fd392b0d3d8145469ca4709ae769980e
       lastState:
         terminated:
-          containerID: docker://34f5433f2c576414f24fa0551828f64b5079f4ba87ca0ba1e9b18ac3f7aaf3a3
+          containerID: docker://e43b038e3319a558daeffe08345ef2450dcec617e1c3785acf64f23b5154f2a5
           exitCode: 0
-          finishedAt: "2022-07-29T04:05:17Z"
+          finishedAt: "2022-08-02T07:15:09Z"
           reason: Completed
-          startedAt: "2022-07-29T04:03:27Z"
+          startedAt: "2022-07-29T09:08:51Z"
       name: coredns
       ready: false
-      restartCount: 916
+      restartCount: 980
       started: true
       state:
         running:
-          startedAt: "2022-07-29T04:10:31Z"
+          startedAt: "2022-08-02T07:15:09Z"
     hostIP: 192.168.118.209
     phase: Running
     podIP: 10.244.0.3
@@ -523,7 +523,7 @@ items:
       kind: Node
       name: k8smaster
       uid: 50d99347-fa76-4fb8-93b1-70aced6b0369
-    resourceVersion: "317520"
+    resourceVersion: "338439"
     uid: 0fc139c0-a6be-4f3e-b0d2-12bfdaba2536
   spec:
     containers:
@@ -662,11 +662,11 @@ items:
       status: "True"
       type: Initialized
     - lastProbeTime: null
-      lastTransitionTime: "2022-07-29T04:02:56Z"
+      lastTransitionTime: "2022-08-02T07:14:23Z"
       status: "True"
       type: Ready
     - lastProbeTime: null
-      lastTransitionTime: "2022-07-29T04:02:56Z"
+      lastTransitionTime: "2022-08-02T07:14:23Z"
       status: "True"
       type: ContainersReady
     - lastProbeTime: null
