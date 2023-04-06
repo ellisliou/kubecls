@@ -15,6 +15,8 @@ writer = csv.writer(f)
 f_ch5_test = open('ch5_test.txt', 'w')
 map_table=open("map_table.yaml")
 map_table = yaml.load(map_table, Loader=yaml.FullLoader)
+ignore_table=open("ignore.yaml")
+ignore_table = yaml.load(ignore_table, Loader=yaml.FullLoader)
 print('[*]Load mapping table between 3GPP-818-ID and CIS-1.20-ID')
 
 configYamlList= []
@@ -27,7 +29,7 @@ k8sConfigList={
 "kubectl get serviceaccounts -A -o yaml":"k8s_serviceaccounts",
 "kubectl get pods -A -o yaml":"k8s_pods",
 "kubectl get psp -o yaml":"k8s_psp",
-"/bin/ps -ef | grep kube-apiserver | grep -v grep":"_k8s_api"
+"/bin/ps -ef | grep kube-apiserver | grep -v grep":"k8s_api"
 }
 count=0
 for i in range(len(k8sConfigList)):
@@ -58,14 +60,18 @@ def runTest(bm):
         for i in range(yf.getMaxSubId(k)):
             yf.check = checks(k,i,bm)
             writer.writerow([yf.check.execute(),yf.check.id, yf.check.text])
-            if map_table[yf.check.id] not in outputDirectory.keys():
-                outputDirectory[map_table[yf.check.id]]=[{'3GPP818ID':str(map_table[yf.check.id])},{'CISID': yf.check.id,'CISResult':yf.check.execute(),'audit output':yf.check.line}]
+            if str(yf.check.id) in ignore_table.keys():
+                #print("ignore: ",yf.check.id,"\n")
+                pass
+            elif str(map_table[yf.check.id]) not in outputDirectory.keys():
+                outputDirectory[str(map_table[yf.check.id])]=[{'3GPP818ID':str(map_table[yf.check.id])},{'CISID': str(yf.check.id),'CISResult':yf.check.execute(),'audit output5':yf.check.line}]
             else:
-                outputDirectory[map_table[yf.check.id]]=outputDirectory[map_table[yf.check.id]]+[{'CISID': yf.check.id,'CISResult':yf.check.execute(),'audit output':yf.check.line}]
+                outputDirectory[str(map_table[yf.check.id])]=outputDirectory[str(map_table[yf.check.id])]+[{'CISID': str(yf.check.id),'CISResult':yf.check.execute(),'audit output6':yf.check.line}]
             #print(outputDirectory)
 
 def outputDirectorySortedResult(directoryList):
     tmpdirectory ={}
+    #print(directoryList["1.6"])
     tmpList=sorted(directoryList.keys())
     for i in range(len(tmpList)):
         resultList=[]
@@ -93,7 +99,7 @@ def outputDirectorySortedResult(directoryList):
         directoryList[tmpList[i]][0]['Final Result']=finalResult
         tmpdirectory[tmpList[i]]=directoryList[tmpList[i]]
         #print(tmpList[i],":",resultList,":",finalResult)
-        #print(directoryList[x][0]['3GPP818ID'])
+    #print(tmpdirectory[1.6])
     return tmpdirectory
 
 
@@ -116,22 +122,25 @@ def main():
             f_ch5_test.write("===Audit Result===\n")
             f_ch5_test.writelines(ch5Yf.check.line)
             f_ch5_test.write("===Audit Result===\n\n")
-            if ch5Yf.check.type=="3GPP818":
-                if ch5Yf.check.id not in outputDirectory.keys():
-                    outputDirectory[ch5Yf.check.id]=[{'3GPP818ID':str(ch5Yf.check.id)},{'CISResult':"Manual",'audit output':ch5Yf.check.line}]
+            if str(ch5Yf.check.id) in ignore_table.keys():
+                #print("ignore: ",ch5Yf.check.id,"\n")
+                pass
+            elif ch5Yf.check.type=="3GPP818":
+                if str(ch5Yf.check.id) not in outputDirectory.keys():
+                    outputDirectory[str(ch5Yf.check.id)]=[{'3GPP818ID':str(ch5Yf.check.id)},{'CISResult':"Manual",'audit output1':ch5Yf.check.line}]
                 else:
-                    outputDirectory[ch5Yf.check.id]=outputDirectory[ch5Yf.check.id]+[{'CISResult':"Manual",'audit output':ch5Yf.check.line}]
+                    outputDirectory[str(ch5Yf.check.id)]=outputDirectory[str(ch5Yf.check.id)]+[{'CISResult':"Manual",'audit output2':ch5Yf.check.line}]
             elif ch5Yf.check.type=="CIS":
-                if map_table[ch5Yf.check.id] not in outputDirectory.keys():
-                    outputDirectory[map_table[ch5Yf.check.id]]=[{'3GPP818ID':str(map_table[ch5Yf.check.id])},{'CISID': ch5Yf.check.id,'CISResult':"Manual",'audit output':ch5Yf.check.line}]
+                if map_table[str(ch5Yf.check.id)] not in outputDirectory.keys():
+                    outputDirectory[str(map_table[ch5Yf.check.id])]=[{'3GPP818ID':str(map_table[ch5Yf.check.id])},{'CISID': ch5Yf.check.id,'CISResult':"Manual",'audit output3':ch5Yf.check.line}]
                 else:
-                    outputDirectory[map_table[ch5Yf.check.id]]=outputDirectory[map_table[ch5Yf.check.id]]+[{'CISID': ch5Yf.check.id,'CISResult':"Manual",'audit output':ch5Yf.check.line}]
+                    outputDirectory[str(map_table[ch5Yf.check.id])]=outputDirectory[str(map_table[ch5Yf.check.id])]+[{'CISID': ch5Yf.check.id,'CISResult':"Manual",'audit output4':ch5Yf.check.line}]
             count+=1
             #print(count)
 
     print('[*]CIS-CH5 completed!')
 
-    print(json.dumps(outputDirectorySortedResult(outputDirectory), indent = 4))
+    #print(json.dumps(outputDirectorySortedResult(outputDirectory), indent = 4))
     with open("output.json", "w") as outfile:
         json.dump(outputDirectorySortedResult(outputDirectory), outfile)
 

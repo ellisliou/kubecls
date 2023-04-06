@@ -26,8 +26,8 @@ args = parser.parse_args()
 
 ssh = paramiko.SSHClient()
 ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-pass1 = getpass.getpass('Please input password to login via ssh connection: ')
-#pass1='12'
+#pass1 = getpass.getpass('Please input password to login via ssh connection: ')
+pass1='12'
 ssh.connect(hostname=args.TargetedIP, username=args.Username, password=pass1, allow_agent = 'true', timeout=10)
 print('[*]Login successfully with SSH connection ')
 
@@ -113,9 +113,12 @@ class k8s_config_check:
                 if self.items[i]["metadata"]["name"]==audit_name:
                     secretList=secretList+self.items[i]["metadata"]["name"]+"  "
                     secretList=secretList+self.items[i]["metadata"]["namespace"]+"  "
-                    for k in range(len(self.items[i]["secrets"])):
-                        secretList=secretList+self.items[i]["secrets"][k]["name"]
-                        if (k+1)!=len(self.items[i]["secrets"]):secretList=secretList+","
+                    if "secrets" in self.items[i]:
+                        for k in range(len(self.items[i]["secrets"])):
+                            secretList=secretList+self.items[i]["secrets"][k]["name"]
+                            if (k+1)!=len(self.items[i]["secrets"]):secretList=secretList+","
+                    else:
+                        secretList=secretList+" NULL"
                     secretList=secretList+"\n"
         return secretList
 
@@ -191,7 +194,7 @@ class k8s_config_check:
                 tmp2strList=tmpstrList[i].split("=")
                 if i==len(tmpstrList)-1:
                     apiDict[tmp2strList[0]]=tmp2strList[1]
-                else:
+                elif len(tmp2strList)!=1:
                     apiDict[tmp2strList[0]]=tmp2strList[1][0:-1]
         if apiDict is not None and compareStr in apiDict: #k8s_api
             secretList=secretList+apiDict[compareStr]+"\n"

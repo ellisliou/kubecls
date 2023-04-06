@@ -282,11 +282,19 @@ groups:
           resources and that all new resources are created in a specific namespace.
         scored: false
 
+      - 3GPP818id: 2.1
+        text: "Software Tampering(檢視系統軟體版本已知漏洞)"
+        type: "manual"
+
       - 3GPP818id: 2.3
         text: "External Device Boot(開機僅可透過合法的韌體)"
         type: "manual"
         audit: uname -mrs;dpkg --list | grep linux-image 2>/dev/null;yum list kernel 2>/dev/null
-        
+
+      - 3GPP818id: 2.7
+        text: "User Session Tampering(確保應用程式session隨機安全性)"
+        type: "manual"
+
       - 3GPP818id: 4.1
         text: "Poor key generation(應使用安全金鑰長度)"
         type: "manual"
@@ -296,18 +304,6 @@ groups:
         text: "Weak cryptographic algorithms(應使用安全金鑰演算法)"
         type: "manual"
         audit_function: "privateKeyAlgorithmh"
-
-      - 3GPP818id: 1.6
-        text: "Malware(應確認container使用image之安全性)"
-        type: "manual"
-        
-      - 3GPP818id: 2.1
-        text: "Software Tampering(檢視系統軟體版本已知漏洞)"
-        type: "manual"
-
-      - 3GPP818id: 2.7
-        text: "User Session Tampering(確保應用程式session隨機安全性)"
-        type: "manual"
 
       - 3GPP818id: 4.5
         text: "System Fingerprinting(系統應避免暴露過多機敏)"
@@ -321,7 +317,7 @@ groups:
         text: "Insecure Network Services(確保開放服務之安全性)"
         type: "manual"
 
-      - 3GPP818id: 4.10
+      - 3GPP818id: "4.10"
         text: "Unnecessary Services(避免開啟非必要服務)"
         type: "manual"
 

@@ -47,11 +47,10 @@ Ensure that default service accounts are not actively used. (Manual)
 ===Audit Result===
 **Service_Accounts**
 Name Namespace secrets
-default  default   NULL
-default  kube-flannel   NULL
-default  kube-node-lease   NULL
-default  kube-public   NULL
-default  kube-system   NULL
+default  default  default-token-dp5jf
+default  kube-node-lease  default-token-dxrfm
+default  kube-public  default-token-2bk6m
+default  kube-system  default-token-lxrgx
 ===Audit Result===
 
 5.1.6
@@ -59,24 +58,20 @@ Ensure that Service Account Tokens are only mounted where necessary (Manual)
 ===Audit Result===
 **Pods**
 pod_Name Namespace
-nginx-app-5d47bf8b9-rxgsq  default  
-nginx-app-5d47bf8b9-slzcx  default  
-kube-flannel-ds-5dn9b  kube-flannel  
-kube-flannel-ds-lqpnh  kube-flannel  
-coredns-787d4945fb-g6mgj  kube-system  
-coredns-787d4945fb-vxcvp  kube-system  
-etcd-k8s-master  kube-system  
-kube-apiserver-k8s-master  kube-system  
-kube-controller-manager-k8s-master  kube-system  
-kube-proxy-5gzhx  kube-system  
-kube-proxy-m6cf4  kube-system  
-kube-scheduler-k8s-master  kube-system  
+coredns-558bd4d5db-blprt  kube-system  
+coredns-558bd4d5db-nqxnp  kube-system  
+etcd-k8smaster  kube-system  
+kube-apiserver-k8smaster  kube-system  
+kube-controller-manager-k8smaster  kube-system  
+kube-flannel-ds-6hs6k  kube-system  
+kube-flannel-ds-d2zcj  kube-system  
+kube-proxy-7rsmf  kube-system  
+kube-proxy-fx9mp  kube-system  
+kube-scheduler-k8smaster  kube-system  
 ================================================
 **Service_Accounts**
 Name Namespace secrets
 default  default  
-default  kube-flannel  
-flannel  kube-flannel  
 default  kube-node-lease  
 default  kube-public  
 attachdetach-controller  kube-system  
@@ -94,6 +89,7 @@ endpointslice-controller  kube-system
 endpointslicemirroring-controller  kube-system  
 ephemeral-volume-controller  kube-system  
 expand-controller  kube-system  
+flannel  kube-system  
 generic-garbage-collector  kube-system  
 horizontal-pod-autoscaler  kube-system  
 job-controller  kube-system  
@@ -153,6 +149,8 @@ Minimize the admission of containers wishing to share the host IPC namespace (Au
 Minimize the admission of containers wishing to share the host network namespace (Automated)
 ===Audit Result===
 **PodSecurityPolicy**
+PSP_Name
+psp.flannel.unprivileged
 ===Audit Result===
 
 5.2.5
@@ -165,24 +163,32 @@ Minimize the admission of containers with allowPrivilegeEscalation (Automated)
 Minimize the admission of root containers (Automated)
 ===Audit Result===
 **PodSecurityPolicy**
+PSP_Name runAsUser
+psp.flannel.unprivileged  RunAsAny
 ===Audit Result===
 
 5.2.7
 Minimize the admission of containers with the NET_RAW capability (Automated)
 ===Audit Result===
 **PodSecurityPolicy**
+PSP_Name requiredDropCapabilities
+psp.flannel.unprivileged requiredDropCapabilities not be setted
 ===Audit Result===
 
 5.2.8
 Minimize the admission of containers with added capabilities (Automated)
 ===Audit Result===
 **PodSecurityPolicy**
+PSP_Name allowedCapabilities
+psp.flannel.unprivileged  [,NET_ADMIN,NET_RAW]
 ===Audit Result===
 
 5.2.9
 Minimize the admission of containers with capabilities assigned (Manual)
 ===Audit Result===
 **PodSecurityPolicy**
+PSP_Name requiredDropCapabilities
+psp.flannel.unprivileged requiredDropCapabilities not be setted
 ===Audit Result===
 
 5.3.1
@@ -195,11 +201,10 @@ Ensure that all Namespaces have Network Policies defined (Manual)
 ===Audit Result===
 Networkpolicy_Name
 NAME              STATUS   AGE
-default           Active   22d
-kube-flannel      Active   22d
-kube-node-lease   Active   22d
-kube-public       Active   22d
-kube-system       Active   22d
+default           Active   229d
+kube-node-lease   Active   229d
+kube-public       Active   229d
+kube-system       Active   229d
 ===Audit Result===
 
 5.4.1
@@ -223,86 +228,108 @@ admission-control-config-file is not setted!
 Create administrative boundaries between resources using namespaces (Manual)
 ===Audit Result===
 NAME              STATUS   AGE
-default           Active   22d
-kube-flannel      Active   22d
-kube-node-lease   Active   22d
-kube-public       Active   22d
-kube-system       Active   22d
+default           Active   229d
+kube-node-lease   Active   229d
+kube-public       Active   229d
+kube-system       Active   229d
 ===Audit Result===
 
 5.7.2
 Ensure that the seccomp profile is set to docker/default in your pod definitions (Manual)
 ===Audit Result===
 ===pod list===
-NAMESPACE      NAME                                 READY   STATUS    RESTARTS   AGE
-default        nginx-app-5d47bf8b9-rxgsq            1/1     Running   0          3h45m
-default        nginx-app-5d47bf8b9-slzcx            1/1     Running   0          3h45m
-kube-flannel   kube-flannel-ds-5dn9b                1/1     Running   0          22d
-kube-flannel   kube-flannel-ds-lqpnh                1/1     Running   2          22d
-kube-system    coredns-787d4945fb-g6mgj             1/1     Running   184        22d
-kube-system    coredns-787d4945fb-vxcvp             1/1     Running   184        22d
-kube-system    etcd-k8s-master                      1/1     Running   2          22d
-kube-system    kube-apiserver-k8s-master            1/1     Running   22         22d
-kube-system    kube-controller-manager-k8s-master   1/1     Running   4          22d
-kube-system    kube-proxy-5gzhx                     1/1     Running   0          22d
-kube-system    kube-proxy-m6cf4                     1/1     Running   2          22d
-kube-system    kube-scheduler-k8s-master            1/1     Running   4          22d
+NAMESPACE     NAME                                READY   STATUS    RESTARTS   AGE
+kube-system   coredns-558bd4d5db-blprt            1/1     Running   0          229d
+kube-system   coredns-558bd4d5db-nqxnp            1/1     Running   0          229d
+kube-system   etcd-k8smaster                      1/1     Running   0          229d
+kube-system   kube-apiserver-k8smaster            1/1     Running   0          229d
+kube-system   kube-controller-manager-k8smaster   1/1     Running   0          229d
+kube-system   kube-flannel-ds-6hs6k               1/1     Running   0          229d
+kube-system   kube-flannel-ds-d2zcj               1/1     Running   0          229d
+kube-system   kube-proxy-7rsmf                    1/1     Running   0          229d
+kube-system   kube-proxy-fx9mp                    1/1     Running   0          229d
+kube-system   kube-scheduler-k8smaster            1/1     Running   0          229d
 ===Enable seccompProfile list===
- Pod etcd-k8s-master 
- Pod kube-apiserver-k8s-master 
- Pod kube-controller-manager-k8s-master 
- Pod kube-scheduler-k8s-master 
 ===Audit Result===
 
 5.7.3
 Apply Security Context to Your Pods and Containers (Manual)
 ===Audit Result===
 ===pod list===
-NAMESPACE      NAME                                 READY   STATUS    RESTARTS   AGE
-default        nginx-app-5d47bf8b9-rxgsq            1/1     Running   0          3h45m
-default        nginx-app-5d47bf8b9-slzcx            1/1     Running   0          3h45m
-kube-flannel   kube-flannel-ds-5dn9b                1/1     Running   0          22d
-kube-flannel   kube-flannel-ds-lqpnh                1/1     Running   2          22d
-kube-system    coredns-787d4945fb-g6mgj             1/1     Running   184        22d
-kube-system    coredns-787d4945fb-vxcvp             1/1     Running   184        22d
-kube-system    etcd-k8s-master                      1/1     Running   2          22d
-kube-system    kube-apiserver-k8s-master            1/1     Running   22         22d
-kube-system    kube-controller-manager-k8s-master   1/1     Running   4          22d
-kube-system    kube-proxy-5gzhx                     1/1     Running   0          22d
-kube-system    kube-proxy-m6cf4                     1/1     Running   2          22d
-kube-system    kube-scheduler-k8s-master            1/1     Running   4          22d
+NAMESPACE     NAME                                READY   STATUS    RESTARTS   AGE
+kube-system   coredns-558bd4d5db-blprt            1/1     Running   0          229d
+kube-system   coredns-558bd4d5db-nqxnp            1/1     Running   0          229d
+kube-system   etcd-k8smaster                      1/1     Running   0          229d
+kube-system   kube-apiserver-k8smaster            1/1     Running   0          229d
+kube-system   kube-controller-manager-k8smaster   1/1     Running   0          229d
+kube-system   kube-flannel-ds-6hs6k               1/1     Running   0          229d
+kube-system   kube-flannel-ds-d2zcj               1/1     Running   0          229d
+kube-system   kube-proxy-7rsmf                    1/1     Running   0          229d
+kube-system   kube-proxy-fx9mp                    1/1     Running   0          229d
+kube-system   kube-scheduler-k8smaster            1/1     Running   0          229d
 ===Enable Security Context list===
-NAME                                 securityContext_name
-nginx-app-5d47bf8b9-rxgsq            <none>
-nginx-app-5d47bf8b9-slzcx            <none>
-kube-flannel-ds-5dn9b                map[capabilities:map[add:[NET_ADMIN NET_RAW]] privileged:false]
-kube-flannel-ds-lqpnh                map[capabilities:map[add:[NET_ADMIN NET_RAW]] privileged:false]
-coredns-787d4945fb-g6mgj             map[allowPrivilegeEscalation:false capabilities:map[add:[NET_BIND_SERVICE] drop:[all]] readOnlyRootFilesystem:true]
-coredns-787d4945fb-vxcvp             map[allowPrivilegeEscalation:false capabilities:map[add:[NET_BIND_SERVICE] drop:[all]] readOnlyRootFilesystem:true]
-etcd-k8s-master                      <none>
-kube-apiserver-k8s-master            <none>
-kube-controller-manager-k8s-master   <none>
-kube-proxy-5gzhx                     map[privileged:true]
-kube-proxy-m6cf4                     map[privileged:true]
-kube-scheduler-k8s-master            <none>
+NAME                                securityContext_name
+coredns-558bd4d5db-blprt            map[allowPrivilegeEscalation:false capabilities:map[add:[NET_BIND_SERVICE] drop:[all]] readOnlyRootFilesystem:true]
+coredns-558bd4d5db-nqxnp            map[allowPrivilegeEscalation:false capabilities:map[add:[NET_BIND_SERVICE] drop:[all]] readOnlyRootFilesystem:true]
+etcd-k8smaster                      <none>
+kube-apiserver-k8smaster            <none>
+kube-controller-manager-k8smaster   <none>
+kube-flannel-ds-6hs6k               map[capabilities:map[add:[NET_ADMIN NET_RAW]] privileged:false]
+kube-flannel-ds-d2zcj               map[capabilities:map[add:[NET_ADMIN NET_RAW]] privileged:false]
+kube-proxy-7rsmf                    map[privileged:true]
+kube-proxy-fx9mp                    map[privileged:true]
+kube-scheduler-k8smaster            <none>
 ===Audit Result===
 
 5.7.4
 The default namespace should not be used (Manual)
 ===Audit Result===
-NAME                            READY   STATUS    RESTARTS   AGE
-pod/nginx-app-5d47bf8b9-rxgsq   1/1     Running   0          3h45m
-pod/nginx-app-5d47bf8b9-slzcx   1/1     Running   0          3h45m
+NAME                 TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)   AGE
+service/kubernetes   ClusterIP   10.96.0.1    <none>        443/TCP   229d
+===Audit Result===
 
-NAME                 TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)        AGE
-service/kubernetes   ClusterIP   10.96.0.1       <none>        443/TCP        22d
-service/nginx-app    NodePort    10.102.75.214   <none>        80:31457/TCP   21d
+2.3
+External Device Boot(開機僅可透過合法的韌體)
+===Audit Result===
+Linux 5.4.0-94-generic x86_64
+ii  linux-image-5.4.0-94-generic         5.4.0-94.106                          amd64        Signed kernel image generic
+ii  linux-image-generic                  5.4.0.94.98                           amd64        Generic Linux kernel image
+===Audit Result===
 
-NAME                        READY   UP-TO-DATE   AVAILABLE   AGE
-deployment.apps/nginx-app   2/2     2            2           21d
+4.1
+Poor key generation(應使用安全金鑰長度)
+===Audit Result===
+/etc/kubernetes/pki/apiserver.key : RSA Private-Key: (2048 bit, 2 primes)
+/etc/kubernetes/pki/apiserver-etcd-client.key : RSA Private-Key: (2048 bit, 2 primes)
+/etc/kubernetes/pki/front-proxy-client.key : RSA Private-Key: (2048 bit, 2 primes)
+/etc/kubernetes/pki/sa.key : RSA Private-Key: (2048 bit, 2 primes)
+/etc/kubernetes/pki/front-proxy-ca.key : RSA Private-Key: (2048 bit, 2 primes)
+/etc/kubernetes/pki/apiserver-kubelet-client.key : RSA Private-Key: (2048 bit, 2 primes)
+/etc/kubernetes/pki/etcd/healthcheck-client.key : RSA Private-Key: (2048 bit, 2 primes)
+/etc/kubernetes/pki/etcd/server.key : RSA Private-Key: (2048 bit, 2 primes)
+/etc/kubernetes/pki/etcd/peer.key : RSA Private-Key: (2048 bit, 2 primes)
+/etc/kubernetes/pki/etcd/ca.key : RSA Private-Key: (2048 bit, 2 primes)
+/etc/kubernetes/pki/ca.key : RSA Private-Key: (2048 bit, 2 primes)
+===Audit Result===
 
-NAME                                  DESIRED   CURRENT   READY   AGE
-replicaset.apps/nginx-app-5d47bf8b9   2         2         2       21d
+4.3
+Weak cryptographic algorithms(應使用安全金鑰演算法)
+===Audit Result===
+/etc/kubernetes/pki/apiserver-kubelet-client.crt :         Signature Algorithm: sha256WithRSAEncryption
+/etc/kubernetes/pki/apiserver-etcd-client.crt :         Signature Algorithm: sha256WithRSAEncryption
+/etc/kubernetes/pki/ca.crt :         Signature Algorithm: sha256WithRSAEncryption
+/etc/kubernetes/pki/front-proxy-client.crt :         Signature Algorithm: sha256WithRSAEncryption
+/etc/kubernetes/pki/front-proxy-ca.crt :         Signature Algorithm: sha256WithRSAEncryption
+/etc/kubernetes/pki/apiserver.crt :         Signature Algorithm: sha256WithRSAEncryption
+/etc/kubernetes/pki/etcd/ca.crt :         Signature Algorithm: sha256WithRSAEncryption
+/etc/kubernetes/pki/etcd/peer.crt :         Signature Algorithm: sha256WithRSAEncryption
+/etc/kubernetes/pki/etcd/server.crt :         Signature Algorithm: sha256WithRSAEncryption
+/etc/kubernetes/pki/etcd/healthcheck-client.crt :         Signature Algorithm: sha256WithRSAEncryption
+===Audit Result===
+
+1.6
+Malware(應確認container使用image之安全性)
+===Audit Result===
 ===Audit Result===
 
 2.1
@@ -310,38 +337,9 @@ Software Tampering(檢視系統軟體版本已知漏洞)
 ===Audit Result===
 ===Audit Result===
 
-2.3
-External Device Boot(開機僅可透過合法的韌體)
-===Audit Result===
-Linux 5.19.0-35-generic x86_64
-ii  linux-image-5.19.0-32-generic              5.19.0-32.33~22.04.1                    amd64        Signed kernel image generic
-ii  linux-image-5.19.0-35-generic              5.19.0-35.36~22.04.1                    amd64        Signed kernel image generic
-ii  linux-image-generic-hwe-22.04              5.19.0.35.36~22.04.10                   amd64        Generic Linux kernel image
-===Audit Result===
-
 2.7
 User Session Tampering(確保應用程式session隨機安全性)
 ===Audit Result===
-===Audit Result===
-
-4.1
-Poor key generation(應使用安全金鑰長度)
-===Audit Result===
-/etc/kubernetes/pki/ca.key : /etc/kubernetes/pki/front-proxy-ca.key : /etc/kubernetes/pki/etcd/ca.key : /etc/kubernetes/pki/etcd/server.key : /etc/kubernetes/pki/etcd/healthcheck-client.key : /etc/kubernetes/pki/etcd/peer.key : /etc/kubernetes/pki/front-proxy-client.key : /etc/kubernetes/pki/sa.key : /etc/kubernetes/pki/apiserver-kubelet-client.key : /etc/kubernetes/pki/apiserver-etcd-client.key : /etc/kubernetes/pki/apiserver.key : ===Audit Result===
-
-4.3
-Weak cryptographic algorithms(應使用安全金鑰演算法)
-===Audit Result===
-/etc/kubernetes/pki/apiserver-etcd-client.crt :         Signature Algorithm: sha256WithRSAEncryption
-/etc/kubernetes/pki/front-proxy-client.crt :         Signature Algorithm: sha256WithRSAEncryption
-/etc/kubernetes/pki/apiserver.crt :         Signature Algorithm: sha256WithRSAEncryption
-/etc/kubernetes/pki/front-proxy-ca.crt :         Signature Algorithm: sha256WithRSAEncryption
-/etc/kubernetes/pki/etcd/peer.crt :         Signature Algorithm: sha256WithRSAEncryption
-/etc/kubernetes/pki/etcd/ca.crt :         Signature Algorithm: sha256WithRSAEncryption
-/etc/kubernetes/pki/etcd/server.crt :         Signature Algorithm: sha256WithRSAEncryption
-/etc/kubernetes/pki/etcd/healthcheck-client.crt :         Signature Algorithm: sha256WithRSAEncryption
-/etc/kubernetes/pki/ca.crt :         Signature Algorithm: sha256WithRSAEncryption
-/etc/kubernetes/pki/apiserver-kubelet-client.crt :         Signature Algorithm: sha256WithRSAEncryption
 ===Audit Result===
 
 4.5
@@ -359,7 +357,7 @@ Insecure Network Services(確保開放服務之安全性)
 ===Audit Result===
 ===Audit Result===
 
-4.10
+4.1
 Unnecessary Services(避免開啟非必要服務)
 ===Audit Result===
 ===Audit Result===

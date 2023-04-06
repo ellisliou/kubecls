@@ -3,103 +3,46 @@ items:
 - apiVersion: v1
   kind: Pod
   metadata:
-    creationTimestamp: "2022-01-18T06:00:16Z"
-    generateName: coredns-558bd4d5db-
+    creationTimestamp: "2023-04-06T04:29:48Z"
+    generateName: nginx-app-5d47bf8b9-
     labels:
-      k8s-app: kube-dns
-      pod-template-hash: 558bd4d5db
-    name: coredns-558bd4d5db-blprt
-    namespace: kube-system
+      app: nginx-app
+      pod-template-hash: 5d47bf8b9
+    name: nginx-app-5d47bf8b9-rxgsq
+    namespace: default
     ownerReferences:
     - apiVersion: apps/v1
       blockOwnerDeletion: true
       controller: true
       kind: ReplicaSet
-      name: coredns-558bd4d5db
-      uid: 909485f5-663e-486f-8012-4a91e4395540
-    resourceVersion: "338495"
-    uid: 69c40aa2-f202-4388-abe3-b94007f63494
+      name: nginx-app-5d47bf8b9
+      uid: 4599239f-d8dd-48de-b1de-73811b2923f8
+    resourceVersion: "72553"
+    uid: 81e32925-b6ab-4c22-a824-b2d7bcf5b5e2
   spec:
     containers:
-    - args:
-      - -conf
-      - /etc/coredns/Corefile
-      image: k8s.gcr.io/coredns/coredns:v1.8.0
-      imagePullPolicy: IfNotPresent
-      livenessProbe:
-        failureThreshold: 5
-        httpGet:
-          path: /health
-          port: 8080
-          scheme: HTTP
-        initialDelaySeconds: 60
-        periodSeconds: 10
-        successThreshold: 1
-        timeoutSeconds: 5
-      name: coredns
-      ports:
-      - containerPort: 53
-        name: dns
-        protocol: UDP
-      - containerPort: 53
-        name: dns-tcp
-        protocol: TCP
-      - containerPort: 9153
-        name: metrics
-        protocol: TCP
-      readinessProbe:
-        failureThreshold: 3
-        httpGet:
-          path: /ready
-          port: 8181
-          scheme: HTTP
-        periodSeconds: 10
-        successThreshold: 1
-        timeoutSeconds: 1
-      resources:
-        limits:
-          memory: 170Mi
-        requests:
-          cpu: 100m
-          memory: 70Mi
-      securityContext:
-        allowPrivilegeEscalation: false
-        capabilities:
-          add:
-          - NET_BIND_SERVICE
-          drop:
-          - all
-        readOnlyRootFilesystem: true
+    - image: nginx
+      imagePullPolicy: Always
+      name: nginx
+      resources: {}
       terminationMessagePath: /dev/termination-log
       terminationMessagePolicy: File
       volumeMounts:
-      - mountPath: /etc/coredns
-        name: config-volume
-        readOnly: true
       - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
-        name: kube-api-access-2fnfn
+        name: kube-api-access-gggmv
         readOnly: true
-    dnsPolicy: Default
+    dnsPolicy: ClusterFirst
     enableServiceLinks: true
-    nodeName: k8smaster
-    nodeSelector:
-      kubernetes.io/os: linux
+    nodeName: k8s-node1
     preemptionPolicy: PreemptLowerPriority
-    priority: 2000000000
-    priorityClassName: system-cluster-critical
+    priority: 0
     restartPolicy: Always
     schedulerName: default-scheduler
     securityContext: {}
-    serviceAccount: coredns
-    serviceAccountName: coredns
+    serviceAccount: default
+    serviceAccountName: default
     terminationGracePeriodSeconds: 30
     tolerations:
-    - key: CriticalAddonsOnly
-      operator: Exists
-    - effect: NoSchedule
-      key: node-role.kubernetes.io/master
-    - effect: NoSchedule
-      key: node-role.kubernetes.io/control-plane
     - effect: NoExecute
       key: node.kubernetes.io/not-ready
       operator: Exists
@@ -109,14 +52,7 @@ items:
       operator: Exists
       tolerationSeconds: 300
     volumes:
-    - configMap:
-        defaultMode: 420
-        items:
-        - key: Corefile
-          path: Corefile
-        name: coredns
-      name: config-volume
-    - name: kube-api-access-2fnfn
+    - name: kube-api-access-gggmv
       projected:
         defaultMode: 420
         sources:
@@ -137,75 +73,696 @@ items:
   status:
     conditions:
     - lastProbeTime: null
-      lastTransitionTime: "2022-01-18T06:05:56Z"
+      lastTransitionTime: "2023-04-06T05:53:44Z"
       status: "True"
       type: Initialized
     - lastProbeTime: null
-      lastTransitionTime: "2022-06-21T08:15:24Z"
-      message: 'containers with unready status: [coredns]'
-      reason: ContainersNotReady
-      status: "False"
+      lastTransitionTime: "2023-04-06T05:54:13Z"
+      status: "True"
       type: Ready
     - lastProbeTime: null
-      lastTransitionTime: "2022-06-21T08:15:24Z"
-      message: 'containers with unready status: [coredns]'
-      reason: ContainersNotReady
-      status: "False"
+      lastTransitionTime: "2023-04-06T05:54:13Z"
+      status: "True"
       type: ContainersReady
     - lastProbeTime: null
-      lastTransitionTime: "2022-01-18T06:05:55Z"
+      lastTransitionTime: "2023-04-06T05:53:37Z"
       status: "True"
       type: PodScheduled
     containerStatuses:
-    - containerID: docker://0a50b3d8d454956d833887632776e1fcff94bc7fb3c14aa3b25ea807d6711ad2
-      image: k8s.gcr.io/coredns/coredns:v1.8.0
-      imageID: docker-pullable://k8s.gcr.io/coredns/coredns@sha256:cc8fb77bc2a0541949d1d9320a641b82fd392b0d3d8145469ca4709ae769980e
-      lastState:
-        terminated:
-          containerID: docker://332ff3d7a014185bf5deed15c74c4447b63519305356306a2527f90b48a67f07
-          exitCode: 0
-          finishedAt: "2022-08-02T07:15:09Z"
-          reason: Completed
-          startedAt: "2022-07-29T09:08:51Z"
-      name: coredns
-      ready: false
-      restartCount: 982
+    - containerID: cri-o://4447d1cef6a909f9836ddd8f22cb16f1d61606b52d8b3b7d4b5d208cb39e2f9b
+      image: docker.io/library/nginx:latest
+      imageID: docker.io/library/nginx@sha256:2ab30d6ac53580a6db8b657abf0f68d75360ff5cc1670a85acb5bd85ba1b19c0
+      lastState: {}
+      name: nginx
+      ready: true
+      restartCount: 0
       started: true
       state:
         running:
-          startedAt: "2022-08-02T07:15:09Z"
-    hostIP: 192.168.118.209
+          startedAt: "2023-04-06T05:54:13Z"
+    hostIP: 192.168.118.239
     phase: Running
-    podIP: 10.244.0.2
+    podIP: 10.244.1.7
     podIPs:
-    - ip: 10.244.0.2
-    qosClass: Burstable
-    startTime: "2022-01-18T06:05:56Z"
+    - ip: 10.244.1.7
+    qosClass: BestEffort
+    startTime: "2023-04-06T05:53:44Z"
 - apiVersion: v1
   kind: Pod
   metadata:
-    creationTimestamp: "2022-01-18T06:00:16Z"
-    generateName: coredns-558bd4d5db-
+    creationTimestamp: "2023-04-06T04:29:48Z"
+    generateName: nginx-app-5d47bf8b9-
+    labels:
+      app: nginx-app
+      pod-template-hash: 5d47bf8b9
+    name: nginx-app-5d47bf8b9-slzcx
+    namespace: default
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: ReplicaSet
+      name: nginx-app-5d47bf8b9
+      uid: 4599239f-d8dd-48de-b1de-73811b2923f8
+    resourceVersion: "72568"
+    uid: e9d502ee-8350-4eb9-8d01-df8a5fa9f78f
+  spec:
+    containers:
+    - image: nginx
+      imagePullPolicy: Always
+      name: nginx
+      resources: {}
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+      volumeMounts:
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-dqxbw
+        readOnly: true
+    dnsPolicy: ClusterFirst
+    enableServiceLinks: true
+    nodeName: k8s-node1
+    preemptionPolicy: PreemptLowerPriority
+    priority: 0
+    restartPolicy: Always
+    schedulerName: default-scheduler
+    securityContext: {}
+    serviceAccount: default
+    serviceAccountName: default
+    terminationGracePeriodSeconds: 30
+    tolerations:
+    - effect: NoExecute
+      key: node.kubernetes.io/not-ready
+      operator: Exists
+      tolerationSeconds: 300
+    - effect: NoExecute
+      key: node.kubernetes.io/unreachable
+      operator: Exists
+      tolerationSeconds: 300
+    volumes:
+    - name: kube-api-access-dqxbw
+      projected:
+        defaultMode: 420
+        sources:
+        - serviceAccountToken:
+            expirationSeconds: 3607
+            path: token
+        - configMap:
+            items:
+            - key: ca.crt
+              path: ca.crt
+            name: kube-root-ca.crt
+        - downwardAPI:
+            items:
+            - fieldRef:
+                apiVersion: v1
+                fieldPath: metadata.namespace
+              path: namespace
+  status:
+    conditions:
+    - lastProbeTime: null
+      lastTransitionTime: "2023-04-06T05:53:44Z"
+      status: "True"
+      type: Initialized
+    - lastProbeTime: null
+      lastTransitionTime: "2023-04-06T05:54:17Z"
+      status: "True"
+      type: Ready
+    - lastProbeTime: null
+      lastTransitionTime: "2023-04-06T05:54:17Z"
+      status: "True"
+      type: ContainersReady
+    - lastProbeTime: null
+      lastTransitionTime: "2023-04-06T05:53:37Z"
+      status: "True"
+      type: PodScheduled
+    containerStatuses:
+    - containerID: cri-o://2f78d815c37e384005540363e4e65833f9f8133b927c145492a0214c2c2a5f19
+      image: docker.io/library/nginx:latest
+      imageID: docker.io/library/nginx@sha256:2ab30d6ac53580a6db8b657abf0f68d75360ff5cc1670a85acb5bd85ba1b19c0
+      lastState: {}
+      name: nginx
+      ready: true
+      restartCount: 0
+      started: true
+      state:
+        running:
+          startedAt: "2023-04-06T05:54:17Z"
+    hostIP: 192.168.118.239
+    phase: Running
+    podIP: 10.244.1.6
+    podIPs:
+    - ip: 10.244.1.6
+    qosClass: BestEffort
+    startTime: "2023-04-06T05:53:44Z"
+- apiVersion: v1
+  kind: Pod
+  metadata:
+    creationTimestamp: "2023-03-14T08:51:44Z"
+    generateName: kube-flannel-ds-
+    labels:
+      app: flannel
+      controller-revision-hash: df8594f4d
+      pod-template-generation: "1"
+      tier: node
+    name: kube-flannel-ds-5dn9b
+    namespace: kube-flannel
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: DaemonSet
+      name: kube-flannel-ds
+      uid: af9ab7d5-9820-403b-84fa-3935bef0dedb
+    resourceVersion: "72518"
+    uid: 7e3806cf-e5bb-45fc-aeab-e11ae0c7712d
+  spec:
+    affinity:
+      nodeAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          nodeSelectorTerms:
+          - matchFields:
+            - key: metadata.name
+              operator: In
+              values:
+              - k8s-node1
+    containers:
+    - args:
+      - --ip-masq
+      - --kube-subnet-mgr
+      command:
+      - /opt/bin/flanneld
+      env:
+      - name: POD_NAME
+        valueFrom:
+          fieldRef:
+            apiVersion: v1
+            fieldPath: metadata.name
+      - name: POD_NAMESPACE
+        valueFrom:
+          fieldRef:
+            apiVersion: v1
+            fieldPath: metadata.namespace
+      - name: EVENT_QUEUE_DEPTH
+        value: "5000"
+      image: docker.io/flannel/flannel:v0.21.3
+      imagePullPolicy: IfNotPresent
+      name: kube-flannel
+      resources:
+        requests:
+          cpu: 100m
+          memory: 50Mi
+      securityContext:
+        capabilities:
+          add:
+          - NET_ADMIN
+          - NET_RAW
+        privileged: false
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+      volumeMounts:
+      - mountPath: /run/flannel
+        name: run
+      - mountPath: /etc/kube-flannel/
+        name: flannel-cfg
+      - mountPath: /run/xtables.lock
+        name: xtables-lock
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-tbj7n
+        readOnly: true
+    dnsPolicy: ClusterFirst
+    enableServiceLinks: true
+    hostNetwork: true
+    initContainers:
+    - args:
+      - -f
+      - /flannel
+      - /opt/cni/bin/flannel
+      command:
+      - cp
+      image: docker.io/flannel/flannel-cni-plugin:v1.1.2
+      imagePullPolicy: IfNotPresent
+      name: install-cni-plugin
+      resources: {}
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+      volumeMounts:
+      - mountPath: /opt/cni/bin
+        name: cni-plugin
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-tbj7n
+        readOnly: true
+    - args:
+      - -f
+      - /etc/kube-flannel/cni-conf.json
+      - /etc/cni/net.d/10-flannel.conflist
+      command:
+      - cp
+      image: docker.io/flannel/flannel:v0.21.3
+      imagePullPolicy: IfNotPresent
+      name: install-cni
+      resources: {}
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+      volumeMounts:
+      - mountPath: /etc/cni/net.d
+        name: cni
+      - mountPath: /etc/kube-flannel/
+        name: flannel-cfg
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-tbj7n
+        readOnly: true
+    nodeName: k8s-node1
+    preemptionPolicy: PreemptLowerPriority
+    priority: 2000001000
+    priorityClassName: system-node-critical
+    restartPolicy: Always
+    schedulerName: default-scheduler
+    securityContext: {}
+    serviceAccount: flannel
+    serviceAccountName: flannel
+    terminationGracePeriodSeconds: 30
+    tolerations:
+    - effect: NoSchedule
+      operator: Exists
+    - effect: NoExecute
+      key: node.kubernetes.io/not-ready
+      operator: Exists
+    - effect: NoExecute
+      key: node.kubernetes.io/unreachable
+      operator: Exists
+    - effect: NoSchedule
+      key: node.kubernetes.io/disk-pressure
+      operator: Exists
+    - effect: NoSchedule
+      key: node.kubernetes.io/memory-pressure
+      operator: Exists
+    - effect: NoSchedule
+      key: node.kubernetes.io/pid-pressure
+      operator: Exists
+    - effect: NoSchedule
+      key: node.kubernetes.io/unschedulable
+      operator: Exists
+    - effect: NoSchedule
+      key: node.kubernetes.io/network-unavailable
+      operator: Exists
+    volumes:
+    - hostPath:
+        path: /run/flannel
+        type: ""
+      name: run
+    - hostPath:
+        path: /opt/cni/bin
+        type: ""
+      name: cni-plugin
+    - hostPath:
+        path: /etc/cni/net.d
+        type: ""
+      name: cni
+    - configMap:
+        defaultMode: 420
+        name: kube-flannel-cfg
+      name: flannel-cfg
+    - hostPath:
+        path: /run/xtables.lock
+        type: FileOrCreate
+      name: xtables-lock
+    - name: kube-api-access-tbj7n
+      projected:
+        defaultMode: 420
+        sources:
+        - serviceAccountToken:
+            expirationSeconds: 3607
+            path: token
+        - configMap:
+            items:
+            - key: ca.crt
+              path: ca.crt
+            name: kube-root-ca.crt
+        - downwardAPI:
+            items:
+            - fieldRef:
+                apiVersion: v1
+                fieldPath: metadata.namespace
+              path: namespace
+  status:
+    conditions:
+    - lastProbeTime: null
+      lastTransitionTime: "2023-03-14T08:52:09Z"
+      status: "True"
+      type: Initialized
+    - lastProbeTime: null
+      lastTransitionTime: "2023-03-14T08:52:10Z"
+      status: "True"
+      type: Ready
+    - lastProbeTime: null
+      lastTransitionTime: "2023-03-14T08:52:10Z"
+      status: "True"
+      type: ContainersReady
+    - lastProbeTime: null
+      lastTransitionTime: "2023-03-14T08:51:44Z"
+      status: "True"
+      type: PodScheduled
+    containerStatuses:
+    - containerID: cri-o://99f32f2c77657edc578132903681ad321eec04e9739300f29a17ca00a6b13d55
+      image: docker.io/flannel/flannel:v0.21.3
+      imageID: docker.io/flannel/flannel@sha256:2947963f52c22f2df17ba21e47839ad4b9123fb5545784c7922e8264e673268c
+      lastState: {}
+      name: kube-flannel
+      ready: true
+      restartCount: 0
+      started: true
+      state:
+        running:
+          startedAt: "2023-03-14T08:52:09Z"
+    hostIP: 192.168.118.239
+    initContainerStatuses:
+    - containerID: cri-o://29cdc299a7691e1d0326a1f9d6d92b9312ddcfb2d74299ac65e2a43ac0aad7b3
+      image: docker.io/flannel/flannel-cni-plugin:v1.1.2
+      imageID: docker.io/flannel/flannel-cni-plugin@sha256:bf4b62b131666d040f35a327d906ee5a3418280b68a88d9b9c7e828057210443
+      lastState: {}
+      name: install-cni-plugin
+      ready: true
+      restartCount: 0
+      state:
+        terminated:
+          containerID: cri-o://29cdc299a7691e1d0326a1f9d6d92b9312ddcfb2d74299ac65e2a43ac0aad7b3
+          exitCode: 0
+          finishedAt: "2023-03-14T08:51:55Z"
+          reason: Completed
+          startedAt: "2023-03-14T08:51:55Z"
+    - containerID: cri-o://bf804d336d0b0bd7c4d21e3660c5aced81f9722935c8c70bfabed0527c7d849d
+      image: docker.io/flannel/flannel:v0.21.3
+      imageID: docker.io/flannel/flannel@sha256:2947963f52c22f2df17ba21e47839ad4b9123fb5545784c7922e8264e673268c
+      lastState: {}
+      name: install-cni
+      ready: true
+      restartCount: 0
+      state:
+        terminated:
+          containerID: cri-o://bf804d336d0b0bd7c4d21e3660c5aced81f9722935c8c70bfabed0527c7d849d
+          exitCode: 0
+          finishedAt: "2023-03-14T08:52:09Z"
+          reason: Completed
+          startedAt: "2023-03-14T08:52:09Z"
+    phase: Running
+    podIP: 192.168.118.239
+    podIPs:
+    - ip: 192.168.118.239
+    qosClass: Burstable
+    startTime: "2023-03-14T08:51:44Z"
+- apiVersion: v1
+  kind: Pod
+  metadata:
+    creationTimestamp: "2023-03-14T08:51:44Z"
+    generateName: kube-flannel-ds-
+    labels:
+      app: flannel
+      controller-revision-hash: df8594f4d
+      pod-template-generation: "1"
+      tier: node
+    name: kube-flannel-ds-lqpnh
+    namespace: kube-flannel
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: DaemonSet
+      name: kube-flannel-ds
+      uid: af9ab7d5-9820-403b-84fa-3935bef0dedb
+    resourceVersion: "72430"
+    uid: b36b3c19-8737-4a61-8803-78f64347ba33
+  spec:
+    affinity:
+      nodeAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          nodeSelectorTerms:
+          - matchFields:
+            - key: metadata.name
+              operator: In
+              values:
+              - k8s-master
+    containers:
+    - args:
+      - --ip-masq
+      - --kube-subnet-mgr
+      command:
+      - /opt/bin/flanneld
+      env:
+      - name: POD_NAME
+        valueFrom:
+          fieldRef:
+            apiVersion: v1
+            fieldPath: metadata.name
+      - name: POD_NAMESPACE
+        valueFrom:
+          fieldRef:
+            apiVersion: v1
+            fieldPath: metadata.namespace
+      - name: EVENT_QUEUE_DEPTH
+        value: "5000"
+      image: docker.io/flannel/flannel:v0.21.3
+      imagePullPolicy: IfNotPresent
+      name: kube-flannel
+      resources:
+        requests:
+          cpu: 100m
+          memory: 50Mi
+      securityContext:
+        capabilities:
+          add:
+          - NET_ADMIN
+          - NET_RAW
+        privileged: false
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+      volumeMounts:
+      - mountPath: /run/flannel
+        name: run
+      - mountPath: /etc/kube-flannel/
+        name: flannel-cfg
+      - mountPath: /run/xtables.lock
+        name: xtables-lock
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-75sms
+        readOnly: true
+    dnsPolicy: ClusterFirst
+    enableServiceLinks: true
+    hostNetwork: true
+    initContainers:
+    - args:
+      - -f
+      - /flannel
+      - /opt/cni/bin/flannel
+      command:
+      - cp
+      image: docker.io/flannel/flannel-cni-plugin:v1.1.2
+      imagePullPolicy: IfNotPresent
+      name: install-cni-plugin
+      resources: {}
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+      volumeMounts:
+      - mountPath: /opt/cni/bin
+        name: cni-plugin
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-75sms
+        readOnly: true
+    - args:
+      - -f
+      - /etc/kube-flannel/cni-conf.json
+      - /etc/cni/net.d/10-flannel.conflist
+      command:
+      - cp
+      image: docker.io/flannel/flannel:v0.21.3
+      imagePullPolicy: IfNotPresent
+      name: install-cni
+      resources: {}
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+      volumeMounts:
+      - mountPath: /etc/cni/net.d
+        name: cni
+      - mountPath: /etc/kube-flannel/
+        name: flannel-cfg
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-75sms
+        readOnly: true
+    nodeName: k8s-master
+    preemptionPolicy: PreemptLowerPriority
+    priority: 2000001000
+    priorityClassName: system-node-critical
+    restartPolicy: Always
+    schedulerName: default-scheduler
+    securityContext: {}
+    serviceAccount: flannel
+    serviceAccountName: flannel
+    terminationGracePeriodSeconds: 30
+    tolerations:
+    - effect: NoSchedule
+      operator: Exists
+    - effect: NoExecute
+      key: node.kubernetes.io/not-ready
+      operator: Exists
+    - effect: NoExecute
+      key: node.kubernetes.io/unreachable
+      operator: Exists
+    - effect: NoSchedule
+      key: node.kubernetes.io/disk-pressure
+      operator: Exists
+    - effect: NoSchedule
+      key: node.kubernetes.io/memory-pressure
+      operator: Exists
+    - effect: NoSchedule
+      key: node.kubernetes.io/pid-pressure
+      operator: Exists
+    - effect: NoSchedule
+      key: node.kubernetes.io/unschedulable
+      operator: Exists
+    - effect: NoSchedule
+      key: node.kubernetes.io/network-unavailable
+      operator: Exists
+    volumes:
+    - hostPath:
+        path: /run/flannel
+        type: ""
+      name: run
+    - hostPath:
+        path: /opt/cni/bin
+        type: ""
+      name: cni-plugin
+    - hostPath:
+        path: /etc/cni/net.d
+        type: ""
+      name: cni
+    - configMap:
+        defaultMode: 420
+        name: kube-flannel-cfg
+      name: flannel-cfg
+    - hostPath:
+        path: /run/xtables.lock
+        type: FileOrCreate
+      name: xtables-lock
+    - name: kube-api-access-75sms
+      projected:
+        defaultMode: 420
+        sources:
+        - serviceAccountToken:
+            expirationSeconds: 3607
+            path: token
+        - configMap:
+            items:
+            - key: ca.crt
+              path: ca.crt
+            name: kube-root-ca.crt
+        - downwardAPI:
+            items:
+            - fieldRef:
+                apiVersion: v1
+                fieldPath: metadata.namespace
+              path: namespace
+  status:
+    conditions:
+    - lastProbeTime: null
+      lastTransitionTime: "2023-03-14T08:52:11Z"
+      status: "True"
+      type: Initialized
+    - lastProbeTime: null
+      lastTransitionTime: "2023-04-06T05:53:25Z"
+      status: "True"
+      type: Ready
+    - lastProbeTime: null
+      lastTransitionTime: "2023-04-06T05:53:25Z"
+      status: "True"
+      type: ContainersReady
+    - lastProbeTime: null
+      lastTransitionTime: "2023-03-14T08:51:44Z"
+      status: "True"
+      type: PodScheduled
+    containerStatuses:
+    - containerID: cri-o://6cd5c1e787c4cb44924a56070d359affdd40ee8a89ca9852a0ce608ff7912418
+      image: docker.io/flannel/flannel:v0.21.3
+      imageID: docker.io/flannel/flannel@sha256:2947963f52c22f2df17ba21e47839ad4b9123fb5545784c7922e8264e673268c
+      lastState: {}
+      name: kube-flannel
+      ready: true
+      restartCount: 2
+      started: true
+      state:
+        running:
+          startedAt: "2023-04-06T05:53:24Z"
+    hostIP: 192.168.118.238
+    initContainerStatuses:
+    - containerID: cri-o://0eb1356a66d954858ba1954fcfac630a612d26e3d11f3289951245ce601739b0
+      image: docker.io/flannel/flannel-cni-plugin:v1.1.2
+      imageID: docker.io/flannel/flannel-cni-plugin@sha256:bf4b62b131666d040f35a327d906ee5a3418280b68a88d9b9c7e828057210443
+      lastState: {}
+      name: install-cni-plugin
+      ready: true
+      restartCount: 2
+      state:
+        terminated:
+          containerID: cri-o://0eb1356a66d954858ba1954fcfac630a612d26e3d11f3289951245ce601739b0
+          exitCode: 0
+          finishedAt: "2023-04-06T05:53:18Z"
+          reason: Completed
+          startedAt: "2023-04-06T05:53:18Z"
+    - containerID: cri-o://35f866685755d4150814c00c7895ae6c2f3df8aac0f986c064e5fbc09dbafbb7
+      image: docker.io/flannel/flannel:v0.21.3
+      imageID: docker.io/flannel/flannel@sha256:2947963f52c22f2df17ba21e47839ad4b9123fb5545784c7922e8264e673268c
+      lastState: {}
+      name: install-cni
+      ready: true
+      restartCount: 2
+      state:
+        terminated:
+          containerID: cri-o://35f866685755d4150814c00c7895ae6c2f3df8aac0f986c064e5fbc09dbafbb7
+          exitCode: 0
+          finishedAt: "2023-04-06T05:53:21Z"
+          reason: Completed
+          startedAt: "2023-04-06T05:53:21Z"
+    phase: Running
+    podIP: 192.168.118.238
+    podIPs:
+    - ip: 192.168.118.238
+    qosClass: Burstable
+    startTime: "2023-03-14T08:51:44Z"
+- apiVersion: v1
+  kind: Pod
+  metadata:
+    creationTimestamp: "2023-03-14T08:32:11Z"
+    generateName: coredns-787d4945fb-
     labels:
       k8s-app: kube-dns
-      pod-template-hash: 558bd4d5db
-    name: coredns-558bd4d5db-nqxnp
+      pod-template-hash: 787d4945fb
+    name: coredns-787d4945fb-g6mgj
     namespace: kube-system
     ownerReferences:
     - apiVersion: apps/v1
       blockOwnerDeletion: true
       controller: true
       kind: ReplicaSet
-      name: coredns-558bd4d5db
-      uid: 909485f5-663e-486f-8012-4a91e4395540
-    resourceVersion: "338496"
-    uid: a5f24f97-3410-4d67-97d7-ae013ef5527d
+      name: coredns-787d4945fb
+      uid: ced94e81-f902-48f1-a591-c9b501fc6969
+    resourceVersion: "72447"
+    uid: f2269da7-3e11-4465-91cc-2fb81c7256c0
   spec:
+    affinity:
+      podAntiAffinity:
+        preferredDuringSchedulingIgnoredDuringExecution:
+        - podAffinityTerm:
+            labelSelector:
+              matchExpressions:
+              - key: k8s-app
+                operator: In
+                values:
+                - kube-dns
+            topologyKey: kubernetes.io/hostname
+          weight: 100
     containers:
     - args:
       - -conf
       - /etc/coredns/Corefile
-      image: k8s.gcr.io/coredns/coredns:v1.8.0
+      image: registry.k8s.io/coredns/coredns:v1.9.3
       imagePullPolicy: IfNotPresent
       livenessProbe:
         failureThreshold: 5
@@ -258,11 +815,11 @@ items:
         name: config-volume
         readOnly: true
       - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
-        name: kube-api-access-4ftf6
+        name: kube-api-access-hk2kt
         readOnly: true
     dnsPolicy: Default
     enableServiceLinks: true
-    nodeName: k8smaster
+    nodeName: k8s-master
     nodeSelector:
       kubernetes.io/os: linux
     preemptionPolicy: PreemptLowerPriority
@@ -277,8 +834,6 @@ items:
     tolerations:
     - key: CriticalAddonsOnly
       operator: Exists
-    - effect: NoSchedule
-      key: node-role.kubernetes.io/master
     - effect: NoSchedule
       key: node-role.kubernetes.io/control-plane
     - effect: NoExecute
@@ -297,7 +852,7 @@ items:
           path: Corefile
         name: coredns
       name: config-volume
-    - name: kube-api-access-4ftf6
+    - name: kube-api-access-hk2kt
       projected:
         defaultMode: 420
         sources:
@@ -318,101 +873,274 @@ items:
   status:
     conditions:
     - lastProbeTime: null
-      lastTransitionTime: "2022-01-18T06:05:55Z"
+      lastTransitionTime: "2023-03-14T08:32:11Z"
       status: "True"
       type: Initialized
     - lastProbeTime: null
-      lastTransitionTime: "2022-06-21T08:15:24Z"
-      message: 'containers with unready status: [coredns]'
-      reason: ContainersNotReady
-      status: "False"
+      lastTransitionTime: "2023-04-06T05:53:32Z"
+      status: "True"
       type: Ready
     - lastProbeTime: null
-      lastTransitionTime: "2022-06-21T08:15:24Z"
-      message: 'containers with unready status: [coredns]'
-      reason: ContainersNotReady
-      status: "False"
+      lastTransitionTime: "2023-04-06T05:53:32Z"
+      status: "True"
       type: ContainersReady
     - lastProbeTime: null
-      lastTransitionTime: "2022-01-18T06:05:55Z"
+      lastTransitionTime: "2023-03-14T08:32:11Z"
       status: "True"
       type: PodScheduled
     containerStatuses:
-    - containerID: docker://8a7799f2bd251f9ee497c4483c38d01fca65c601777d56a9450f546bdfb7f4f4
-      image: k8s.gcr.io/coredns/coredns:v1.8.0
-      imageID: docker-pullable://k8s.gcr.io/coredns/coredns@sha256:cc8fb77bc2a0541949d1d9320a641b82fd392b0d3d8145469ca4709ae769980e
-      lastState:
-        terminated:
-          containerID: docker://e43b038e3319a558daeffe08345ef2450dcec617e1c3785acf64f23b5154f2a5
-          exitCode: 0
-          finishedAt: "2022-08-02T07:15:09Z"
-          reason: Completed
-          startedAt: "2022-07-29T09:08:51Z"
+    - containerID: cri-o://015c598ecc7a66258c920ab8029fc38e35db744606bd726c5a4ee9c9749f98d5
+      image: registry.k8s.io/coredns/coredns:v1.9.3
+      imageID: registry.k8s.io/coredns/coredns@sha256:8e352a029d304ca7431c6507b56800636c321cb52289686a581ab70aaa8a2e2a
+      lastState: {}
       name: coredns
-      ready: false
-      restartCount: 980
+      ready: true
+      restartCount: 184
       started: true
       state:
         running:
-          startedAt: "2022-08-02T07:15:09Z"
-    hostIP: 192.168.118.209
+          startedAt: "2023-04-06T05:53:30Z"
+    hostIP: 192.168.118.238
     phase: Running
-    podIP: 10.244.0.3
+    podIP: 10.244.0.4
     podIPs:
-    - ip: 10.244.0.3
+    - ip: 10.244.0.4
     qosClass: Burstable
-    startTime: "2022-01-18T06:05:55Z"
+    startTime: "2023-03-14T08:32:11Z"
+- apiVersion: v1
+  kind: Pod
+  metadata:
+    creationTimestamp: "2023-03-14T08:32:11Z"
+    generateName: coredns-787d4945fb-
+    labels:
+      k8s-app: kube-dns
+      pod-template-hash: 787d4945fb
+    name: coredns-787d4945fb-vxcvp
+    namespace: kube-system
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: ReplicaSet
+      name: coredns-787d4945fb
+      uid: ced94e81-f902-48f1-a591-c9b501fc6969
+    resourceVersion: "72455"
+    uid: b15b7fc5-929c-4a1d-8651-624b19784548
+  spec:
+    affinity:
+      podAntiAffinity:
+        preferredDuringSchedulingIgnoredDuringExecution:
+        - podAffinityTerm:
+            labelSelector:
+              matchExpressions:
+              - key: k8s-app
+                operator: In
+                values:
+                - kube-dns
+            topologyKey: kubernetes.io/hostname
+          weight: 100
+    containers:
+    - args:
+      - -conf
+      - /etc/coredns/Corefile
+      image: registry.k8s.io/coredns/coredns:v1.9.3
+      imagePullPolicy: IfNotPresent
+      livenessProbe:
+        failureThreshold: 5
+        httpGet:
+          path: /health
+          port: 8080
+          scheme: HTTP
+        initialDelaySeconds: 60
+        periodSeconds: 10
+        successThreshold: 1
+        timeoutSeconds: 5
+      name: coredns
+      ports:
+      - containerPort: 53
+        name: dns
+        protocol: UDP
+      - containerPort: 53
+        name: dns-tcp
+        protocol: TCP
+      - containerPort: 9153
+        name: metrics
+        protocol: TCP
+      readinessProbe:
+        failureThreshold: 3
+        httpGet:
+          path: /ready
+          port: 8181
+          scheme: HTTP
+        periodSeconds: 10
+        successThreshold: 1
+        timeoutSeconds: 1
+      resources:
+        limits:
+          memory: 170Mi
+        requests:
+          cpu: 100m
+          memory: 70Mi
+      securityContext:
+        allowPrivilegeEscalation: false
+        capabilities:
+          add:
+          - NET_BIND_SERVICE
+          drop:
+          - all
+        readOnlyRootFilesystem: true
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+      volumeMounts:
+      - mountPath: /etc/coredns
+        name: config-volume
+        readOnly: true
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-tdhmh
+        readOnly: true
+    dnsPolicy: Default
+    enableServiceLinks: true
+    nodeName: k8s-master
+    nodeSelector:
+      kubernetes.io/os: linux
+    preemptionPolicy: PreemptLowerPriority
+    priority: 2000000000
+    priorityClassName: system-cluster-critical
+    restartPolicy: Always
+    schedulerName: default-scheduler
+    securityContext: {}
+    serviceAccount: coredns
+    serviceAccountName: coredns
+    terminationGracePeriodSeconds: 30
+    tolerations:
+    - key: CriticalAddonsOnly
+      operator: Exists
+    - effect: NoSchedule
+      key: node-role.kubernetes.io/control-plane
+    - effect: NoExecute
+      key: node.kubernetes.io/not-ready
+      operator: Exists
+      tolerationSeconds: 300
+    - effect: NoExecute
+      key: node.kubernetes.io/unreachable
+      operator: Exists
+      tolerationSeconds: 300
+    volumes:
+    - configMap:
+        defaultMode: 420
+        items:
+        - key: Corefile
+          path: Corefile
+        name: coredns
+      name: config-volume
+    - name: kube-api-access-tdhmh
+      projected:
+        defaultMode: 420
+        sources:
+        - serviceAccountToken:
+            expirationSeconds: 3607
+            path: token
+        - configMap:
+            items:
+            - key: ca.crt
+              path: ca.crt
+            name: kube-root-ca.crt
+        - downwardAPI:
+            items:
+            - fieldRef:
+                apiVersion: v1
+                fieldPath: metadata.namespace
+              path: namespace
+  status:
+    conditions:
+    - lastProbeTime: null
+      lastTransitionTime: "2023-03-14T08:32:11Z"
+      status: "True"
+      type: Initialized
+    - lastProbeTime: null
+      lastTransitionTime: "2023-04-06T05:53:34Z"
+      status: "True"
+      type: Ready
+    - lastProbeTime: null
+      lastTransitionTime: "2023-04-06T05:53:34Z"
+      status: "True"
+      type: ContainersReady
+    - lastProbeTime: null
+      lastTransitionTime: "2023-03-14T08:32:11Z"
+      status: "True"
+      type: PodScheduled
+    containerStatuses:
+    - containerID: cri-o://c019721637549419b8178770e88a4cbf2047cc7643b1658c964471539e45ad09
+      image: registry.k8s.io/coredns/coredns:v1.9.3
+      imageID: registry.k8s.io/coredns/coredns@sha256:8e352a029d304ca7431c6507b56800636c321cb52289686a581ab70aaa8a2e2a
+      lastState: {}
+      name: coredns
+      ready: true
+      restartCount: 184
+      started: true
+      state:
+        running:
+          startedAt: "2023-04-06T05:53:33Z"
+    hostIP: 192.168.118.238
+    phase: Running
+    podIP: 10.244.0.5
+    podIPs:
+    - ip: 10.244.0.5
+    qosClass: Burstable
+    startTime: "2023-03-14T08:32:11Z"
 - apiVersion: v1
   kind: Pod
   metadata:
     annotations:
-      kubeadm.kubernetes.io/etcd.advertise-client-urls: https://192.168.118.209:2379
-      kubernetes.io/config.hash: efdbef2616b75981814bf82fbcde3b90
-      kubernetes.io/config.mirror: efdbef2616b75981814bf82fbcde3b90
-      kubernetes.io/config.seen: "2022-01-18T06:00:02.521260804Z"
+      kubeadm.kubernetes.io/etcd.advertise-client-urls: https://192.168.118.238:2379
+      kubernetes.io/config.hash: c178356678165c147428a99285e3750c
+      kubernetes.io/config.mirror: c178356678165c147428a99285e3750c
+      kubernetes.io/config.seen: "2023-03-14T16:31:45.974304981+08:00"
       kubernetes.io/config.source: file
-    creationTimestamp: "2022-01-18T06:00:09Z"
+    creationTimestamp: "2023-03-14T08:31:56Z"
     labels:
       component: etcd
       tier: control-plane
-    name: etcd-k8smaster
+    name: etcd-k8s-master
     namespace: kube-system
     ownerReferences:
     - apiVersion: v1
       controller: true
       kind: Node
-      name: k8smaster
-      uid: 50d99347-fa76-4fb8-93b1-70aced6b0369
-    resourceVersion: "36172"
-    uid: f9d5210f-e0cd-4b6f-ac74-6af8a69c7962
+      name: k8s-master
+      uid: 73b10b46-027c-4c34-97c3-caacea2fbd8e
+    resourceVersion: "72395"
+    uid: 333f0bc1-6edd-404e-9673-65f4ed92574f
   spec:
     containers:
     - command:
       - etcd
-      - --advertise-client-urls=https://192.168.118.209:2379
+      - --advertise-client-urls=https://192.168.118.238:2379
       - --cert-file=/etc/kubernetes/pki/etcd/server.crt
       - --client-cert-auth=true
       - --data-dir=/var/lib/etcd
-      - --initial-advertise-peer-urls=https://192.168.118.209:2380
-      - --initial-cluster=k8smaster=https://192.168.118.209:2380
+      - --experimental-initial-corrupt-check=true
+      - --experimental-watch-progress-notify-interval=5s
+      - --initial-advertise-peer-urls=https://192.168.118.238:2380
+      - --initial-cluster=k8s-master=https://192.168.118.238:2380
       - --key-file=/etc/kubernetes/pki/etcd/server.key
-      - --listen-client-urls=https://127.0.0.1:2379,https://192.168.118.209:2379
+      - --listen-client-urls=https://127.0.0.1:2379,https://192.168.118.238:2379
       - --listen-metrics-urls=http://127.0.0.1:2381
-      - --listen-peer-urls=https://192.168.118.209:2380
-      - --name=k8smaster
+      - --listen-peer-urls=https://192.168.118.238:2380
+      - --name=k8s-master
       - --peer-cert-file=/etc/kubernetes/pki/etcd/peer.crt
       - --peer-client-cert-auth=true
       - --peer-key-file=/etc/kubernetes/pki/etcd/peer.key
       - --peer-trusted-ca-file=/etc/kubernetes/pki/etcd/ca.crt
       - --snapshot-count=10000
       - --trusted-ca-file=/etc/kubernetes/pki/etcd/ca.crt
-      image: k8s.gcr.io/etcd:3.4.13-0
+      image: registry.k8s.io/etcd:3.5.6-0
       imagePullPolicy: IfNotPresent
       livenessProbe:
         failureThreshold: 8
         httpGet:
           host: 127.0.0.1
-          path: /health
+          path: /health?exclude=NOSPACE&serializable=true
           port: 2381
           scheme: HTTP
         initialDelaySeconds: 10
@@ -428,7 +1156,7 @@ items:
         failureThreshold: 24
         httpGet:
           host: 127.0.0.1
-          path: /health
+          path: /health?serializable=false
           port: 2381
           scheme: HTTP
         initialDelaySeconds: 10
@@ -445,13 +1173,15 @@ items:
     dnsPolicy: ClusterFirst
     enableServiceLinks: true
     hostNetwork: true
-    nodeName: k8smaster
+    nodeName: k8s-master
     preemptionPolicy: PreemptLowerPriority
     priority: 2000001000
     priorityClassName: system-node-critical
     restartPolicy: Always
     schedulerName: default-scheduler
-    securityContext: {}
+    securityContext:
+      seccompProfile:
+        type: RuntimeDefault
     terminationGracePeriodSeconds: 30
     tolerations:
     - effect: NoExecute
@@ -468,68 +1198,68 @@ items:
   status:
     conditions:
     - lastProbeTime: null
-      lastTransitionTime: "2022-01-18T06:00:09Z"
+      lastTransitionTime: "2023-04-06T05:52:30Z"
       status: "True"
       type: Initialized
     - lastProbeTime: null
-      lastTransitionTime: "2022-01-18T06:00:15Z"
+      lastTransitionTime: "2023-04-06T05:52:56Z"
       status: "True"
       type: Ready
     - lastProbeTime: null
-      lastTransitionTime: "2022-01-18T06:00:15Z"
+      lastTransitionTime: "2023-04-06T05:52:56Z"
       status: "True"
       type: ContainersReady
     - lastProbeTime: null
-      lastTransitionTime: "2022-01-18T06:00:09Z"
+      lastTransitionTime: "2023-04-06T05:52:30Z"
       status: "True"
       type: PodScheduled
     containerStatuses:
-    - containerID: docker://bb3c9227211224e03fa8d035199eae480c1e81505b27f22be7b187df98103b3d
-      image: k8s.gcr.io/etcd:3.4.13-0
-      imageID: docker-pullable://k8s.gcr.io/etcd@sha256:4ad90a11b55313b182afc186b9876c8e891531b8db4c9bf1541953021618d0e2
+    - containerID: cri-o://0825db2241bcaa2fde47ef5cbf5649f9a7f3e15e4d557fa0674f717a00c9be04
+      image: registry.k8s.io/etcd:3.5.6-0
+      imageID: registry.k8s.io/etcd@sha256:b0fdb657c0bd10d8c96ed2ce762842384709a9fc54d532220d5252f1f99b4d1d
       lastState: {}
       name: etcd
       ready: true
-      restartCount: 0
+      restartCount: 2
       started: true
       state:
         running:
-          startedAt: "2022-01-18T05:59:34Z"
-    hostIP: 192.168.118.209
+          startedAt: "2023-04-06T05:52:36Z"
+    hostIP: 192.168.118.238
     phase: Running
-    podIP: 192.168.118.209
+    podIP: 192.168.118.238
     podIPs:
-    - ip: 192.168.118.209
+    - ip: 192.168.118.238
     qosClass: Burstable
-    startTime: "2022-01-18T06:00:09Z"
+    startTime: "2023-04-06T05:52:30Z"
 - apiVersion: v1
   kind: Pod
   metadata:
     annotations:
-      kubeadm.kubernetes.io/kube-apiserver.advertise-address.endpoint: 192.168.118.209:6443
-      kubernetes.io/config.hash: a09cdbe77956fc966fdad92ec6fa0195
-      kubernetes.io/config.mirror: a09cdbe77956fc966fdad92ec6fa0195
-      kubernetes.io/config.seen: "2022-01-18T06:00:02.521312046Z"
+      kubeadm.kubernetes.io/kube-apiserver.advertise-address.endpoint: 192.168.118.238:6443
+      kubernetes.io/config.hash: 0dd0aa3123aebcb32b7ef902fee79336
+      kubernetes.io/config.mirror: 0dd0aa3123aebcb32b7ef902fee79336
+      kubernetes.io/config.seen: "2023-03-14T16:31:59.547598998+08:00"
       kubernetes.io/config.source: file
-    creationTimestamp: "2022-01-18T06:00:09Z"
+    creationTimestamp: "2023-03-14T08:32:00Z"
     labels:
       component: kube-apiserver
       tier: control-plane
-    name: kube-apiserver-k8smaster
+    name: kube-apiserver-k8s-master
     namespace: kube-system
     ownerReferences:
     - apiVersion: v1
       controller: true
       kind: Node
-      name: k8smaster
-      uid: 50d99347-fa76-4fb8-93b1-70aced6b0369
-    resourceVersion: "338439"
-    uid: 0fc139c0-a6be-4f3e-b0d2-12bfdaba2536
+      name: k8s-master
+      uid: 73b10b46-027c-4c34-97c3-caacea2fbd8e
+    resourceVersion: "72401"
+    uid: 5258e8ae-728a-424a-abbc-1d01f13b031c
   spec:
     containers:
     - command:
       - kube-apiserver
-      - --advertise-address=192.168.118.209
+      - --advertise-address=192.168.118.238
       - --allow-privileged=true
       - --authorization-mode=Node,RBAC
       - --client-ca-file=/etc/kubernetes/pki/ca.crt
@@ -539,7 +1269,6 @@ items:
       - --etcd-certfile=/etc/kubernetes/pki/apiserver-etcd-client.crt
       - --etcd-keyfile=/etc/kubernetes/pki/apiserver-etcd-client.key
       - --etcd-servers=https://127.0.0.1:2379
-      - --insecure-port=0
       - --kubelet-client-certificate=/etc/kubernetes/pki/apiserver-kubelet-client.crt
       - --kubelet-client-key=/etc/kubernetes/pki/apiserver-kubelet-client.key
       - --kubelet-preferred-address-types=InternalIP,ExternalIP,Hostname
@@ -557,12 +1286,12 @@ items:
       - --service-cluster-ip-range=10.96.0.0/12
       - --tls-cert-file=/etc/kubernetes/pki/apiserver.crt
       - --tls-private-key-file=/etc/kubernetes/pki/apiserver.key
-      image: k8s.gcr.io/kube-apiserver:v1.21.8
+      image: registry.k8s.io/kube-apiserver:v1.26.2
       imagePullPolicy: IfNotPresent
       livenessProbe:
         failureThreshold: 8
         httpGet:
-          host: 192.168.118.209
+          host: 192.168.118.238
           path: /livez
           port: 6443
           scheme: HTTPS
@@ -574,7 +1303,7 @@ items:
       readinessProbe:
         failureThreshold: 3
         httpGet:
-          host: 192.168.118.209
+          host: 192.168.118.238
           path: /readyz
           port: 6443
           scheme: HTTPS
@@ -587,7 +1316,7 @@ items:
       startupProbe:
         failureThreshold: 24
         httpGet:
-          host: 192.168.118.209
+          host: 192.168.118.238
           path: /livez
           port: 6443
           scheme: HTTPS
@@ -619,13 +1348,15 @@ items:
     dnsPolicy: ClusterFirst
     enableServiceLinks: true
     hostNetwork: true
-    nodeName: k8smaster
+    nodeName: k8s-master
     preemptionPolicy: PreemptLowerPriority
     priority: 2000001000
     priorityClassName: system-node-critical
     restartPolicy: Always
     schedulerName: default-scheduler
-    securityContext: {}
+    securityContext:
+      seccompProfile:
+        type: RuntimeDefault
     terminationGracePeriodSeconds: 30
     tolerations:
     - effect: NoExecute
@@ -658,68 +1389,62 @@ items:
   status:
     conditions:
     - lastProbeTime: null
-      lastTransitionTime: "2022-01-18T06:00:09Z"
+      lastTransitionTime: "2023-03-17T02:49:38Z"
       status: "True"
       type: Initialized
     - lastProbeTime: null
-      lastTransitionTime: "2022-08-02T07:14:23Z"
+      lastTransitionTime: "2023-04-06T05:53:20Z"
       status: "True"
       type: Ready
     - lastProbeTime: null
-      lastTransitionTime: "2022-08-02T07:14:23Z"
+      lastTransitionTime: "2023-04-06T05:53:20Z"
       status: "True"
       type: ContainersReady
     - lastProbeTime: null
-      lastTransitionTime: "2022-01-18T06:00:09Z"
+      lastTransitionTime: "2023-03-17T02:49:38Z"
       status: "True"
       type: PodScheduled
     containerStatuses:
-    - containerID: docker://7f7b1af3c26e4433bdb037231a3bcb8713cad5edf363f3ae603f3314c21dfff9
-      image: k8s.gcr.io/kube-apiserver:v1.21.8
-      imageID: docker-pullable://k8s.gcr.io/kube-apiserver@sha256:303737086912d90434bae8d696dd6b5aa3cf4e45301d8e9e5bc57a20871d240a
-      lastState:
-        terminated:
-          containerID: docker://cacbe6eeab5931c67f89204247974c3d47418c5e142ac54279c2c9a2782dadc7
-          exitCode: 137
-          finishedAt: "2022-07-26T06:16:03Z"
-          reason: Error
-          startedAt: "2022-07-13T06:27:13Z"
+    - containerID: cri-o://8d6fac3784a761805c4f71f97ad586604c2f4207e849215dae19af62231a070a
+      image: registry.k8s.io/kube-apiserver:v1.26.2
+      imageID: registry.k8s.io/kube-apiserver@sha256:0f03b93af45f39704b7da175db31e20da63d2ab369f350e59de8cbbef9d703e0
+      lastState: {}
       name: kube-apiserver
       ready: true
-      restartCount: 8
+      restartCount: 22
       started: true
       state:
         running:
-          startedAt: "2022-07-26T06:16:04Z"
-    hostIP: 192.168.118.209
+          startedAt: "2023-04-06T05:52:35Z"
+    hostIP: 192.168.118.238
     phase: Running
-    podIP: 192.168.118.209
+    podIP: 192.168.118.238
     podIPs:
-    - ip: 192.168.118.209
+    - ip: 192.168.118.238
     qosClass: Burstable
-    startTime: "2022-01-18T06:00:09Z"
+    startTime: "2023-03-17T02:49:38Z"
 - apiVersion: v1
   kind: Pod
   metadata:
     annotations:
-      kubernetes.io/config.hash: 265a5efa235ea0bbe0a61ced872ee5d3
-      kubernetes.io/config.mirror: 265a5efa235ea0bbe0a61ced872ee5d3
-      kubernetes.io/config.seen: "2022-01-18T06:00:02.521325636Z"
+      kubernetes.io/config.hash: aaed99a3c0837f49dfc7b411d5c7b5be
+      kubernetes.io/config.mirror: aaed99a3c0837f49dfc7b411d5c7b5be
+      kubernetes.io/config.seen: "2023-03-14T16:31:59.547600977+08:00"
       kubernetes.io/config.source: file
-    creationTimestamp: "2022-01-18T06:00:09Z"
+    creationTimestamp: "2023-03-14T08:32:00Z"
     labels:
       component: kube-controller-manager
       tier: control-plane
-    name: kube-controller-manager-k8smaster
+    name: kube-controller-manager-k8s-master
     namespace: kube-system
     ownerReferences:
     - apiVersion: v1
       controller: true
       kind: Node
-      name: k8smaster
-      uid: 50d99347-fa76-4fb8-93b1-70aced6b0369
-    resourceVersion: "282298"
-    uid: 072db43b-1a5c-4894-bb93-c504021a4f26
+      name: k8s-master
+      uid: 73b10b46-027c-4c34-97c3-caacea2fbd8e
+    resourceVersion: "72397"
+    uid: e9dc324f-7b1c-42d5-baa0-66d14aedc190
   spec:
     containers:
     - command:
@@ -736,13 +1461,12 @@ items:
       - --controllers=*,bootstrapsigner,tokencleaner
       - --kubeconfig=/etc/kubernetes/controller-manager.conf
       - --leader-elect=true
-      - --port=0
       - --requestheader-client-ca-file=/etc/kubernetes/pki/front-proxy-ca.crt
       - --root-ca-file=/etc/kubernetes/pki/ca.crt
       - --service-account-private-key-file=/etc/kubernetes/pki/sa.key
       - --service-cluster-ip-range=10.96.0.0/12
       - --use-service-account-credentials=true
-      image: k8s.gcr.io/kube-controller-manager:v1.21.8
+      image: registry.k8s.io/kube-controller-manager:v1.26.2
       imagePullPolicy: IfNotPresent
       livenessProbe:
         failureThreshold: 8
@@ -799,13 +1523,15 @@ items:
     dnsPolicy: ClusterFirst
     enableServiceLinks: true
     hostNetwork: true
-    nodeName: k8smaster
+    nodeName: k8s-master
     preemptionPolicy: PreemptLowerPriority
     priority: 2000001000
     priorityClassName: system-node-critical
     restartPolicy: Always
     schedulerName: default-scheduler
-    securityContext: {}
+    securityContext:
+      seccompProfile:
+        type: RuntimeDefault
     terminationGracePeriodSeconds: 30
     tolerations:
     - effect: NoExecute
@@ -846,558 +1572,50 @@ items:
   status:
     conditions:
     - lastProbeTime: null
-      lastTransitionTime: "2022-01-18T06:00:09Z"
+      lastTransitionTime: "2023-04-06T05:52:30Z"
       status: "True"
       type: Initialized
     - lastProbeTime: null
-      lastTransitionTime: "2022-07-26T06:14:45Z"
+      lastTransitionTime: "2023-04-06T05:52:53Z"
       status: "True"
       type: Ready
     - lastProbeTime: null
-      lastTransitionTime: "2022-07-26T06:14:45Z"
+      lastTransitionTime: "2023-04-06T05:52:53Z"
       status: "True"
       type: ContainersReady
     - lastProbeTime: null
-      lastTransitionTime: "2022-01-18T06:00:09Z"
+      lastTransitionTime: "2023-04-06T05:52:30Z"
       status: "True"
       type: PodScheduled
     containerStatuses:
-    - containerID: docker://e122f285a6ce835b3567e18e21050b8e3049afd36bc1aad5b7808465a2ba848f
-      image: k8s.gcr.io/kube-controller-manager:v1.21.8
-      imageID: docker-pullable://k8s.gcr.io/kube-controller-manager@sha256:0d131bc6459d41b2efc485305dbbf7c4480f0cd314b65e655722171f81b73abc
-      lastState:
-        terminated:
-          containerID: docker://10917b371ed433b217a17d021854e6fc4c1d15a81343c3c44cc9f9acf6629bc7
-          exitCode: 255
-          finishedAt: "2022-07-26T06:14:33Z"
-          reason: Error
-          startedAt: "2022-07-13T06:25:37Z"
+    - containerID: cri-o://9f9b8a319c5cc13ecf7766caad5ebb9fd09b29fcd98c894d22be8945e8d66aae
+      image: registry.k8s.io/kube-controller-manager:v1.26.2
+      imageID: registry.k8s.io/kube-controller-manager@sha256:5434d52f88eb16bc5e98ccb65e97e97cb5cf7861749afbf26174d27c4ece1fad
+      lastState: {}
       name: kube-controller-manager
       ready: true
       restartCount: 4
       started: true
       state:
         running:
-          startedAt: "2022-07-26T06:14:34Z"
-    hostIP: 192.168.118.209
+          startedAt: "2023-04-06T05:52:36Z"
+    hostIP: 192.168.118.238
     phase: Running
-    podIP: 192.168.118.209
+    podIP: 192.168.118.238
     podIPs:
-    - ip: 192.168.118.209
+    - ip: 192.168.118.238
     qosClass: Burstable
-    startTime: "2022-01-18T06:00:09Z"
+    startTime: "2023-04-06T05:52:30Z"
 - apiVersion: v1
   kind: Pod
   metadata:
-    creationTimestamp: "2022-01-18T06:05:04Z"
-    generateName: kube-flannel-ds-
-    labels:
-      app: flannel
-      controller-revision-hash: 85cb499978
-      pod-template-generation: "1"
-      tier: node
-    name: kube-flannel-ds-6hs6k
-    namespace: kube-system
-    ownerReferences:
-    - apiVersion: apps/v1
-      blockOwnerDeletion: true
-      controller: true
-      kind: DaemonSet
-      name: kube-flannel-ds
-      uid: a94876be-45e5-4a91-ae7f-66926e217bde
-    resourceVersion: "36171"
-    uid: 06c018ea-db5b-4884-8658-babb50f34f6f
-  spec:
-    affinity:
-      nodeAffinity:
-        requiredDuringSchedulingIgnoredDuringExecution:
-          nodeSelectorTerms:
-          - matchFields:
-            - key: metadata.name
-              operator: In
-              values:
-              - k8smaster
-    containers:
-    - args:
-      - --ip-masq
-      - --kube-subnet-mgr
-      command:
-      - /opt/bin/flanneld
-      env:
-      - name: POD_NAME
-        valueFrom:
-          fieldRef:
-            apiVersion: v1
-            fieldPath: metadata.name
-      - name: POD_NAMESPACE
-        valueFrom:
-          fieldRef:
-            apiVersion: v1
-            fieldPath: metadata.namespace
-      image: rancher/mirrored-flannelcni-flannel:v0.16.1
-      imagePullPolicy: IfNotPresent
-      name: kube-flannel
-      resources:
-        limits:
-          cpu: 100m
-          memory: 50Mi
-        requests:
-          cpu: 100m
-          memory: 50Mi
-      securityContext:
-        capabilities:
-          add:
-          - NET_ADMIN
-          - NET_RAW
-        privileged: false
-      terminationMessagePath: /dev/termination-log
-      terminationMessagePolicy: File
-      volumeMounts:
-      - mountPath: /run/flannel
-        name: run
-      - mountPath: /etc/kube-flannel/
-        name: flannel-cfg
-      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
-        name: kube-api-access-pcwdq
-        readOnly: true
-    dnsPolicy: ClusterFirst
-    enableServiceLinks: true
-    hostNetwork: true
-    initContainers:
-    - args:
-      - -f
-      - /flannel
-      - /opt/cni/bin/flannel
-      command:
-      - cp
-      image: rancher/mirrored-flannelcni-flannel-cni-plugin:v1.0.0
-      imagePullPolicy: IfNotPresent
-      name: install-cni-plugin
-      resources: {}
-      terminationMessagePath: /dev/termination-log
-      terminationMessagePolicy: File
-      volumeMounts:
-      - mountPath: /opt/cni/bin
-        name: cni-plugin
-      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
-        name: kube-api-access-pcwdq
-        readOnly: true
-    - args:
-      - -f
-      - /etc/kube-flannel/cni-conf.json
-      - /etc/cni/net.d/10-flannel.conflist
-      command:
-      - cp
-      image: rancher/mirrored-flannelcni-flannel:v0.16.1
-      imagePullPolicy: IfNotPresent
-      name: install-cni
-      resources: {}
-      terminationMessagePath: /dev/termination-log
-      terminationMessagePolicy: File
-      volumeMounts:
-      - mountPath: /etc/cni/net.d
-        name: cni
-      - mountPath: /etc/kube-flannel/
-        name: flannel-cfg
-      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
-        name: kube-api-access-pcwdq
-        readOnly: true
-    nodeName: k8smaster
-    preemptionPolicy: PreemptLowerPriority
-    priority: 2000001000
-    priorityClassName: system-node-critical
-    restartPolicy: Always
-    schedulerName: default-scheduler
-    securityContext: {}
-    serviceAccount: flannel
-    serviceAccountName: flannel
-    terminationGracePeriodSeconds: 30
-    tolerations:
-    - effect: NoSchedule
-      operator: Exists
-    - effect: NoExecute
-      key: node.kubernetes.io/not-ready
-      operator: Exists
-    - effect: NoExecute
-      key: node.kubernetes.io/unreachable
-      operator: Exists
-    - effect: NoSchedule
-      key: node.kubernetes.io/disk-pressure
-      operator: Exists
-    - effect: NoSchedule
-      key: node.kubernetes.io/memory-pressure
-      operator: Exists
-    - effect: NoSchedule
-      key: node.kubernetes.io/pid-pressure
-      operator: Exists
-    - effect: NoSchedule
-      key: node.kubernetes.io/unschedulable
-      operator: Exists
-    - effect: NoSchedule
-      key: node.kubernetes.io/network-unavailable
-      operator: Exists
-    volumes:
-    - hostPath:
-        path: /run/flannel
-        type: ""
-      name: run
-    - hostPath:
-        path: /opt/cni/bin
-        type: ""
-      name: cni-plugin
-    - hostPath:
-        path: /etc/cni/net.d
-        type: ""
-      name: cni
-    - configMap:
-        defaultMode: 420
-        name: kube-flannel-cfg
-      name: flannel-cfg
-    - name: kube-api-access-pcwdq
-      projected:
-        defaultMode: 420
-        sources:
-        - serviceAccountToken:
-            expirationSeconds: 3607
-            path: token
-        - configMap:
-            items:
-            - key: ca.crt
-              path: ca.crt
-            name: kube-root-ca.crt
-        - downwardAPI:
-            items:
-            - fieldRef:
-                apiVersion: v1
-                fieldPath: metadata.namespace
-              path: namespace
-  status:
-    conditions:
-    - lastProbeTime: null
-      lastTransitionTime: "2022-01-18T06:05:30Z"
-      status: "True"
-      type: Initialized
-    - lastProbeTime: null
-      lastTransitionTime: "2022-01-18T06:05:31Z"
-      status: "True"
-      type: Ready
-    - lastProbeTime: null
-      lastTransitionTime: "2022-01-18T06:05:31Z"
-      status: "True"
-      type: ContainersReady
-    - lastProbeTime: null
-      lastTransitionTime: "2022-01-18T06:05:04Z"
-      status: "True"
-      type: PodScheduled
-    containerStatuses:
-    - containerID: docker://4e526cefefddd374122fddff80377469e0dc913ad3206ab77ac432b5f9cdceae
-      image: rancher/mirrored-flannelcni-flannel:v0.16.1
-      imageID: docker-pullable://rancher/mirrored-flannelcni-flannel@sha256:c2965afde3cf75b89d280f3263151fcd4e58a5901885bef18e1ebfbeef69801e
-      lastState: {}
-      name: kube-flannel
-      ready: true
-      restartCount: 0
-      started: true
-      state:
-        running:
-          startedAt: "2022-01-18T06:05:31Z"
-    hostIP: 192.168.118.209
-    initContainerStatuses:
-    - containerID: docker://766b8636365604a79a451180dde92d73c7e2fdfa12b9c78f83f0e922a09859d6
-      image: rancher/mirrored-flannelcni-flannel-cni-plugin:v1.0.0
-      imageID: docker-pullable://rancher/mirrored-flannelcni-flannel-cni-plugin@sha256:bfe8f30c74bc6f31eba0cc6659e396dbdd5ab171314ed542cc238ae046660ede
-      lastState: {}
-      name: install-cni-plugin
-      ready: true
-      restartCount: 0
-      state:
-        terminated:
-          containerID: docker://766b8636365604a79a451180dde92d73c7e2fdfa12b9c78f83f0e922a09859d6
-          exitCode: 0
-          finishedAt: "2022-01-18T06:05:15Z"
-          reason: Completed
-          startedAt: "2022-01-18T06:05:15Z"
-    - containerID: docker://07243aeb0613a1e37b07f1e8ed344982d7bb9d26b37ddf8060c394a5a5514fda
-      image: rancher/mirrored-flannelcni-flannel:v0.16.1
-      imageID: docker-pullable://rancher/mirrored-flannelcni-flannel@sha256:c2965afde3cf75b89d280f3263151fcd4e58a5901885bef18e1ebfbeef69801e
-      lastState: {}
-      name: install-cni
-      ready: true
-      restartCount: 0
-      state:
-        terminated:
-          containerID: docker://07243aeb0613a1e37b07f1e8ed344982d7bb9d26b37ddf8060c394a5a5514fda
-          exitCode: 0
-          finishedAt: "2022-01-18T06:05:29Z"
-          reason: Completed
-          startedAt: "2022-01-18T06:05:29Z"
-    phase: Running
-    podIP: 192.168.118.209
-    podIPs:
-    - ip: 192.168.118.209
-    qosClass: Burstable
-    startTime: "2022-01-18T06:05:04Z"
-- apiVersion: v1
-  kind: Pod
-  metadata:
-    creationTimestamp: "2022-01-18T06:07:21Z"
-    generateName: kube-flannel-ds-
-    labels:
-      app: flannel
-      controller-revision-hash: 85cb499978
-      pod-template-generation: "1"
-      tier: node
-    name: kube-flannel-ds-d2zcj
-    namespace: kube-system
-    ownerReferences:
-    - apiVersion: apps/v1
-      blockOwnerDeletion: true
-      controller: true
-      kind: DaemonSet
-      name: kube-flannel-ds
-      uid: a94876be-45e5-4a91-ae7f-66926e217bde
-    resourceVersion: "4738"
-    uid: cc18ef15-d977-4302-bf4d-2162252317a3
-  spec:
-    affinity:
-      nodeAffinity:
-        requiredDuringSchedulingIgnoredDuringExecution:
-          nodeSelectorTerms:
-          - matchFields:
-            - key: metadata.name
-              operator: In
-              values:
-              - k8snode1
-    containers:
-    - args:
-      - --ip-masq
-      - --kube-subnet-mgr
-      command:
-      - /opt/bin/flanneld
-      env:
-      - name: POD_NAME
-        valueFrom:
-          fieldRef:
-            apiVersion: v1
-            fieldPath: metadata.name
-      - name: POD_NAMESPACE
-        valueFrom:
-          fieldRef:
-            apiVersion: v1
-            fieldPath: metadata.namespace
-      image: rancher/mirrored-flannelcni-flannel:v0.16.1
-      imagePullPolicy: IfNotPresent
-      name: kube-flannel
-      resources:
-        limits:
-          cpu: 100m
-          memory: 50Mi
-        requests:
-          cpu: 100m
-          memory: 50Mi
-      securityContext:
-        capabilities:
-          add:
-          - NET_ADMIN
-          - NET_RAW
-        privileged: false
-      terminationMessagePath: /dev/termination-log
-      terminationMessagePolicy: File
-      volumeMounts:
-      - mountPath: /run/flannel
-        name: run
-      - mountPath: /etc/kube-flannel/
-        name: flannel-cfg
-      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
-        name: kube-api-access-vkr9w
-        readOnly: true
-    dnsPolicy: ClusterFirst
-    enableServiceLinks: true
-    hostNetwork: true
-    initContainers:
-    - args:
-      - -f
-      - /flannel
-      - /opt/cni/bin/flannel
-      command:
-      - cp
-      image: rancher/mirrored-flannelcni-flannel-cni-plugin:v1.0.0
-      imagePullPolicy: IfNotPresent
-      name: install-cni-plugin
-      resources: {}
-      terminationMessagePath: /dev/termination-log
-      terminationMessagePolicy: File
-      volumeMounts:
-      - mountPath: /opt/cni/bin
-        name: cni-plugin
-      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
-        name: kube-api-access-vkr9w
-        readOnly: true
-    - args:
-      - -f
-      - /etc/kube-flannel/cni-conf.json
-      - /etc/cni/net.d/10-flannel.conflist
-      command:
-      - cp
-      image: rancher/mirrored-flannelcni-flannel:v0.16.1
-      imagePullPolicy: IfNotPresent
-      name: install-cni
-      resources: {}
-      terminationMessagePath: /dev/termination-log
-      terminationMessagePolicy: File
-      volumeMounts:
-      - mountPath: /etc/cni/net.d
-        name: cni
-      - mountPath: /etc/kube-flannel/
-        name: flannel-cfg
-      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
-        name: kube-api-access-vkr9w
-        readOnly: true
-    nodeName: k8snode1
-    preemptionPolicy: PreemptLowerPriority
-    priority: 2000001000
-    priorityClassName: system-node-critical
-    restartPolicy: Always
-    schedulerName: default-scheduler
-    securityContext: {}
-    serviceAccount: flannel
-    serviceAccountName: flannel
-    terminationGracePeriodSeconds: 30
-    tolerations:
-    - effect: NoSchedule
-      operator: Exists
-    - effect: NoExecute
-      key: node.kubernetes.io/not-ready
-      operator: Exists
-    - effect: NoExecute
-      key: node.kubernetes.io/unreachable
-      operator: Exists
-    - effect: NoSchedule
-      key: node.kubernetes.io/disk-pressure
-      operator: Exists
-    - effect: NoSchedule
-      key: node.kubernetes.io/memory-pressure
-      operator: Exists
-    - effect: NoSchedule
-      key: node.kubernetes.io/pid-pressure
-      operator: Exists
-    - effect: NoSchedule
-      key: node.kubernetes.io/unschedulable
-      operator: Exists
-    - effect: NoSchedule
-      key: node.kubernetes.io/network-unavailable
-      operator: Exists
-    volumes:
-    - hostPath:
-        path: /run/flannel
-        type: ""
-      name: run
-    - hostPath:
-        path: /opt/cni/bin
-        type: ""
-      name: cni-plugin
-    - hostPath:
-        path: /etc/cni/net.d
-        type: ""
-      name: cni
-    - configMap:
-        defaultMode: 420
-        name: kube-flannel-cfg
-      name: flannel-cfg
-    - name: kube-api-access-vkr9w
-      projected:
-        defaultMode: 420
-        sources:
-        - serviceAccountToken:
-            expirationSeconds: 3607
-            path: token
-        - configMap:
-            items:
-            - key: ca.crt
-              path: ca.crt
-            name: kube-root-ca.crt
-        - downwardAPI:
-            items:
-            - fieldRef:
-                apiVersion: v1
-                fieldPath: metadata.namespace
-              path: namespace
-  status:
-    conditions:
-    - lastProbeTime: null
-      lastTransitionTime: "2022-01-18T06:08:07Z"
-      status: "True"
-      type: Initialized
-    - lastProbeTime: null
-      lastTransitionTime: "2022-06-20T08:11:19Z"
-      status: "False"
-      type: Ready
-    - lastProbeTime: null
-      lastTransitionTime: "2022-01-18T06:08:08Z"
-      status: "True"
-      type: ContainersReady
-    - lastProbeTime: null
-      lastTransitionTime: "2022-01-18T06:07:21Z"
-      status: "True"
-      type: PodScheduled
-    containerStatuses:
-    - containerID: docker://ee9ffe5ad9d6ec85e68257abf49dcd5c70b09f5f054acbe990b4e71810e199ea
-      image: rancher/mirrored-flannelcni-flannel:v0.16.1
-      imageID: docker-pullable://rancher/mirrored-flannelcni-flannel@sha256:c2965afde3cf75b89d280f3263151fcd4e58a5901885bef18e1ebfbeef69801e
-      lastState: {}
-      name: kube-flannel
-      ready: true
-      restartCount: 0
-      started: true
-      state:
-        running:
-          startedAt: "2022-01-18T06:08:08Z"
-    hostIP: 192.168.118.208
-    initContainerStatuses:
-    - containerID: docker://500be0ef5a505f231a426608aa344b95ab2927da56f7e4c4d7026bd6f6cf551e
-      image: rancher/mirrored-flannelcni-flannel-cni-plugin:v1.0.0
-      imageID: docker-pullable://rancher/mirrored-flannelcni-flannel-cni-plugin@sha256:bfe8f30c74bc6f31eba0cc6659e396dbdd5ab171314ed542cc238ae046660ede
-      lastState: {}
-      name: install-cni-plugin
-      ready: true
-      restartCount: 0
-      state:
-        terminated:
-          containerID: docker://500be0ef5a505f231a426608aa344b95ab2927da56f7e4c4d7026bd6f6cf551e
-          exitCode: 0
-          finishedAt: "2022-01-18T06:07:51Z"
-          reason: Completed
-          startedAt: "2022-01-18T06:07:51Z"
-    - containerID: docker://50b6bcf0eab44ad1b19d65b8de98fced508e5be68db4b40157c9effb2814ead7
-      image: rancher/mirrored-flannelcni-flannel:v0.16.1
-      imageID: docker-pullable://rancher/mirrored-flannelcni-flannel@sha256:c2965afde3cf75b89d280f3263151fcd4e58a5901885bef18e1ebfbeef69801e
-      lastState: {}
-      name: install-cni
-      ready: true
-      restartCount: 0
-      state:
-        terminated:
-          containerID: docker://50b6bcf0eab44ad1b19d65b8de98fced508e5be68db4b40157c9effb2814ead7
-          exitCode: 0
-          finishedAt: "2022-01-18T06:08:06Z"
-          reason: Completed
-          startedAt: "2022-01-18T06:08:06Z"
-    phase: Running
-    podIP: 192.168.118.208
-    podIPs:
-    - ip: 192.168.118.208
-    qosClass: Burstable
-    startTime: "2022-01-18T06:07:23Z"
-- apiVersion: v1
-  kind: Pod
-  metadata:
-    creationTimestamp: "2022-01-18T06:00:16Z"
+    creationTimestamp: "2023-03-14T08:48:55Z"
     generateName: kube-proxy-
     labels:
-      controller-revision-hash: 7546c69d65
+      controller-revision-hash: 6646d95c56
       k8s-app: kube-proxy
       pod-template-generation: "1"
-    name: kube-proxy-7rsmf
+    name: kube-proxy-5gzhx
     namespace: kube-system
     ownerReferences:
     - apiVersion: apps/v1
@@ -1405,9 +1623,9 @@ items:
       controller: true
       kind: DaemonSet
       name: kube-proxy
-      uid: ec8698b0-646f-414c-8029-94aa0cf5530a
-    resourceVersion: "36168"
-    uid: f0643178-da5c-459b-acec-1ebac8cfc113
+      uid: 300bbd2a-e5ab-49a4-ba87-2dd714110394
+    resourceVersion: "72520"
+    uid: d4d0c19a-fcd8-470a-a17b-f73a6b72817c
   spec:
     affinity:
       nodeAffinity:
@@ -1417,7 +1635,7 @@ items:
             - key: metadata.name
               operator: In
               values:
-              - k8smaster
+              - k8s-node1
     containers:
     - command:
       - /usr/local/bin/kube-proxy
@@ -1429,7 +1647,7 @@ items:
           fieldRef:
             apiVersion: v1
             fieldPath: spec.nodeName
-      image: k8s.gcr.io/kube-proxy:v1.21.8
+      image: registry.k8s.io/kube-proxy:v1.26.2
       imagePullPolicy: IfNotPresent
       name: kube-proxy
       resources: {}
@@ -1446,12 +1664,12 @@ items:
         name: lib-modules
         readOnly: true
       - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
-        name: kube-api-access-dnrkk
+        name: kube-api-access-jmlmz
         readOnly: true
     dnsPolicy: ClusterFirst
     enableServiceLinks: true
     hostNetwork: true
-    nodeName: k8smaster
+    nodeName: k8s-node1
     nodeSelector:
       kubernetes.io/os: linux
     preemptionPolicy: PreemptLowerPriority
@@ -1464,8 +1682,6 @@ items:
     serviceAccountName: kube-proxy
     terminationGracePeriodSeconds: 30
     tolerations:
-    - key: CriticalAddonsOnly
-      operator: Exists
     - operator: Exists
     - effect: NoExecute
       key: node.kubernetes.io/not-ready
@@ -1501,7 +1717,7 @@ items:
         path: /lib/modules
         type: ""
       name: lib-modules
-    - name: kube-api-access-dnrkk
+    - name: kube-api-access-jmlmz
       projected:
         defaultMode: 420
         sources:
@@ -1522,25 +1738,25 @@ items:
   status:
     conditions:
     - lastProbeTime: null
-      lastTransitionTime: "2022-01-18T06:00:16Z"
+      lastTransitionTime: "2023-03-14T08:48:56Z"
       status: "True"
       type: Initialized
     - lastProbeTime: null
-      lastTransitionTime: "2022-01-18T06:00:17Z"
+      lastTransitionTime: "2023-03-14T08:49:35Z"
       status: "True"
       type: Ready
     - lastProbeTime: null
-      lastTransitionTime: "2022-01-18T06:00:17Z"
+      lastTransitionTime: "2023-03-14T08:49:35Z"
       status: "True"
       type: ContainersReady
     - lastProbeTime: null
-      lastTransitionTime: "2022-01-18T06:00:16Z"
+      lastTransitionTime: "2023-03-14T08:48:55Z"
       status: "True"
       type: PodScheduled
     containerStatuses:
-    - containerID: docker://e856a8c94cfe11bdaa85dcbb9478eedfa1e11284e7344d5f2bc0f94756ded3ab
-      image: k8s.gcr.io/kube-proxy:v1.21.8
-      imageID: docker-pullable://k8s.gcr.io/kube-proxy@sha256:d5334eee53a3f0ddff4588b25e7e7f5bbd96b9a728eee0ae1a19c0e1b23c29d5
+    - containerID: cri-o://591eaebb1bf763834a6d6c5b661e28afa768e63e21c41d9a1deedcce2848af29
+      image: registry.k8s.io/kube-proxy:v1.26.2
+      imageID: registry.k8s.io/kube-proxy@sha256:5dac6611aceb1452a5d4036108a15ceb0699c083a942977e30640d521e7d2078
       lastState: {}
       name: kube-proxy
       ready: true
@@ -1548,24 +1764,24 @@ items:
       started: true
       state:
         running:
-          startedAt: "2022-01-18T06:00:17Z"
-    hostIP: 192.168.118.209
+          startedAt: "2023-03-14T08:49:34Z"
+    hostIP: 192.168.118.239
     phase: Running
-    podIP: 192.168.118.209
+    podIP: 192.168.118.239
     podIPs:
-    - ip: 192.168.118.209
+    - ip: 192.168.118.239
     qosClass: BestEffort
-    startTime: "2022-01-18T06:00:16Z"
+    startTime: "2023-03-14T08:48:56Z"
 - apiVersion: v1
   kind: Pod
   metadata:
-    creationTimestamp: "2022-01-18T06:07:21Z"
+    creationTimestamp: "2023-03-14T08:32:11Z"
     generateName: kube-proxy-
     labels:
-      controller-revision-hash: 7546c69d65
+      controller-revision-hash: 6646d95c56
       k8s-app: kube-proxy
       pod-template-generation: "1"
-    name: kube-proxy-fx9mp
+    name: kube-proxy-m6cf4
     namespace: kube-system
     ownerReferences:
     - apiVersion: apps/v1
@@ -1573,9 +1789,9 @@ items:
       controller: true
       kind: DaemonSet
       name: kube-proxy
-      uid: ec8698b0-646f-414c-8029-94aa0cf5530a
-    resourceVersion: "4734"
-    uid: e58ee087-3a7d-44af-8990-9ce037f4019e
+      uid: 300bbd2a-e5ab-49a4-ba87-2dd714110394
+    resourceVersion: "72384"
+    uid: c8f8f222-ec97-4661-b485-1971ae6f6032
   spec:
     affinity:
       nodeAffinity:
@@ -1585,7 +1801,7 @@ items:
             - key: metadata.name
               operator: In
               values:
-              - k8snode1
+              - k8s-master
     containers:
     - command:
       - /usr/local/bin/kube-proxy
@@ -1597,7 +1813,7 @@ items:
           fieldRef:
             apiVersion: v1
             fieldPath: spec.nodeName
-      image: k8s.gcr.io/kube-proxy:v1.21.8
+      image: registry.k8s.io/kube-proxy:v1.26.2
       imagePullPolicy: IfNotPresent
       name: kube-proxy
       resources: {}
@@ -1614,12 +1830,12 @@ items:
         name: lib-modules
         readOnly: true
       - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
-        name: kube-api-access-967rp
+        name: kube-api-access-sdqfw
         readOnly: true
     dnsPolicy: ClusterFirst
     enableServiceLinks: true
     hostNetwork: true
-    nodeName: k8snode1
+    nodeName: k8s-master
     nodeSelector:
       kubernetes.io/os: linux
     preemptionPolicy: PreemptLowerPriority
@@ -1632,8 +1848,6 @@ items:
     serviceAccountName: kube-proxy
     terminationGracePeriodSeconds: 30
     tolerations:
-    - key: CriticalAddonsOnly
-      operator: Exists
     - operator: Exists
     - effect: NoExecute
       key: node.kubernetes.io/not-ready
@@ -1669,7 +1883,7 @@ items:
         path: /lib/modules
         type: ""
       name: lib-modules
-    - name: kube-api-access-967rp
+    - name: kube-api-access-sdqfw
       projected:
         defaultMode: 420
         sources:
@@ -1690,62 +1904,62 @@ items:
   status:
     conditions:
     - lastProbeTime: null
-      lastTransitionTime: "2022-01-18T06:07:23Z"
+      lastTransitionTime: "2023-03-14T08:32:11Z"
       status: "True"
       type: Initialized
     - lastProbeTime: null
-      lastTransitionTime: "2022-06-20T08:11:19Z"
-      status: "False"
+      lastTransitionTime: "2023-04-06T05:53:18Z"
+      status: "True"
       type: Ready
     - lastProbeTime: null
-      lastTransitionTime: "2022-01-18T06:07:43Z"
+      lastTransitionTime: "2023-04-06T05:53:18Z"
       status: "True"
       type: ContainersReady
     - lastProbeTime: null
-      lastTransitionTime: "2022-01-18T06:07:21Z"
+      lastTransitionTime: "2023-03-14T08:32:11Z"
       status: "True"
       type: PodScheduled
     containerStatuses:
-    - containerID: docker://d66f76587a0781bd7131dab7df6f04ef9e5d027c4ffd2bced6c81b6e154a4f0a
-      image: k8s.gcr.io/kube-proxy:v1.21.8
-      imageID: docker-pullable://k8s.gcr.io/kube-proxy@sha256:d5334eee53a3f0ddff4588b25e7e7f5bbd96b9a728eee0ae1a19c0e1b23c29d5
+    - containerID: cri-o://5065c3ca3499f57f33b73664267593f63ca17e4b184ca24dc79f32e48149d7f5
+      image: registry.k8s.io/kube-proxy:v1.26.2
+      imageID: registry.k8s.io/kube-proxy@sha256:5dac6611aceb1452a5d4036108a15ceb0699c083a942977e30640d521e7d2078
       lastState: {}
       name: kube-proxy
       ready: true
-      restartCount: 0
+      restartCount: 2
       started: true
       state:
         running:
-          startedAt: "2022-01-18T06:07:43Z"
-    hostIP: 192.168.118.208
+          startedAt: "2023-04-06T05:53:18Z"
+    hostIP: 192.168.118.238
     phase: Running
-    podIP: 192.168.118.208
+    podIP: 192.168.118.238
     podIPs:
-    - ip: 192.168.118.208
+    - ip: 192.168.118.238
     qosClass: BestEffort
-    startTime: "2022-01-18T06:07:23Z"
+    startTime: "2023-03-14T08:32:11Z"
 - apiVersion: v1
   kind: Pod
   metadata:
     annotations:
-      kubernetes.io/config.hash: 70dd9857b8fe2ded4b34a2d05a0bec32
-      kubernetes.io/config.mirror: 70dd9857b8fe2ded4b34a2d05a0bec32
-      kubernetes.io/config.seen: "2022-01-18T06:00:02.521338284Z"
+      kubernetes.io/config.hash: 360220c29102c5d4ce4c9c9182591b1e
+      kubernetes.io/config.mirror: 360220c29102c5d4ce4c9c9182591b1e
+      kubernetes.io/config.seen: "2023-03-14T16:31:59.547648655+08:00"
       kubernetes.io/config.source: file
-    creationTimestamp: "2022-01-18T06:00:09Z"
+    creationTimestamp: "2023-03-14T08:32:00Z"
     labels:
       component: kube-scheduler
       tier: control-plane
-    name: kube-scheduler-k8smaster
+    name: kube-scheduler-k8s-master
     namespace: kube-system
     ownerReferences:
     - apiVersion: v1
       controller: true
       kind: Node
-      name: k8smaster
-      uid: 50d99347-fa76-4fb8-93b1-70aced6b0369
-    resourceVersion: "282297"
-    uid: 4062723d-52d1-43d6-b050-42ad0c6b095a
+      name: k8s-master
+      uid: 73b10b46-027c-4c34-97c3-caacea2fbd8e
+    resourceVersion: "72394"
+    uid: d393d991-d371-4511-917b-12a144393162
   spec:
     containers:
     - command:
@@ -1755,8 +1969,7 @@ items:
       - --bind-address=127.0.0.1
       - --kubeconfig=/etc/kubernetes/scheduler.conf
       - --leader-elect=true
-      - --port=0
-      image: k8s.gcr.io/kube-scheduler:v1.21.8
+      image: registry.k8s.io/kube-scheduler:v1.26.2
       imagePullPolicy: IfNotPresent
       livenessProbe:
         failureThreshold: 8
@@ -1793,13 +2006,15 @@ items:
     dnsPolicy: ClusterFirst
     enableServiceLinks: true
     hostNetwork: true
-    nodeName: k8smaster
+    nodeName: k8s-master
     preemptionPolicy: PreemptLowerPriority
     priority: 2000001000
     priorityClassName: system-node-critical
     restartPolicy: Always
     schedulerName: default-scheduler
-    securityContext: {}
+    securityContext:
+      seccompProfile:
+        type: RuntimeDefault
     terminationGracePeriodSeconds: 30
     tolerations:
     - effect: NoExecute
@@ -1812,47 +2027,40 @@ items:
   status:
     conditions:
     - lastProbeTime: null
-      lastTransitionTime: "2022-01-18T06:00:09Z"
+      lastTransitionTime: "2023-04-06T05:52:30Z"
       status: "True"
       type: Initialized
     - lastProbeTime: null
-      lastTransitionTime: "2022-07-26T06:14:45Z"
+      lastTransitionTime: "2023-04-06T05:53:04Z"
       status: "True"
       type: Ready
     - lastProbeTime: null
-      lastTransitionTime: "2022-07-26T06:14:45Z"
+      lastTransitionTime: "2023-04-06T05:53:04Z"
       status: "True"
       type: ContainersReady
     - lastProbeTime: null
-      lastTransitionTime: "2022-01-18T06:00:09Z"
+      lastTransitionTime: "2023-04-06T05:52:30Z"
       status: "True"
       type: PodScheduled
     containerStatuses:
-    - containerID: docker://a6c48f24b501c45e2bd31b4d247fb1cd6708933a1d595a5576594172b76ca6f2
-      image: k8s.gcr.io/kube-scheduler:v1.21.8
-      imageID: docker-pullable://k8s.gcr.io/kube-scheduler@sha256:4330e60b27af54d911608d0b8e4f1b96dd3cb8817fd6d4d6f0de409c356d538e
-      lastState:
-        terminated:
-          containerID: docker://10e6435407109760bbd2e91ef9f85f9442ee58b0522f61b337af7922d0ca92cc
-          exitCode: 255
-          finishedAt: "2022-07-26T06:14:32Z"
-          reason: Error
-          startedAt: "2022-07-13T06:25:36Z"
+    - containerID: cri-o://acd5e29d365e5f75dbe019149fbe3366bf8a60b2efdf5037364070270bb0604a
+      image: registry.k8s.io/kube-scheduler:v1.26.2
+      imageID: registry.k8s.io/kube-scheduler@sha256:78ce2dc8099431b72acbf4c0000b65b67a6fa082d3ce4050c8d836a66d2e428c
+      lastState: {}
       name: kube-scheduler
       ready: true
       restartCount: 4
       started: true
       state:
         running:
-          startedAt: "2022-07-26T06:14:34Z"
-    hostIP: 192.168.118.209
+          startedAt: "2023-04-06T05:52:37Z"
+    hostIP: 192.168.118.238
     phase: Running
-    podIP: 192.168.118.209
+    podIP: 192.168.118.238
     podIPs:
-    - ip: 192.168.118.209
+    - ip: 192.168.118.238
     qosClass: Burstable
-    startTime: "2022-01-18T06:00:09Z"
+    startTime: "2023-04-06T05:52:30Z"
 kind: List
 metadata:
   resourceVersion: ""
-  selfLink: ""
