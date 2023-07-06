@@ -3,732 +3,6 @@ items:
 - apiVersion: v1
   kind: Pod
   metadata:
-    creationTimestamp: "2023-04-06T04:29:48Z"
-    generateName: nginx-app-5d47bf8b9-
-    labels:
-      app: nginx-app
-      pod-template-hash: 5d47bf8b9
-    name: nginx-app-5d47bf8b9-rxgsq
-    namespace: default
-    ownerReferences:
-    - apiVersion: apps/v1
-      blockOwnerDeletion: true
-      controller: true
-      kind: ReplicaSet
-      name: nginx-app-5d47bf8b9
-      uid: 4599239f-d8dd-48de-b1de-73811b2923f8
-    resourceVersion: "72553"
-    uid: 81e32925-b6ab-4c22-a824-b2d7bcf5b5e2
-  spec:
-    containers:
-    - image: nginx
-      imagePullPolicy: Always
-      name: nginx
-      resources: {}
-      terminationMessagePath: /dev/termination-log
-      terminationMessagePolicy: File
-      volumeMounts:
-      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
-        name: kube-api-access-gggmv
-        readOnly: true
-    dnsPolicy: ClusterFirst
-    enableServiceLinks: true
-    nodeName: k8s-node1
-    preemptionPolicy: PreemptLowerPriority
-    priority: 0
-    restartPolicy: Always
-    schedulerName: default-scheduler
-    securityContext: {}
-    serviceAccount: default
-    serviceAccountName: default
-    terminationGracePeriodSeconds: 30
-    tolerations:
-    - effect: NoExecute
-      key: node.kubernetes.io/not-ready
-      operator: Exists
-      tolerationSeconds: 300
-    - effect: NoExecute
-      key: node.kubernetes.io/unreachable
-      operator: Exists
-      tolerationSeconds: 300
-    volumes:
-    - name: kube-api-access-gggmv
-      projected:
-        defaultMode: 420
-        sources:
-        - serviceAccountToken:
-            expirationSeconds: 3607
-            path: token
-        - configMap:
-            items:
-            - key: ca.crt
-              path: ca.crt
-            name: kube-root-ca.crt
-        - downwardAPI:
-            items:
-            - fieldRef:
-                apiVersion: v1
-                fieldPath: metadata.namespace
-              path: namespace
-  status:
-    conditions:
-    - lastProbeTime: null
-      lastTransitionTime: "2023-04-06T05:53:44Z"
-      status: "True"
-      type: Initialized
-    - lastProbeTime: null
-      lastTransitionTime: "2023-04-06T05:54:13Z"
-      status: "True"
-      type: Ready
-    - lastProbeTime: null
-      lastTransitionTime: "2023-04-06T05:54:13Z"
-      status: "True"
-      type: ContainersReady
-    - lastProbeTime: null
-      lastTransitionTime: "2023-04-06T05:53:37Z"
-      status: "True"
-      type: PodScheduled
-    containerStatuses:
-    - containerID: cri-o://4447d1cef6a909f9836ddd8f22cb16f1d61606b52d8b3b7d4b5d208cb39e2f9b
-      image: docker.io/library/nginx:latest
-      imageID: docker.io/library/nginx@sha256:2ab30d6ac53580a6db8b657abf0f68d75360ff5cc1670a85acb5bd85ba1b19c0
-      lastState: {}
-      name: nginx
-      ready: true
-      restartCount: 0
-      started: true
-      state:
-        running:
-          startedAt: "2023-04-06T05:54:13Z"
-    hostIP: 192.168.118.239
-    phase: Running
-    podIP: 10.244.1.7
-    podIPs:
-    - ip: 10.244.1.7
-    qosClass: BestEffort
-    startTime: "2023-04-06T05:53:44Z"
-- apiVersion: v1
-  kind: Pod
-  metadata:
-    creationTimestamp: "2023-04-06T04:29:48Z"
-    generateName: nginx-app-5d47bf8b9-
-    labels:
-      app: nginx-app
-      pod-template-hash: 5d47bf8b9
-    name: nginx-app-5d47bf8b9-slzcx
-    namespace: default
-    ownerReferences:
-    - apiVersion: apps/v1
-      blockOwnerDeletion: true
-      controller: true
-      kind: ReplicaSet
-      name: nginx-app-5d47bf8b9
-      uid: 4599239f-d8dd-48de-b1de-73811b2923f8
-    resourceVersion: "72568"
-    uid: e9d502ee-8350-4eb9-8d01-df8a5fa9f78f
-  spec:
-    containers:
-    - image: nginx
-      imagePullPolicy: Always
-      name: nginx
-      resources: {}
-      terminationMessagePath: /dev/termination-log
-      terminationMessagePolicy: File
-      volumeMounts:
-      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
-        name: kube-api-access-dqxbw
-        readOnly: true
-    dnsPolicy: ClusterFirst
-    enableServiceLinks: true
-    nodeName: k8s-node1
-    preemptionPolicy: PreemptLowerPriority
-    priority: 0
-    restartPolicy: Always
-    schedulerName: default-scheduler
-    securityContext: {}
-    serviceAccount: default
-    serviceAccountName: default
-    terminationGracePeriodSeconds: 30
-    tolerations:
-    - effect: NoExecute
-      key: node.kubernetes.io/not-ready
-      operator: Exists
-      tolerationSeconds: 300
-    - effect: NoExecute
-      key: node.kubernetes.io/unreachable
-      operator: Exists
-      tolerationSeconds: 300
-    volumes:
-    - name: kube-api-access-dqxbw
-      projected:
-        defaultMode: 420
-        sources:
-        - serviceAccountToken:
-            expirationSeconds: 3607
-            path: token
-        - configMap:
-            items:
-            - key: ca.crt
-              path: ca.crt
-            name: kube-root-ca.crt
-        - downwardAPI:
-            items:
-            - fieldRef:
-                apiVersion: v1
-                fieldPath: metadata.namespace
-              path: namespace
-  status:
-    conditions:
-    - lastProbeTime: null
-      lastTransitionTime: "2023-04-06T05:53:44Z"
-      status: "True"
-      type: Initialized
-    - lastProbeTime: null
-      lastTransitionTime: "2023-04-06T05:54:17Z"
-      status: "True"
-      type: Ready
-    - lastProbeTime: null
-      lastTransitionTime: "2023-04-06T05:54:17Z"
-      status: "True"
-      type: ContainersReady
-    - lastProbeTime: null
-      lastTransitionTime: "2023-04-06T05:53:37Z"
-      status: "True"
-      type: PodScheduled
-    containerStatuses:
-    - containerID: cri-o://2f78d815c37e384005540363e4e65833f9f8133b927c145492a0214c2c2a5f19
-      image: docker.io/library/nginx:latest
-      imageID: docker.io/library/nginx@sha256:2ab30d6ac53580a6db8b657abf0f68d75360ff5cc1670a85acb5bd85ba1b19c0
-      lastState: {}
-      name: nginx
-      ready: true
-      restartCount: 0
-      started: true
-      state:
-        running:
-          startedAt: "2023-04-06T05:54:17Z"
-    hostIP: 192.168.118.239
-    phase: Running
-    podIP: 10.244.1.6
-    podIPs:
-    - ip: 10.244.1.6
-    qosClass: BestEffort
-    startTime: "2023-04-06T05:53:44Z"
-- apiVersion: v1
-  kind: Pod
-  metadata:
-    creationTimestamp: "2023-03-14T08:51:44Z"
-    generateName: kube-flannel-ds-
-    labels:
-      app: flannel
-      controller-revision-hash: df8594f4d
-      pod-template-generation: "1"
-      tier: node
-    name: kube-flannel-ds-5dn9b
-    namespace: kube-flannel
-    ownerReferences:
-    - apiVersion: apps/v1
-      blockOwnerDeletion: true
-      controller: true
-      kind: DaemonSet
-      name: kube-flannel-ds
-      uid: af9ab7d5-9820-403b-84fa-3935bef0dedb
-    resourceVersion: "72518"
-    uid: 7e3806cf-e5bb-45fc-aeab-e11ae0c7712d
-  spec:
-    affinity:
-      nodeAffinity:
-        requiredDuringSchedulingIgnoredDuringExecution:
-          nodeSelectorTerms:
-          - matchFields:
-            - key: metadata.name
-              operator: In
-              values:
-              - k8s-node1
-    containers:
-    - args:
-      - --ip-masq
-      - --kube-subnet-mgr
-      command:
-      - /opt/bin/flanneld
-      env:
-      - name: POD_NAME
-        valueFrom:
-          fieldRef:
-            apiVersion: v1
-            fieldPath: metadata.name
-      - name: POD_NAMESPACE
-        valueFrom:
-          fieldRef:
-            apiVersion: v1
-            fieldPath: metadata.namespace
-      - name: EVENT_QUEUE_DEPTH
-        value: "5000"
-      image: docker.io/flannel/flannel:v0.21.3
-      imagePullPolicy: IfNotPresent
-      name: kube-flannel
-      resources:
-        requests:
-          cpu: 100m
-          memory: 50Mi
-      securityContext:
-        capabilities:
-          add:
-          - NET_ADMIN
-          - NET_RAW
-        privileged: false
-      terminationMessagePath: /dev/termination-log
-      terminationMessagePolicy: File
-      volumeMounts:
-      - mountPath: /run/flannel
-        name: run
-      - mountPath: /etc/kube-flannel/
-        name: flannel-cfg
-      - mountPath: /run/xtables.lock
-        name: xtables-lock
-      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
-        name: kube-api-access-tbj7n
-        readOnly: true
-    dnsPolicy: ClusterFirst
-    enableServiceLinks: true
-    hostNetwork: true
-    initContainers:
-    - args:
-      - -f
-      - /flannel
-      - /opt/cni/bin/flannel
-      command:
-      - cp
-      image: docker.io/flannel/flannel-cni-plugin:v1.1.2
-      imagePullPolicy: IfNotPresent
-      name: install-cni-plugin
-      resources: {}
-      terminationMessagePath: /dev/termination-log
-      terminationMessagePolicy: File
-      volumeMounts:
-      - mountPath: /opt/cni/bin
-        name: cni-plugin
-      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
-        name: kube-api-access-tbj7n
-        readOnly: true
-    - args:
-      - -f
-      - /etc/kube-flannel/cni-conf.json
-      - /etc/cni/net.d/10-flannel.conflist
-      command:
-      - cp
-      image: docker.io/flannel/flannel:v0.21.3
-      imagePullPolicy: IfNotPresent
-      name: install-cni
-      resources: {}
-      terminationMessagePath: /dev/termination-log
-      terminationMessagePolicy: File
-      volumeMounts:
-      - mountPath: /etc/cni/net.d
-        name: cni
-      - mountPath: /etc/kube-flannel/
-        name: flannel-cfg
-      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
-        name: kube-api-access-tbj7n
-        readOnly: true
-    nodeName: k8s-node1
-    preemptionPolicy: PreemptLowerPriority
-    priority: 2000001000
-    priorityClassName: system-node-critical
-    restartPolicy: Always
-    schedulerName: default-scheduler
-    securityContext: {}
-    serviceAccount: flannel
-    serviceAccountName: flannel
-    terminationGracePeriodSeconds: 30
-    tolerations:
-    - effect: NoSchedule
-      operator: Exists
-    - effect: NoExecute
-      key: node.kubernetes.io/not-ready
-      operator: Exists
-    - effect: NoExecute
-      key: node.kubernetes.io/unreachable
-      operator: Exists
-    - effect: NoSchedule
-      key: node.kubernetes.io/disk-pressure
-      operator: Exists
-    - effect: NoSchedule
-      key: node.kubernetes.io/memory-pressure
-      operator: Exists
-    - effect: NoSchedule
-      key: node.kubernetes.io/pid-pressure
-      operator: Exists
-    - effect: NoSchedule
-      key: node.kubernetes.io/unschedulable
-      operator: Exists
-    - effect: NoSchedule
-      key: node.kubernetes.io/network-unavailable
-      operator: Exists
-    volumes:
-    - hostPath:
-        path: /run/flannel
-        type: ""
-      name: run
-    - hostPath:
-        path: /opt/cni/bin
-        type: ""
-      name: cni-plugin
-    - hostPath:
-        path: /etc/cni/net.d
-        type: ""
-      name: cni
-    - configMap:
-        defaultMode: 420
-        name: kube-flannel-cfg
-      name: flannel-cfg
-    - hostPath:
-        path: /run/xtables.lock
-        type: FileOrCreate
-      name: xtables-lock
-    - name: kube-api-access-tbj7n
-      projected:
-        defaultMode: 420
-        sources:
-        - serviceAccountToken:
-            expirationSeconds: 3607
-            path: token
-        - configMap:
-            items:
-            - key: ca.crt
-              path: ca.crt
-            name: kube-root-ca.crt
-        - downwardAPI:
-            items:
-            - fieldRef:
-                apiVersion: v1
-                fieldPath: metadata.namespace
-              path: namespace
-  status:
-    conditions:
-    - lastProbeTime: null
-      lastTransitionTime: "2023-03-14T08:52:09Z"
-      status: "True"
-      type: Initialized
-    - lastProbeTime: null
-      lastTransitionTime: "2023-03-14T08:52:10Z"
-      status: "True"
-      type: Ready
-    - lastProbeTime: null
-      lastTransitionTime: "2023-03-14T08:52:10Z"
-      status: "True"
-      type: ContainersReady
-    - lastProbeTime: null
-      lastTransitionTime: "2023-03-14T08:51:44Z"
-      status: "True"
-      type: PodScheduled
-    containerStatuses:
-    - containerID: cri-o://99f32f2c77657edc578132903681ad321eec04e9739300f29a17ca00a6b13d55
-      image: docker.io/flannel/flannel:v0.21.3
-      imageID: docker.io/flannel/flannel@sha256:2947963f52c22f2df17ba21e47839ad4b9123fb5545784c7922e8264e673268c
-      lastState: {}
-      name: kube-flannel
-      ready: true
-      restartCount: 0
-      started: true
-      state:
-        running:
-          startedAt: "2023-03-14T08:52:09Z"
-    hostIP: 192.168.118.239
-    initContainerStatuses:
-    - containerID: cri-o://29cdc299a7691e1d0326a1f9d6d92b9312ddcfb2d74299ac65e2a43ac0aad7b3
-      image: docker.io/flannel/flannel-cni-plugin:v1.1.2
-      imageID: docker.io/flannel/flannel-cni-plugin@sha256:bf4b62b131666d040f35a327d906ee5a3418280b68a88d9b9c7e828057210443
-      lastState: {}
-      name: install-cni-plugin
-      ready: true
-      restartCount: 0
-      state:
-        terminated:
-          containerID: cri-o://29cdc299a7691e1d0326a1f9d6d92b9312ddcfb2d74299ac65e2a43ac0aad7b3
-          exitCode: 0
-          finishedAt: "2023-03-14T08:51:55Z"
-          reason: Completed
-          startedAt: "2023-03-14T08:51:55Z"
-    - containerID: cri-o://bf804d336d0b0bd7c4d21e3660c5aced81f9722935c8c70bfabed0527c7d849d
-      image: docker.io/flannel/flannel:v0.21.3
-      imageID: docker.io/flannel/flannel@sha256:2947963f52c22f2df17ba21e47839ad4b9123fb5545784c7922e8264e673268c
-      lastState: {}
-      name: install-cni
-      ready: true
-      restartCount: 0
-      state:
-        terminated:
-          containerID: cri-o://bf804d336d0b0bd7c4d21e3660c5aced81f9722935c8c70bfabed0527c7d849d
-          exitCode: 0
-          finishedAt: "2023-03-14T08:52:09Z"
-          reason: Completed
-          startedAt: "2023-03-14T08:52:09Z"
-    phase: Running
-    podIP: 192.168.118.239
-    podIPs:
-    - ip: 192.168.118.239
-    qosClass: Burstable
-    startTime: "2023-03-14T08:51:44Z"
-- apiVersion: v1
-  kind: Pod
-  metadata:
-    creationTimestamp: "2023-03-14T08:51:44Z"
-    generateName: kube-flannel-ds-
-    labels:
-      app: flannel
-      controller-revision-hash: df8594f4d
-      pod-template-generation: "1"
-      tier: node
-    name: kube-flannel-ds-lqpnh
-    namespace: kube-flannel
-    ownerReferences:
-    - apiVersion: apps/v1
-      blockOwnerDeletion: true
-      controller: true
-      kind: DaemonSet
-      name: kube-flannel-ds
-      uid: af9ab7d5-9820-403b-84fa-3935bef0dedb
-    resourceVersion: "72430"
-    uid: b36b3c19-8737-4a61-8803-78f64347ba33
-  spec:
-    affinity:
-      nodeAffinity:
-        requiredDuringSchedulingIgnoredDuringExecution:
-          nodeSelectorTerms:
-          - matchFields:
-            - key: metadata.name
-              operator: In
-              values:
-              - k8s-master
-    containers:
-    - args:
-      - --ip-masq
-      - --kube-subnet-mgr
-      command:
-      - /opt/bin/flanneld
-      env:
-      - name: POD_NAME
-        valueFrom:
-          fieldRef:
-            apiVersion: v1
-            fieldPath: metadata.name
-      - name: POD_NAMESPACE
-        valueFrom:
-          fieldRef:
-            apiVersion: v1
-            fieldPath: metadata.namespace
-      - name: EVENT_QUEUE_DEPTH
-        value: "5000"
-      image: docker.io/flannel/flannel:v0.21.3
-      imagePullPolicy: IfNotPresent
-      name: kube-flannel
-      resources:
-        requests:
-          cpu: 100m
-          memory: 50Mi
-      securityContext:
-        capabilities:
-          add:
-          - NET_ADMIN
-          - NET_RAW
-        privileged: false
-      terminationMessagePath: /dev/termination-log
-      terminationMessagePolicy: File
-      volumeMounts:
-      - mountPath: /run/flannel
-        name: run
-      - mountPath: /etc/kube-flannel/
-        name: flannel-cfg
-      - mountPath: /run/xtables.lock
-        name: xtables-lock
-      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
-        name: kube-api-access-75sms
-        readOnly: true
-    dnsPolicy: ClusterFirst
-    enableServiceLinks: true
-    hostNetwork: true
-    initContainers:
-    - args:
-      - -f
-      - /flannel
-      - /opt/cni/bin/flannel
-      command:
-      - cp
-      image: docker.io/flannel/flannel-cni-plugin:v1.1.2
-      imagePullPolicy: IfNotPresent
-      name: install-cni-plugin
-      resources: {}
-      terminationMessagePath: /dev/termination-log
-      terminationMessagePolicy: File
-      volumeMounts:
-      - mountPath: /opt/cni/bin
-        name: cni-plugin
-      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
-        name: kube-api-access-75sms
-        readOnly: true
-    - args:
-      - -f
-      - /etc/kube-flannel/cni-conf.json
-      - /etc/cni/net.d/10-flannel.conflist
-      command:
-      - cp
-      image: docker.io/flannel/flannel:v0.21.3
-      imagePullPolicy: IfNotPresent
-      name: install-cni
-      resources: {}
-      terminationMessagePath: /dev/termination-log
-      terminationMessagePolicy: File
-      volumeMounts:
-      - mountPath: /etc/cni/net.d
-        name: cni
-      - mountPath: /etc/kube-flannel/
-        name: flannel-cfg
-      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
-        name: kube-api-access-75sms
-        readOnly: true
-    nodeName: k8s-master
-    preemptionPolicy: PreemptLowerPriority
-    priority: 2000001000
-    priorityClassName: system-node-critical
-    restartPolicy: Always
-    schedulerName: default-scheduler
-    securityContext: {}
-    serviceAccount: flannel
-    serviceAccountName: flannel
-    terminationGracePeriodSeconds: 30
-    tolerations:
-    - effect: NoSchedule
-      operator: Exists
-    - effect: NoExecute
-      key: node.kubernetes.io/not-ready
-      operator: Exists
-    - effect: NoExecute
-      key: node.kubernetes.io/unreachable
-      operator: Exists
-    - effect: NoSchedule
-      key: node.kubernetes.io/disk-pressure
-      operator: Exists
-    - effect: NoSchedule
-      key: node.kubernetes.io/memory-pressure
-      operator: Exists
-    - effect: NoSchedule
-      key: node.kubernetes.io/pid-pressure
-      operator: Exists
-    - effect: NoSchedule
-      key: node.kubernetes.io/unschedulable
-      operator: Exists
-    - effect: NoSchedule
-      key: node.kubernetes.io/network-unavailable
-      operator: Exists
-    volumes:
-    - hostPath:
-        path: /run/flannel
-        type: ""
-      name: run
-    - hostPath:
-        path: /opt/cni/bin
-        type: ""
-      name: cni-plugin
-    - hostPath:
-        path: /etc/cni/net.d
-        type: ""
-      name: cni
-    - configMap:
-        defaultMode: 420
-        name: kube-flannel-cfg
-      name: flannel-cfg
-    - hostPath:
-        path: /run/xtables.lock
-        type: FileOrCreate
-      name: xtables-lock
-    - name: kube-api-access-75sms
-      projected:
-        defaultMode: 420
-        sources:
-        - serviceAccountToken:
-            expirationSeconds: 3607
-            path: token
-        - configMap:
-            items:
-            - key: ca.crt
-              path: ca.crt
-            name: kube-root-ca.crt
-        - downwardAPI:
-            items:
-            - fieldRef:
-                apiVersion: v1
-                fieldPath: metadata.namespace
-              path: namespace
-  status:
-    conditions:
-    - lastProbeTime: null
-      lastTransitionTime: "2023-03-14T08:52:11Z"
-      status: "True"
-      type: Initialized
-    - lastProbeTime: null
-      lastTransitionTime: "2023-04-06T05:53:25Z"
-      status: "True"
-      type: Ready
-    - lastProbeTime: null
-      lastTransitionTime: "2023-04-06T05:53:25Z"
-      status: "True"
-      type: ContainersReady
-    - lastProbeTime: null
-      lastTransitionTime: "2023-03-14T08:51:44Z"
-      status: "True"
-      type: PodScheduled
-    containerStatuses:
-    - containerID: cri-o://6cd5c1e787c4cb44924a56070d359affdd40ee8a89ca9852a0ce608ff7912418
-      image: docker.io/flannel/flannel:v0.21.3
-      imageID: docker.io/flannel/flannel@sha256:2947963f52c22f2df17ba21e47839ad4b9123fb5545784c7922e8264e673268c
-      lastState: {}
-      name: kube-flannel
-      ready: true
-      restartCount: 2
-      started: true
-      state:
-        running:
-          startedAt: "2023-04-06T05:53:24Z"
-    hostIP: 192.168.118.238
-    initContainerStatuses:
-    - containerID: cri-o://0eb1356a66d954858ba1954fcfac630a612d26e3d11f3289951245ce601739b0
-      image: docker.io/flannel/flannel-cni-plugin:v1.1.2
-      imageID: docker.io/flannel/flannel-cni-plugin@sha256:bf4b62b131666d040f35a327d906ee5a3418280b68a88d9b9c7e828057210443
-      lastState: {}
-      name: install-cni-plugin
-      ready: true
-      restartCount: 2
-      state:
-        terminated:
-          containerID: cri-o://0eb1356a66d954858ba1954fcfac630a612d26e3d11f3289951245ce601739b0
-          exitCode: 0
-          finishedAt: "2023-04-06T05:53:18Z"
-          reason: Completed
-          startedAt: "2023-04-06T05:53:18Z"
-    - containerID: cri-o://35f866685755d4150814c00c7895ae6c2f3df8aac0f986c064e5fbc09dbafbb7
-      image: docker.io/flannel/flannel:v0.21.3
-      imageID: docker.io/flannel/flannel@sha256:2947963f52c22f2df17ba21e47839ad4b9123fb5545784c7922e8264e673268c
-      lastState: {}
-      name: install-cni
-      ready: true
-      restartCount: 2
-      state:
-        terminated:
-          containerID: cri-o://35f866685755d4150814c00c7895ae6c2f3df8aac0f986c064e5fbc09dbafbb7
-          exitCode: 0
-          finishedAt: "2023-04-06T05:53:21Z"
-          reason: Completed
-          startedAt: "2023-04-06T05:53:21Z"
-    phase: Running
-    podIP: 192.168.118.238
-    podIPs:
-    - ip: 192.168.118.238
-    qosClass: Burstable
-    startTime: "2023-03-14T08:51:44Z"
-- apiVersion: v1
-  kind: Pod
-  metadata:
     creationTimestamp: "2023-03-14T08:32:11Z"
     generateName: coredns-787d4945fb-
     labels:
@@ -743,7 +17,7 @@ items:
       kind: ReplicaSet
       name: coredns-787d4945fb
       uid: ced94e81-f902-48f1-a591-c9b501fc6969
-    resourceVersion: "72447"
+    resourceVersion: "201587"
     uid: f2269da7-3e11-4465-91cc-2fb81c7256c0
   spec:
     affinity:
@@ -877,11 +151,11 @@ items:
       status: "True"
       type: Initialized
     - lastProbeTime: null
-      lastTransitionTime: "2023-04-06T05:53:32Z"
+      lastTransitionTime: "2023-07-06T06:53:47Z"
       status: "True"
       type: Ready
     - lastProbeTime: null
-      lastTransitionTime: "2023-04-06T05:53:32Z"
+      lastTransitionTime: "2023-07-06T06:53:47Z"
       status: "True"
       type: ContainersReady
     - lastProbeTime: null
@@ -889,22 +163,23 @@ items:
       status: "True"
       type: PodScheduled
     containerStatuses:
-    - containerID: cri-o://015c598ecc7a66258c920ab8029fc38e35db744606bd726c5a4ee9c9749f98d5
+    - containerID: cri-o://c10afab6b5260e0b661bc2c4356ae1cffd59816e061a522507e418b11f209c53
       image: registry.k8s.io/coredns/coredns:v1.9.3
       imageID: registry.k8s.io/coredns/coredns@sha256:8e352a029d304ca7431c6507b56800636c321cb52289686a581ab70aaa8a2e2a
       lastState: {}
       name: coredns
       ready: true
-      restartCount: 184
+      restartCount: 486
       started: true
       state:
         running:
-          startedAt: "2023-04-06T05:53:30Z"
+          startedAt: "2023-07-06T06:53:14Z"
     hostIP: 192.168.118.238
     phase: Running
-    podIP: 10.244.0.4
+    podIP: 10.85.0.11
     podIPs:
-    - ip: 10.244.0.4
+    - ip: 10.85.0.11
+    - ip: 1100:200::b
     qosClass: Burstable
     startTime: "2023-03-14T08:32:11Z"
 - apiVersion: v1
@@ -924,7 +199,7 @@ items:
       kind: ReplicaSet
       name: coredns-787d4945fb
       uid: ced94e81-f902-48f1-a591-c9b501fc6969
-    resourceVersion: "72455"
+    resourceVersion: "201584"
     uid: b15b7fc5-929c-4a1d-8651-624b19784548
   spec:
     affinity:
@@ -1058,11 +333,11 @@ items:
       status: "True"
       type: Initialized
     - lastProbeTime: null
-      lastTransitionTime: "2023-04-06T05:53:34Z"
+      lastTransitionTime: "2023-07-06T06:53:47Z"
       status: "True"
       type: Ready
     - lastProbeTime: null
-      lastTransitionTime: "2023-04-06T05:53:34Z"
+      lastTransitionTime: "2023-07-06T06:53:47Z"
       status: "True"
       type: ContainersReady
     - lastProbeTime: null
@@ -1070,22 +345,23 @@ items:
       status: "True"
       type: PodScheduled
     containerStatuses:
-    - containerID: cri-o://c019721637549419b8178770e88a4cbf2047cc7643b1658c964471539e45ad09
+    - containerID: cri-o://09980b278dda9087f76d980a70b53bd88a12d21b6efb516756f65bb7f711f1b7
       image: registry.k8s.io/coredns/coredns:v1.9.3
       imageID: registry.k8s.io/coredns/coredns@sha256:8e352a029d304ca7431c6507b56800636c321cb52289686a581ab70aaa8a2e2a
       lastState: {}
       name: coredns
       ready: true
-      restartCount: 184
+      restartCount: 487
       started: true
       state:
         running:
-          startedAt: "2023-04-06T05:53:33Z"
+          startedAt: "2023-07-06T06:53:12Z"
     hostIP: 192.168.118.238
     phase: Running
-    podIP: 10.244.0.5
+    podIP: 10.85.0.10
     podIPs:
-    - ip: 10.244.0.5
+    - ip: 10.85.0.10
+    - ip: 1100:200::a
     qosClass: Burstable
     startTime: "2023-03-14T08:32:11Z"
 - apiVersion: v1
@@ -1109,7 +385,7 @@ items:
       kind: Node
       name: k8s-master
       uid: 73b10b46-027c-4c34-97c3-caacea2fbd8e
-    resourceVersion: "72395"
+    resourceVersion: "201481"
     uid: 333f0bc1-6edd-404e-9673-65f4ed92574f
   spec:
     containers:
@@ -1198,40 +474,40 @@ items:
   status:
     conditions:
     - lastProbeTime: null
-      lastTransitionTime: "2023-04-06T05:52:30Z"
+      lastTransitionTime: "2023-07-06T06:52:38Z"
       status: "True"
       type: Initialized
     - lastProbeTime: null
-      lastTransitionTime: "2023-04-06T05:52:56Z"
+      lastTransitionTime: "2023-07-06T06:53:00Z"
       status: "True"
       type: Ready
     - lastProbeTime: null
-      lastTransitionTime: "2023-04-06T05:52:56Z"
+      lastTransitionTime: "2023-07-06T06:53:00Z"
       status: "True"
       type: ContainersReady
     - lastProbeTime: null
-      lastTransitionTime: "2023-04-06T05:52:30Z"
+      lastTransitionTime: "2023-07-06T06:52:38Z"
       status: "True"
       type: PodScheduled
     containerStatuses:
-    - containerID: cri-o://0825db2241bcaa2fde47ef5cbf5649f9a7f3e15e4d557fa0674f717a00c9be04
+    - containerID: cri-o://ffa53f6ec8913ae8c4f5ae53d63f538a4883a3f412e7d09095d502913ebcf8c2
       image: registry.k8s.io/etcd:3.5.6-0
       imageID: registry.k8s.io/etcd@sha256:b0fdb657c0bd10d8c96ed2ce762842384709a9fc54d532220d5252f1f99b4d1d
       lastState: {}
       name: etcd
       ready: true
-      restartCount: 2
+      restartCount: 4
       started: true
       state:
         running:
-          startedAt: "2023-04-06T05:52:36Z"
+          startedAt: "2023-07-06T06:52:42Z"
     hostIP: 192.168.118.238
     phase: Running
     podIP: 192.168.118.238
     podIPs:
     - ip: 192.168.118.238
     qosClass: Burstable
-    startTime: "2023-04-06T05:52:30Z"
+    startTime: "2023-07-06T06:52:38Z"
 - apiVersion: v1
   kind: Pod
   metadata:
@@ -1253,7 +529,7 @@ items:
       kind: Node
       name: k8s-master
       uid: 73b10b46-027c-4c34-97c3-caacea2fbd8e
-    resourceVersion: "72401"
+    resourceVersion: "201498"
     uid: 5258e8ae-728a-424a-abbc-1d01f13b031c
   spec:
     containers:
@@ -1389,40 +665,40 @@ items:
   status:
     conditions:
     - lastProbeTime: null
-      lastTransitionTime: "2023-03-17T02:49:38Z"
+      lastTransitionTime: "2023-07-06T06:52:38Z"
       status: "True"
       type: Initialized
     - lastProbeTime: null
-      lastTransitionTime: "2023-04-06T05:53:20Z"
+      lastTransitionTime: "2023-07-06T06:53:03Z"
       status: "True"
       type: Ready
     - lastProbeTime: null
-      lastTransitionTime: "2023-04-06T05:53:20Z"
+      lastTransitionTime: "2023-07-06T06:53:03Z"
       status: "True"
       type: ContainersReady
     - lastProbeTime: null
-      lastTransitionTime: "2023-03-17T02:49:38Z"
+      lastTransitionTime: "2023-07-06T06:52:38Z"
       status: "True"
       type: PodScheduled
     containerStatuses:
-    - containerID: cri-o://8d6fac3784a761805c4f71f97ad586604c2f4207e849215dae19af62231a070a
+    - containerID: cri-o://883ad8dec780b1c738d2296b91396726c2a4bcd8b0e50255afb06737b621c680
       image: registry.k8s.io/kube-apiserver:v1.26.2
       imageID: registry.k8s.io/kube-apiserver@sha256:0f03b93af45f39704b7da175db31e20da63d2ab369f350e59de8cbbef9d703e0
       lastState: {}
       name: kube-apiserver
       ready: true
-      restartCount: 22
+      restartCount: 11
       started: true
       state:
         running:
-          startedAt: "2023-04-06T05:52:35Z"
+          startedAt: "2023-07-06T06:52:40Z"
     hostIP: 192.168.118.238
     phase: Running
     podIP: 192.168.118.238
     podIPs:
     - ip: 192.168.118.238
     qosClass: Burstable
-    startTime: "2023-03-17T02:49:38Z"
+    startTime: "2023-07-06T06:52:38Z"
 - apiVersion: v1
   kind: Pod
   metadata:
@@ -1443,7 +719,7 @@ items:
       kind: Node
       name: k8s-master
       uid: 73b10b46-027c-4c34-97c3-caacea2fbd8e
-    resourceVersion: "72397"
+    resourceVersion: "201452"
     uid: e9dc324f-7b1c-42d5-baa0-66d14aedc190
   spec:
     containers:
@@ -1572,40 +848,40 @@ items:
   status:
     conditions:
     - lastProbeTime: null
-      lastTransitionTime: "2023-04-06T05:52:30Z"
+      lastTransitionTime: "2023-07-06T06:52:38Z"
       status: "True"
       type: Initialized
     - lastProbeTime: null
-      lastTransitionTime: "2023-04-06T05:52:53Z"
+      lastTransitionTime: "2023-07-06T06:52:58Z"
       status: "True"
       type: Ready
     - lastProbeTime: null
-      lastTransitionTime: "2023-04-06T05:52:53Z"
+      lastTransitionTime: "2023-07-06T06:52:58Z"
       status: "True"
       type: ContainersReady
     - lastProbeTime: null
-      lastTransitionTime: "2023-04-06T05:52:30Z"
+      lastTransitionTime: "2023-07-06T06:52:38Z"
       status: "True"
       type: PodScheduled
     containerStatuses:
-    - containerID: cri-o://9f9b8a319c5cc13ecf7766caad5ebb9fd09b29fcd98c894d22be8945e8d66aae
+    - containerID: cri-o://76bd5c5770ac6df94df66961f8ea839014021c64dc1552a9bad5dd8b596d2f16
       image: registry.k8s.io/kube-controller-manager:v1.26.2
       imageID: registry.k8s.io/kube-controller-manager@sha256:5434d52f88eb16bc5e98ccb65e97e97cb5cf7861749afbf26174d27c4ece1fad
       lastState: {}
       name: kube-controller-manager
       ready: true
-      restartCount: 4
+      restartCount: 6
       started: true
       state:
         running:
-          startedAt: "2023-04-06T05:52:36Z"
+          startedAt: "2023-07-06T06:52:41Z"
     hostIP: 192.168.118.238
     phase: Running
     podIP: 192.168.118.238
     podIPs:
     - ip: 192.168.118.238
     qosClass: Burstable
-    startTime: "2023-04-06T05:52:30Z"
+    startTime: "2023-07-06T06:52:38Z"
 - apiVersion: v1
   kind: Pod
   metadata:
@@ -1624,7 +900,7 @@ items:
       kind: DaemonSet
       name: kube-proxy
       uid: 300bbd2a-e5ab-49a4-ba87-2dd714110394
-    resourceVersion: "72520"
+    resourceVersion: "201471"
     uid: d4d0c19a-fcd8-470a-a17b-f73a6b72817c
   spec:
     affinity:
@@ -1742,11 +1018,11 @@ items:
       status: "True"
       type: Initialized
     - lastProbeTime: null
-      lastTransitionTime: "2023-03-14T08:49:35Z"
+      lastTransitionTime: "2023-07-06T06:53:00Z"
       status: "True"
       type: Ready
     - lastProbeTime: null
-      lastTransitionTime: "2023-03-14T08:49:35Z"
+      lastTransitionTime: "2023-07-06T06:53:00Z"
       status: "True"
       type: ContainersReady
     - lastProbeTime: null
@@ -1754,17 +1030,17 @@ items:
       status: "True"
       type: PodScheduled
     containerStatuses:
-    - containerID: cri-o://591eaebb1bf763834a6d6c5b661e28afa768e63e21c41d9a1deedcce2848af29
+    - containerID: cri-o://81051312c21bba89434b80ab84c18255fa6f5be860c2591405500c6b5eff013a
       image: registry.k8s.io/kube-proxy:v1.26.2
       imageID: registry.k8s.io/kube-proxy@sha256:5dac6611aceb1452a5d4036108a15ceb0699c083a942977e30640d521e7d2078
       lastState: {}
       name: kube-proxy
       ready: true
-      restartCount: 0
+      restartCount: 3
       started: true
       state:
         running:
-          startedAt: "2023-03-14T08:49:34Z"
+          startedAt: "2023-07-06T06:52:59Z"
     hostIP: 192.168.118.239
     phase: Running
     podIP: 192.168.118.239
@@ -1790,7 +1066,7 @@ items:
       kind: DaemonSet
       name: kube-proxy
       uid: 300bbd2a-e5ab-49a4-ba87-2dd714110394
-    resourceVersion: "72384"
+    resourceVersion: "201522"
     uid: c8f8f222-ec97-4661-b485-1971ae6f6032
   spec:
     affinity:
@@ -1908,11 +1184,11 @@ items:
       status: "True"
       type: Initialized
     - lastProbeTime: null
-      lastTransitionTime: "2023-04-06T05:53:18Z"
+      lastTransitionTime: "2023-07-06T06:53:15Z"
       status: "True"
       type: Ready
     - lastProbeTime: null
-      lastTransitionTime: "2023-04-06T05:53:18Z"
+      lastTransitionTime: "2023-07-06T06:53:15Z"
       status: "True"
       type: ContainersReady
     - lastProbeTime: null
@@ -1920,17 +1196,17 @@ items:
       status: "True"
       type: PodScheduled
     containerStatuses:
-    - containerID: cri-o://5065c3ca3499f57f33b73664267593f63ca17e4b184ca24dc79f32e48149d7f5
+    - containerID: cri-o://ee6154428dc72780b0fd16601c125daf7dc3076119635201af75eeca8e1a0807
       image: registry.k8s.io/kube-proxy:v1.26.2
       imageID: registry.k8s.io/kube-proxy@sha256:5dac6611aceb1452a5d4036108a15ceb0699c083a942977e30640d521e7d2078
       lastState: {}
       name: kube-proxy
       ready: true
-      restartCount: 2
+      restartCount: 4
       started: true
       state:
         running:
-          startedAt: "2023-04-06T05:53:18Z"
+          startedAt: "2023-07-06T06:53:15Z"
     hostIP: 192.168.118.238
     phase: Running
     podIP: 192.168.118.238
@@ -1958,7 +1234,7 @@ items:
       kind: Node
       name: k8s-master
       uid: 73b10b46-027c-4c34-97c3-caacea2fbd8e
-    resourceVersion: "72394"
+    resourceVersion: "201489"
     uid: d393d991-d371-4511-917b-12a144393162
   spec:
     containers:
@@ -2027,40 +1303,40 @@ items:
   status:
     conditions:
     - lastProbeTime: null
-      lastTransitionTime: "2023-04-06T05:52:30Z"
+      lastTransitionTime: "2023-07-06T06:52:39Z"
       status: "True"
       type: Initialized
     - lastProbeTime: null
-      lastTransitionTime: "2023-04-06T05:53:04Z"
+      lastTransitionTime: "2023-07-06T06:53:02Z"
       status: "True"
       type: Ready
     - lastProbeTime: null
-      lastTransitionTime: "2023-04-06T05:53:04Z"
+      lastTransitionTime: "2023-07-06T06:53:02Z"
       status: "True"
       type: ContainersReady
     - lastProbeTime: null
-      lastTransitionTime: "2023-04-06T05:52:30Z"
+      lastTransitionTime: "2023-07-06T06:52:39Z"
       status: "True"
       type: PodScheduled
     containerStatuses:
-    - containerID: cri-o://acd5e29d365e5f75dbe019149fbe3366bf8a60b2efdf5037364070270bb0604a
+    - containerID: cri-o://1ecaa2a93fb8cd9a945764731a55c2216eec11ff30ddda98c9d7d3bdeca9bfac
       image: registry.k8s.io/kube-scheduler:v1.26.2
       imageID: registry.k8s.io/kube-scheduler@sha256:78ce2dc8099431b72acbf4c0000b65b67a6fa082d3ce4050c8d836a66d2e428c
       lastState: {}
       name: kube-scheduler
       ready: true
-      restartCount: 4
+      restartCount: 6
       started: true
       state:
         running:
-          startedAt: "2023-04-06T05:52:37Z"
+          startedAt: "2023-07-06T06:52:43Z"
     hostIP: 192.168.118.238
     phase: Running
     podIP: 192.168.118.238
     podIPs:
     - ip: 192.168.118.238
     qosClass: Burstable
-    startTime: "2023-04-06T05:52:30Z"
+    startTime: "2023-07-06T06:52:39Z"
 kind: List
 metadata:
   resourceVersion: ""

@@ -6,6 +6,7 @@ import glob
 import yaml
 import json
 import argparse
+import base64
 
 global outputDirectory
 outputDirectory={}
@@ -13,10 +14,7 @@ outputDirectory={}
 f = open('output.csv', 'w')
 writer = csv.writer(f)
 f_ch5_test = open('ch5_test.txt', 'w')
-map_table=open("map_table.yaml")
-map_table = yaml.load(map_table, Loader=yaml.FullLoader)
-ignore_table=open("ignore.yaml")
-ignore_table = yaml.load(ignore_table, Loader=yaml.FullLoader)
+
 print('[*]Load mapping table between 3GPP-818-ID and CIS-1.20-ID')
 
 configYamlList= []
@@ -32,6 +30,7 @@ k8sConfigList={
 "/bin/ps -ef | grep kube-apiserver | grep -v grep":"k8s_api"
 }
 count=0
+#runAudit(0,"cd /usr/local/kubernetes/current/stage2/usr/bin")
 for i in range(len(k8sConfigList)):
     keyName=list(k8sConfigList.keys())[i]
     configfile = runAudit(0,keyName)
@@ -44,6 +43,15 @@ for i in range(len(k8sConfigList)):
     #print(count)
 print('[*]Retrieve related configuration in k8s with yaml format')
 
+def preloadConfig():
+    map_table=open("map_table.yaml")
+    map_table = yaml.load(map_table, Loader=yaml.FullLoader)
+    ignore_table=open("ignore.yaml")
+    ignore_table = yaml.load(ignore_table, Loader=yaml.FullLoader)
+    ch5_yaml = open('./ch5_policies_specific.yaml')
+    ch5_yaml = yaml.load(ch5_yaml, Loader=yaml.FullLoader)
+    return map_table, ignore_table, ch5_yaml
+
 def loadAllTest():
     yamlList = []
     for file in sorted(glob.glob('./cis_1_20/*.yaml')):
@@ -55,6 +63,7 @@ def loadAllTest():
     return yamlList
 
 def runTest(bm):
+    map_table, ignore_table, ch5_yaml = preloadConfig()
     yf = parsed_yaml_file(bm)
     for k in range(yf.getMaxId()):
         for i in range(yf.getMaxSubId(k)):
@@ -64,9 +73,9 @@ def runTest(bm):
                 #print("ignore: ",yf.check.id,"\n")
                 pass
             elif str(map_table[yf.check.id]) not in outputDirectory.keys():
-                outputDirectory[str(map_table[yf.check.id])]=[{'3GPP818ID':str(map_table[yf.check.id])},{'CISID': str(yf.check.id),'CISResult':yf.check.execute(),'audit output5':yf.check.line}]
+                outputDirectory[str(map_table[yf.check.id])]=[{'3GPP818ID':str(map_table[yf.check.id])},{'CISID': str(yf.check.id),'CISResult':yf.check.execute(),'audit output':yf.check.line}]
             else:
-                outputDirectory[str(map_table[yf.check.id])]=outputDirectory[str(map_table[yf.check.id])]+[{'CISID': str(yf.check.id),'CISResult':yf.check.execute(),'audit output6':yf.check.line}]
+                outputDirectory[str(map_table[yf.check.id])]=outputDirectory[str(map_table[yf.check.id])]+[{'CISID': str(yf.check.id),'CISResult':yf.check.execute(),'audit output':yf.check.line}]
             #print(outputDirectory)
 
 def outputDirectorySortedResult(directoryList):
@@ -104,14 +113,12 @@ def outputDirectorySortedResult(directoryList):
 
 
 def main():
+    map_table, ignore_table, ch5_yaml = preloadConfig()
     benchMarks = loadAllTest()
     for i in range(len(benchMarks)):
         runTest(benchMarks[i])
     print('[*]CIS-CH1、CIS-CH2、CIS-CH3 are audited!')
-
-    ch5_yaml = open('./ch5_policies_specific.yaml')
-    ch5_yaml = yaml.load(ch5_yaml, Loader=yaml.FullLoader)
-    #yf = parsed_yaml_file(ch5_yaml)
+    
     ch5Yf=k8s_config_check(ch5_yaml)
     count=0
     for k in range(ch5Yf.getMaxId()):
@@ -127,14 +134,14 @@ def main():
                 pass
             elif ch5Yf.check.type=="3GPP818":
                 if str(ch5Yf.check.id) not in outputDirectory.keys():
-                    outputDirectory[str(ch5Yf.check.id)]=[{'3GPP818ID':str(ch5Yf.check.id)},{'CISResult':"Manual",'audit output1':ch5Yf.check.line}]
+                    outputDirectory[str(ch5Yf.check.id)]=[{'3GPP818ID':str(ch5Yf.check.id)},{'CISResult':"Manual",'audit output':ch5Yf.check.line}]
                 else:
-                    outputDirectory[str(ch5Yf.check.id)]=outputDirectory[str(ch5Yf.check.id)]+[{'CISResult':"Manual",'audit output2':ch5Yf.check.line}]
+                    outputDirectory[str(ch5Yf.check.id)]=outputDirectory[str(ch5Yf.check.id)]+[{'CISResult':"Manual",'audit output':ch5Yf.check.line}]
             elif ch5Yf.check.type=="CIS":
                 if map_table[str(ch5Yf.check.id)] not in outputDirectory.keys():
-                    outputDirectory[str(map_table[ch5Yf.check.id])]=[{'3GPP818ID':str(map_table[ch5Yf.check.id])},{'CISID': ch5Yf.check.id,'CISResult':"Manual",'audit output3':ch5Yf.check.line}]
+                    outputDirectory[str(map_table[ch5Yf.check.id])]=[{'3GPP818ID':str(map_table[ch5Yf.check.id])},{'CISID': ch5Yf.check.id,'CISResult':"Manual",'audit output':ch5Yf.check.line}]
                 else:
-                    outputDirectory[str(map_table[ch5Yf.check.id])]=outputDirectory[str(map_table[ch5Yf.check.id])]+[{'CISID': ch5Yf.check.id,'CISResult':"Manual",'audit output4':ch5Yf.check.line}]
+                    outputDirectory[str(map_table[ch5Yf.check.id])]=outputDirectory[str(map_table[ch5Yf.check.id])]+[{'CISID': ch5Yf.check.id,'CISResult':"Manual",'audit output':ch5Yf.check.line}]
             count+=1
             #print(count)
 

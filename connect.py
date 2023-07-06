@@ -16,20 +16,23 @@ def runAudit(num, command):
         input.flush()
     line=output.readlines()
     if len(line) == 0:
-        line.insert(0,"")
+        #line.insert(0,"")
+        line=e.readlines()
     return line
 
 parser = argparse.ArgumentParser()
 parser.add_argument("-TargetedIP", help="Target IP address of kubernetes you want to login via ssh connection)")
 parser.add_argument("-Username", help="User name to login via ssh connection")
+parser.add_argument("-Password", help="Password to login via ssh connection")
 args = parser.parse_args()
 
 ssh = paramiko.SSHClient()
 ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
 #pass1 = getpass.getpass('Please input password to login via ssh connection: ')
-pass1='12'
-ssh.connect(hostname=args.TargetedIP, username=args.Username, password=pass1, allow_agent = 'true', timeout=10)
+pass1=args.Password
+ssh.connect(hostname=args.TargetedIP, username=args.Username, password=args.Password, allow_agent = 'true', timeout=10)
 print('[*]Login successfully with SSH connection ')
+#print(runAudit(0,"/usr/local/kubernetes/current/stage2/usr/bin/kubectl config view"))
 
 class k8s_config_check:
     def __init__(self,yf):
@@ -159,7 +162,7 @@ class k8s_config_check:
 
     def pspcheck(self,compareStr,configYamlList):
         secretList=""
-        if configYamlList[7] is None: #k8s_psp
+        if configYamlList[7] is None or configYamlList[7].get("items") is None: #k8s_psp
             self.items=""
         else:
             self.items=configYamlList[7]["items"]
@@ -206,7 +209,7 @@ class k8s_config_check:
         secretList=""
         directoryList=runAudit(0,"find /etc/kubernetes/pki/ -name \*.key -type f")
         for i in range(len(directoryList)):
-            keyContent=runAudit(0,"sudo -S openssl rsa -in "+directoryList[i][0:-1]+" -noout -text|grep \"RSA Private-Key\"")
+            keyContent=runAudit(0,"sudo -S openssl rsa -in "+directoryList[i][0:-1]+" -noout -text|grep \"Private-Key\"")
             secretList=secretList+directoryList[i][0:-1]+" : "+keyContent[0]
         return secretList
 
