@@ -188,10 +188,10 @@ Ensure that all Namespaces have Network Policies defined (Manual)
 ===Audit Result===
 Networkpolicy_Name
 NAME              STATUS   AGE
-default           Active   113d
-kube-node-lease   Active   113d
-kube-public       Active   113d
-kube-system       Active   113d
+default           Active   131d
+kube-node-lease   Active   131d
+kube-public       Active   131d
+kube-system       Active   131d
 ===Audit Result===
 
 5.4.1
@@ -215,25 +215,25 @@ admission-control-config-file is not setted!
 Create administrative boundaries between resources using namespaces (Manual)
 ===Audit Result===
 NAME              STATUS   AGE
-default           Active   113d
-kube-node-lease   Active   113d
-kube-public       Active   113d
-kube-system       Active   113d
+default           Active   131d
+kube-node-lease   Active   131d
+kube-public       Active   131d
+kube-system       Active   131d
 ===Audit Result===
 
 5.7.2
 Ensure that the seccomp profile is set to docker/default in your pod definitions (Manual)
 ===Audit Result===
 ===pod list===
-NAMESPACE     NAME                                 READY   STATUS    RESTARTS   AGE
-kube-system   coredns-787d4945fb-g6mgj             1/1     Running   486        113d
-kube-system   coredns-787d4945fb-vxcvp             1/1     Running   487        113d
-kube-system   etcd-k8s-master                      1/1     Running   4          113d
-kube-system   kube-apiserver-k8s-master            1/1     Running   11         113d
-kube-system   kube-controller-manager-k8s-master   1/1     Running   6          113d
-kube-system   kube-proxy-5gzhx                     1/1     Running   3          113d
-kube-system   kube-proxy-m6cf4                     1/1     Running   4          113d
-kube-system   kube-scheduler-k8s-master            1/1     Running   6          113d
+NAMESPACE     NAME                                 READY   STATUS             RESTARTS         AGE
+kube-system   coredns-787d4945fb-g6mgj             0/1     CrashLoopBackOff   522 (105s ago)   131d
+kube-system   coredns-787d4945fb-vxcvp             0/1     CrashLoopBackOff   523 (95s ago)    131d
+kube-system   etcd-k8s-master                      1/1     Running            4                131d
+kube-system   kube-apiserver-k8s-master            1/1     Running            11               131d
+kube-system   kube-controller-manager-k8s-master   1/1     Running            6                131d
+kube-system   kube-proxy-5gzhx                     1/1     Running            3                131d
+kube-system   kube-proxy-m6cf4                     1/1     Running            4                131d
+kube-system   kube-scheduler-k8s-master            1/1     Running            7 (17d ago)      131d
 ===Enable seccompProfile list===
  Pod etcd-k8s-master 
  Pod kube-apiserver-k8s-master 
@@ -245,15 +245,15 @@ kube-system   kube-scheduler-k8s-master            1/1     Running   6          
 Apply Security Context to Your Pods and Containers (Manual)
 ===Audit Result===
 ===pod list===
-NAMESPACE     NAME                                 READY   STATUS    RESTARTS   AGE
-kube-system   coredns-787d4945fb-g6mgj             1/1     Running   486        113d
-kube-system   coredns-787d4945fb-vxcvp             1/1     Running   487        113d
-kube-system   etcd-k8s-master                      1/1     Running   4          113d
-kube-system   kube-apiserver-k8s-master            1/1     Running   11         113d
-kube-system   kube-controller-manager-k8s-master   1/1     Running   6          113d
-kube-system   kube-proxy-5gzhx                     1/1     Running   3          113d
-kube-system   kube-proxy-m6cf4                     1/1     Running   4          113d
-kube-system   kube-scheduler-k8s-master            1/1     Running   6          113d
+NAMESPACE     NAME                                 READY   STATUS             RESTARTS         AGE
+kube-system   coredns-787d4945fb-g6mgj             0/1     CrashLoopBackOff   522 (105s ago)   131d
+kube-system   coredns-787d4945fb-vxcvp             0/1     CrashLoopBackOff   523 (95s ago)    131d
+kube-system   etcd-k8s-master                      1/1     Running            4                131d
+kube-system   kube-apiserver-k8s-master            1/1     Running            11               131d
+kube-system   kube-controller-manager-k8s-master   1/1     Running            6                131d
+kube-system   kube-proxy-5gzhx                     1/1     Running            3                131d
+kube-system   kube-proxy-m6cf4                     1/1     Running            4                131d
+kube-system   kube-scheduler-k8s-master            1/1     Running            7 (17d ago)      131d
 ===Enable Security Context list===
 NAME                                 securityContext_name
 coredns-787d4945fb-g6mgj             map[allowPrivilegeEscalation:false capabilities:map[add:[NET_BIND_SERVICE] drop:[all]] readOnlyRootFilesystem:true]
@@ -270,12 +270,12 @@ kube-scheduler-k8s-master            <none>
 The default namespace should not be used (Manual)
 ===Audit Result===
 NAME                        TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)          AGE
-service/k8s-nessus          NodePort    10.111.239.194   <none>        8834:31433/TCP   9d
-service/k8s-nginx-service   NodePort    10.110.103.129   <none>        7777:30152/TCP   21d
-service/kubernetes          ClusterIP   10.96.0.1        <none>        443/TCP          113d
+service/k8s-nessus          NodePort    10.111.239.194   <none>        8834:31433/TCP   26d
+service/k8s-nginx-service   NodePort    10.110.103.129   <none>        7777:30152/TCP   39d
+service/kubernetes          ClusterIP   10.96.0.1        <none>        443/TCP          131d
 
 NAME                   COMPLETIONS   DURATION   AGE
-job.batch/kube-bench   1/1           5m21s      6d4h
+job.batch/kube-bench   1/1           5m21s      24d
 ===Audit Result===
 
 2.1

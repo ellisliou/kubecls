@@ -1,6 +1,7 @@
 import csv
 from parseYaml import checks, parsed_yaml_file
 from connect import *
+from checkPolicy import *
 import re
 import glob
 import yaml
@@ -44,19 +45,24 @@ for i in range(len(k8sConfigList)):
 print('[*]Retrieve related configuration in k8s with yaml format')
 
 def preloadConfig():
-    map_table=open("map_table.yaml")
+    #map_table=open("map_table.yaml")
+    map_table=getPolicy("map_table")
     map_table = yaml.load(map_table, Loader=yaml.FullLoader)
-    ignore_table=open("ignore.yaml")
+    #ignore_table=open("ignore.yaml")
+    ignore_table=getPolicy("ignore_table")
     ignore_table = yaml.load(ignore_table, Loader=yaml.FullLoader)
-    ch5_yaml = open('./ch5_policies_specific.yaml')
+    #ch5_yaml = open("ch5_policies_specific.yaml")
+    ch5_yaml = getPolicy("ch5_policy")
     ch5_yaml = yaml.load(ch5_yaml, Loader=yaml.FullLoader)
     return map_table, ignore_table, ch5_yaml
 
 def loadAllTest():
     yamlList = []
-    for file in sorted(glob.glob('./cis_1_20/*.yaml')):
-    #for file in glob.glob('./*.yaml'):
-        file = open(file)
+    tmpList = ["ch1","ch2","ch3"]
+    #for file in sorted(glob.glob('./cis_1_20/*.yaml')):
+    for k in range(len(tmpList)):
+        #file = open(file)
+        file=getPolicy(tmpList[k])
         file = yaml.load(file, Loader=yaml.FullLoader)
         yamlList.append(file)
     #print(yamlList[0])
@@ -77,6 +83,17 @@ def runTest(bm):
             else:
                 outputDirectory[str(map_table[yf.check.id])]=outputDirectory[str(map_table[yf.check.id])]+[{'CISID': str(yf.check.id),'CISResult':yf.check.execute(),'audit output':yf.check.line}]
             #print(outputDirectory)
+
+def outputVersionV1(directoryList):
+    tmpdirectory ={}
+    file=getPolicy("outputV1_table")
+    file = yaml.load(file, Loader=yaml.FullLoader)
+    keytmpList=list(file)
+    for i in range(len(keytmpList)):
+        tmpKey=keytmpList[i]
+        directoryList[file[tmpKey]]=directoryList.pop(tmpKey)
+        directoryList[file[tmpKey]][0]["3GPP818ID"]=file[tmpKey]
+    return directoryList
 
 def outputDirectorySortedResult(directoryList):
     tmpdirectory ={}
@@ -148,8 +165,14 @@ def main():
     print('[*]CIS-CH5 completed!')
 
     #print(json.dumps(outputDirectorySortedResult(outputDirectory), indent = 4))
-    with open("output.json", "w") as outfile:
-        json.dump(outputDirectorySortedResult(outputDirectory), outfile)
+    tmpdirectory ={}
+    tmpdirectory=outputDirectorySortedResult(outputDirectory)
+    
+    with open("output_total.json", "w") as outfile:
+        json.dump(tmpdirectory, outfile)
+
+    with open("output_v1.json", "w") as outfile:
+        json.dump(outputVersionV1(tmpdirectory), outfile)
 
 
 if __name__ == "__main__":

@@ -17,7 +17,7 @@ items:
       kind: ReplicaSet
       name: coredns-787d4945fb
       uid: ced94e81-f902-48f1-a591-c9b501fc6969
-    resourceVersion: "201587"
+    resourceVersion: "222320"
     uid: f2269da7-3e11-4465-91cc-2fb81c7256c0
   spec:
     affinity:
@@ -151,29 +151,40 @@ items:
       status: "True"
       type: Initialized
     - lastProbeTime: null
-      lastTransitionTime: "2023-07-06T06:53:47Z"
-      status: "True"
+      lastTransitionTime: "2023-07-07T08:23:25Z"
+      message: 'containers with unready status: [coredns]'
+      reason: ContainersNotReady
+      status: "False"
       type: Ready
     - lastProbeTime: null
-      lastTransitionTime: "2023-07-06T06:53:47Z"
-      status: "True"
+      lastTransitionTime: "2023-07-07T08:23:25Z"
+      message: 'containers with unready status: [coredns]'
+      reason: ContainersNotReady
+      status: "False"
       type: ContainersReady
     - lastProbeTime: null
       lastTransitionTime: "2023-03-14T08:32:11Z"
       status: "True"
       type: PodScheduled
     containerStatuses:
-    - containerID: cri-o://c10afab6b5260e0b661bc2c4356ae1cffd59816e061a522507e418b11f209c53
+    - containerID: cri-o://4104ee4497ee12adf643e846c7d8121eeb7fc4d32f0a6c7500d37dcf219518ce
       image: registry.k8s.io/coredns/coredns:v1.9.3
       imageID: registry.k8s.io/coredns/coredns@sha256:8e352a029d304ca7431c6507b56800636c321cb52289686a581ab70aaa8a2e2a
-      lastState: {}
+      lastState:
+        terminated:
+          containerID: cri-o://4104ee4497ee12adf643e846c7d8121eeb7fc4d32f0a6c7500d37dcf219518ce
+          exitCode: 0
+          finishedAt: "2023-07-24T04:12:07Z"
+          reason: Completed
+          startedAt: "2023-07-24T04:10:17Z"
       name: coredns
-      ready: true
-      restartCount: 486
-      started: true
+      ready: false
+      restartCount: 522
+      started: false
       state:
-        running:
-          startedAt: "2023-07-06T06:53:14Z"
+        waiting:
+          message: back-off 5m0s restarting failed container=coredns pod=coredns-787d4945fb-g6mgj_kube-system(f2269da7-3e11-4465-91cc-2fb81c7256c0)
+          reason: CrashLoopBackOff
     hostIP: 192.168.118.238
     phase: Running
     podIP: 10.85.0.11
@@ -199,7 +210,7 @@ items:
       kind: ReplicaSet
       name: coredns-787d4945fb
       uid: ced94e81-f902-48f1-a591-c9b501fc6969
-    resourceVersion: "201584"
+    resourceVersion: "222335"
     uid: b15b7fc5-929c-4a1d-8651-624b19784548
   spec:
     affinity:
@@ -333,29 +344,40 @@ items:
       status: "True"
       type: Initialized
     - lastProbeTime: null
-      lastTransitionTime: "2023-07-06T06:53:47Z"
-      status: "True"
+      lastTransitionTime: "2023-07-07T08:23:25Z"
+      message: 'containers with unready status: [coredns]'
+      reason: ContainersNotReady
+      status: "False"
       type: Ready
     - lastProbeTime: null
-      lastTransitionTime: "2023-07-06T06:53:47Z"
-      status: "True"
+      lastTransitionTime: "2023-07-07T08:23:25Z"
+      message: 'containers with unready status: [coredns]'
+      reason: ContainersNotReady
+      status: "False"
       type: ContainersReady
     - lastProbeTime: null
       lastTransitionTime: "2023-03-14T08:32:11Z"
       status: "True"
       type: PodScheduled
     containerStatuses:
-    - containerID: cri-o://09980b278dda9087f76d980a70b53bd88a12d21b6efb516756f65bb7f711f1b7
+    - containerID: cri-o://62d0247058566f56bc736ff0bef575881ba64c998a506a36152218168f58893e
       image: registry.k8s.io/coredns/coredns:v1.9.3
       imageID: registry.k8s.io/coredns/coredns@sha256:8e352a029d304ca7431c6507b56800636c321cb52289686a581ab70aaa8a2e2a
-      lastState: {}
+      lastState:
+        terminated:
+          containerID: cri-o://62d0247058566f56bc736ff0bef575881ba64c998a506a36152218168f58893e
+          exitCode: 0
+          finishedAt: "2023-07-24T04:12:17Z"
+          reason: Completed
+          startedAt: "2023-07-24T04:10:27Z"
       name: coredns
-      ready: true
-      restartCount: 487
-      started: true
+      ready: false
+      restartCount: 523
+      started: false
       state:
-        running:
-          startedAt: "2023-07-06T06:53:12Z"
+        waiting:
+          message: back-off 5m0s restarting failed container=coredns pod=coredns-787d4945fb-vxcvp_kube-system(b15b7fc5-929c-4a1d-8651-624b19784548)
+          reason: CrashLoopBackOff
     hostIP: 192.168.118.238
     phase: Running
     podIP: 10.85.0.10
@@ -529,7 +551,7 @@ items:
       kind: Node
       name: k8s-master
       uid: 73b10b46-027c-4c34-97c3-caacea2fbd8e
-    resourceVersion: "201498"
+    resourceVersion: "212860"
     uid: 5258e8ae-728a-424a-abbc-1d01f13b031c
   spec:
     containers:
@@ -669,11 +691,11 @@ items:
       status: "True"
       type: Initialized
     - lastProbeTime: null
-      lastTransitionTime: "2023-07-06T06:53:03Z"
+      lastTransitionTime: "2023-07-12T07:21:12Z"
       status: "True"
       type: Ready
     - lastProbeTime: null
-      lastTransitionTime: "2023-07-06T06:53:03Z"
+      lastTransitionTime: "2023-07-12T07:21:12Z"
       status: "True"
       type: ContainersReady
     - lastProbeTime: null
@@ -900,7 +922,7 @@ items:
       kind: DaemonSet
       name: kube-proxy
       uid: 300bbd2a-e5ab-49a4-ba87-2dd714110394
-    resourceVersion: "201471"
+    resourceVersion: "210285"
     uid: d4d0c19a-fcd8-470a-a17b-f73a6b72817c
   spec:
     affinity:
@@ -1234,7 +1256,7 @@ items:
       kind: Node
       name: k8s-master
       uid: 73b10b46-027c-4c34-97c3-caacea2fbd8e
-    resourceVersion: "201489"
+    resourceVersion: "210162"
     uid: d393d991-d371-4511-917b-12a144393162
   spec:
     containers:
@@ -1307,11 +1329,11 @@ items:
       status: "True"
       type: Initialized
     - lastProbeTime: null
-      lastTransitionTime: "2023-07-06T06:53:02Z"
+      lastTransitionTime: "2023-07-06T08:41:34Z"
       status: "True"
       type: Ready
     - lastProbeTime: null
-      lastTransitionTime: "2023-07-06T06:53:02Z"
+      lastTransitionTime: "2023-07-06T08:41:34Z"
       status: "True"
       type: ContainersReady
     - lastProbeTime: null
@@ -1319,17 +1341,23 @@ items:
       status: "True"
       type: PodScheduled
     containerStatuses:
-    - containerID: cri-o://1ecaa2a93fb8cd9a945764731a55c2216eec11ff30ddda98c9d7d3bdeca9bfac
+    - containerID: cri-o://b7ab6b0f70d6a2c4aba9202d46e28f230c5cefeb3ee97c2c76a13df2ae90a6ce
       image: registry.k8s.io/kube-scheduler:v1.26.2
       imageID: registry.k8s.io/kube-scheduler@sha256:78ce2dc8099431b72acbf4c0000b65b67a6fa082d3ce4050c8d836a66d2e428c
-      lastState: {}
+      lastState:
+        terminated:
+          containerID: cri-o://1ecaa2a93fb8cd9a945764731a55c2216eec11ff30ddda98c9d7d3bdeca9bfac
+          exitCode: 1
+          finishedAt: "2023-07-06T08:41:19Z"
+          reason: Error
+          startedAt: "2023-07-06T06:52:43Z"
       name: kube-scheduler
       ready: true
-      restartCount: 6
+      restartCount: 7
       started: true
       state:
         running:
-          startedAt: "2023-07-06T06:52:43Z"
+          startedAt: "2023-07-06T08:41:20Z"
     hostIP: 192.168.118.238
     phase: Running
     podIP: 192.168.118.238

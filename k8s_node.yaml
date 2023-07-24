@@ -17,7 +17,7 @@ items:
       node-role.kubernetes.io/control-plane: ""
       node.kubernetes.io/exclude-from-external-load-balancers: ""
     name: k8s-master
-    resourceVersion: "204518"
+    resourceVersion: "222301"
     uid: 73b10b46-027c-4c34-97c3-caacea2fbd8e
   spec:
     podCIDR: 10.244.0.0/24
@@ -47,25 +47,25 @@ items:
       memory: 4005236Ki
       pods: "110"
     conditions:
-    - lastHeartbeatTime: "2023-07-06T07:28:37Z"
+    - lastHeartbeatTime: "2023-07-24T04:11:56Z"
       lastTransitionTime: "2023-03-14T08:31:52Z"
       message: kubelet has sufficient memory available
       reason: KubeletHasSufficientMemory
       status: "False"
       type: MemoryPressure
-    - lastHeartbeatTime: "2023-07-06T07:28:37Z"
+    - lastHeartbeatTime: "2023-07-24T04:11:56Z"
       lastTransitionTime: "2023-03-14T08:31:52Z"
       message: kubelet has no disk pressure
       reason: KubeletHasNoDiskPressure
       status: "False"
       type: DiskPressure
-    - lastHeartbeatTime: "2023-07-06T07:28:37Z"
+    - lastHeartbeatTime: "2023-07-24T04:11:56Z"
       lastTransitionTime: "2023-03-14T08:31:52Z"
       message: kubelet has sufficient PID available
       reason: KubeletHasSufficientPID
       status: "False"
       type: PIDPressure
-    - lastHeartbeatTime: "2023-07-06T07:28:37Z"
+    - lastHeartbeatTime: "2023-07-24T04:11:56Z"
       lastTransitionTime: "2023-03-14T08:31:59Z"
       message: kubelet is posting ready status. AppArmor enabled
       reason: KubeletReady
@@ -141,7 +141,7 @@ items:
       kubernetes.io/hostname: k8s-node1
       kubernetes.io/os: linux
     name: k8s-node1
-    resourceVersion: "204528"
+    resourceVersion: "222055"
     uid: 9018e05d-dc79-4479-8efd-6d2dff275232
   spec:
     podCIDR: 10.244.1.0/24
@@ -168,26 +168,26 @@ items:
       memory: 4005236Ki
       pods: "110"
     conditions:
-    - lastHeartbeatTime: "2023-07-06T07:28:44Z"
-      lastTransitionTime: "2023-07-06T06:52:57Z"
+    - lastHeartbeatTime: "2023-07-24T04:09:02Z"
+      lastTransitionTime: "2023-07-07T08:23:45Z"
       message: kubelet has sufficient memory available
       reason: KubeletHasSufficientMemory
       status: "False"
       type: MemoryPressure
-    - lastHeartbeatTime: "2023-07-06T07:28:44Z"
-      lastTransitionTime: "2023-07-06T06:52:57Z"
+    - lastHeartbeatTime: "2023-07-24T04:09:02Z"
+      lastTransitionTime: "2023-07-07T08:23:45Z"
       message: kubelet has no disk pressure
       reason: KubeletHasNoDiskPressure
       status: "False"
       type: DiskPressure
-    - lastHeartbeatTime: "2023-07-06T07:28:44Z"
-      lastTransitionTime: "2023-07-06T06:52:57Z"
+    - lastHeartbeatTime: "2023-07-24T04:09:02Z"
+      lastTransitionTime: "2023-07-07T08:23:45Z"
       message: kubelet has sufficient PID available
       reason: KubeletHasSufficientPID
       status: "False"
       type: PIDPressure
-    - lastHeartbeatTime: "2023-07-06T07:28:44Z"
-      lastTransitionTime: "2023-07-06T06:52:58Z"
+    - lastHeartbeatTime: "2023-07-24T04:09:02Z"
+      lastTransitionTime: "2023-07-07T08:23:45Z"
       message: kubelet is posting ready status. AppArmor enabled
       reason: KubeletReady
       status: "True"

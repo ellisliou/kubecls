@@ -1,0 +1,46 @@
+﻿3GPP818ID,3GPP818_number,3GPP818_name,3GPP818_Purpose,3GPP818_benchmark
+1.1,5.2.4.2.2.4.1,避免使用不安全認證方式,使用不安全認證機制如，anonymous-auth參數允許匿名登入、token-auth-file之明文儲存token、authorization-mode未連線管理，可能遭未授權之連線存取系統之風險。建議依檢測基準來進行設定，以防護系統認證連線之安全,"1.--anonymous-auth設定false
+2.--token-auth-file未設定
+3.--authorization-mode未設定為AlwaysAllow 
+4.--authorization-mode參數包含Node、RBAC"
+1.2,5.2.4.2.2.4.2,避免啟動匿名存取功能,允許匿名登入存取API server，可能有非法存取疑慮,"1.API伺服器預設開啟網路埠為10250
+2.透過curl可以得知是否開啟匿名存取功能 3.預設安裝未啟動匿名存取功能，故回傳Unauthorized"
+1.3,5.2.4.2.2.4.3,Secret等機敏資料應預設加密,明文儲存機敏資料，倘若外洩可能有直接暴露之疑慮,API server是否啟用--encryption-provider-config
+1.4,5.2.4.2.2.4.4,避免允許所有API請求,允許所有請求，可能有非法存取之疑慮，建議API server之--enable-admission-plugins參數未設定AlwaysAdmit,檢測設定--enable-admission-plugins參數未設定AlwaysAdmit
+1.5,5.2.4.2.2.4.5,避免IP遭偽冒重送攻擊,可假冒合法來源IP或port來非法存取系統，建議綁定MAC或其他身份驗證機制確認來源安全性,"1.確認來源IP是否有身分認證機制
+2.適當設置API服務器請求的全局請求超時"
+1.6,5.2.4.2.2.4.6,應確認container安全性,確認container相關管控安全性,"1.Ensure that the admission control plugin ServiceAccount 已設置
+2.Ensure that the admission control plugin NamespaceLifecycle 已設置
+3.Ensure that the admission control plugin NodeRestriction
+4.Ensure that the --insecure-bind-address argument 尚未設置
+5.Ensure that the --secure-port argument 尚未設置 to 0 "
+1.7,5.2.4.2.2.4.7,Etcd連線應加密,因Etcd與客戶端之連線未加密，可能有中間監聽竊取之疑慮，建議以TLS加密保護Etcd與客戶端之連線，API server之--etcd-certfile 與 --etcd-keyfile參數建議設定合適之憑證,API server之--etcd-certfile 與 --etcd-keyfile參數建議是否設定合適之憑證
+2.2,5.2.4.2.2.5.2,檔案權限安全,"管控檔案避免遭非擁有者惡意使用，etcd、scheduler、controller-manager、API server pod的檔案權限設定為644，或更嚴格,若未妥善控管權限，可能有遭非法存取之疑慮。","建議以下檔案設定644，或更嚴格
+ /etc/kubernetes/manifests/kube-apiserver.yaml
+ /etc/kubernetes/manifests/etcd.yaml
+ /etc/kubernetes/manifests/kube-controller-manager.yaml
+ /etc/kubernetes/manifests/kube-scheduler.yam"
+2.3,5.2.4.2.2.5.3,開機僅可透過合法的韌體,系統應使用合法韌體開機，避免非法韌體藏有後門程式或惡意軟體，影響系統安全。,檢視韌體之合法性，確認為官方來源
+2.4,5.2.4.2.2.5.4,應妥善保管紀錄檔案,應妥善設定啟用稽核紀錄機制，log與policy檔案權限設定為644，或更嚴格，若未啟用稽核紀錄，可能有無法追查及稽核問題之疑慮。,確認系統已開啟系統記錄，並妥善設定檔案權限
+2.5,5.2.4.2.2.5.5,應使用加密協定進行連線,API連線可能含有機敏資料或參數，若連線未加密，可能有中間監聽竊取之疑慮，建議以TLS加密保護API之連線，API server之--tls-cert-file與 --tls-private-key-file參數建議設定合適之憑證。,確認系統API server之--tls-cert-file與 --tls-private-key-file參數設定
+2.6,5.2.4.2.2.5.6,檔案寫入權限管控,管控檔案避免遭非法寫入，建議etcd、scheduler、controller-manager、API server pod的檔案權限設定為644，或更嚴格，若未妥善控管權限，可能有遭非法存取之疑慮。,確認etcd、scheduler、controller-manager、API server pod的檔案僅root有寫入權限
+3.1,5.2.4.2.2.6.1,應有使用者行為之軌跡與紀錄,應妥善設定啟用稽核紀錄機制，若未啟用稽核紀錄，可能有無法追查及稽核問題之疑慮。,"1. 啟用稽核紀錄，使用Log backend(本地端檔案)或Webhook backend(遠端檔案)
+2.於policy妥善定義規則"
+4.1,5.2.4.2.2.7.1,應使用安全金鑰長度,檢視金鑰長度之強度，若使用脆弱金鑰，可能存在加密檔案遭破解之疑慮,"1. 密鑰金鑰長度至少2048以上
+2. 公鑰長度至少256bits以上
+3. 簽名演算法sha256以上"
+4.2,5.2.4.2.2.7.2,應強化設定金鑰管理存取權限,檢視金鑰管理存取權限，若存取權限設置不檔，可能存在遭非法存取之疑慮,受測系統crt與key相關檔案設定644
+4.3,5.2.4.2.2.7.3,應使用安全金鑰演算法,檢視金鑰加密演算法之強度，若使用脆弱金鑰，可能存在加密檔案遭破解之疑慮,"1. 密鑰金鑰長度至少2048以上
+2. 公鑰長度至少256bits以上
+3. 簽名演算法sha256以上"
+4.7,5.2.4.2.2.7.8,應避免預設不安全設定,檢視是否使用default 之namespace，若使用default 之namespace，可能有非法存取之疑慮，建議針對不同服務需求或類型，設定不同namespace，強化與隔離存取權限之安全性。,未使用default 之namespace
+4.8,5.2.4.2.2.7.9,應妥善設定重要檔案與資料夾存取權限,管控檔案避免遭非擁有者惡意使用，etcd、scheduler、controller-manager、API server pod的檔案權限設定為644，或更嚴格，若未妥善控管權限，可能有遭非法存取之疑慮,確認etcd、scheduler、controller-manager、API server pod的資料夾權限設定為644
+4.11,5.2.4.2.2.7.12,稽核紀錄保存管理,檢視稽核紀錄與資料夾之存取權限，若未妥善設定稽核檔案存取權限，可能有遭非法存取與外洩之疑慮，建議啟用稽核紀錄與妥善設定稽核檔案存取權限為644。,確認稽核檔案存取權限至少為644
+4.13,5.2.4.2.2.7.15,系統網路流量應妥善隔離或過濾,檢視是否妥善設定pod的網路控管制策，若未妥善安全設定，可能有導致pod遭非法存取之疑慮，預設是未設定pod網路管控政策，建議最小化設定網路存取，避免非法存取連線。,確認網路管控政策為最小化設定網路存取
+5.1,5.2.4.2.2.8,應防範受感染或存在異常行為之UE發動之阻斷服務攻擊,檢視是否啟用admission control plugin，若未管控外部可疑連線，可能有遭非法存取或阻斷服務之疑慮。,啟用admission control plugin
+6.1,5.2.4.2.2.9,避免合法使用者濫用權限,合法使用者濫用權限，執行管理者權限行為或存取機敏檔案，檢視是否針對每個pod設定專屬service account，若未客製化設定每個pod之service account，可能有遭非法存取之疑慮。,The default namespace should not be used 
+6.2,5.2.4.2.2.9,避免最高權限擁有檔案遭非法濫用或寫入,檢視API server 、controller manager、scheduler、etcd、Container Network Interface之pod 規格檔案存取權限、擁有者及群組之政策設定，應僅有root可寫入或執行,"建議以下檔案設定644，或更嚴格
+ /etc/kubernetes/manifests/kube-apiserver.yaml
+ /etc/kubernetes/manifests/etcd.yaml
+ /etc/kubernetes/manifests/kube-controller-manager.yaml
+ /etc/kubernetes/manifests/kube-scheduler.yam"
