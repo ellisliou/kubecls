@@ -2,6 +2,7 @@ import csv
 from parseYaml import checks, parsed_yaml_file
 from connect import *
 from checkPolicy import *
+from checkClair import *
 import re
 import glob
 import yaml
@@ -131,6 +132,7 @@ def outputDirectorySortedResult(directoryList):
 
 def main():
     map_table, ignore_table, ch5_yaml = preloadConfig()
+    checkClair() #run clair
     benchMarks = loadAllTest()
     for i in range(len(benchMarks)):
         runTest(benchMarks[i])

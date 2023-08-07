@@ -17,6 +17,9 @@ system:kube-controller-manager  system:kube-controller-manager  [,]  [,delete]
 system:kube-controller-manager  system:kube-controller-manager  [,]  [,get]
 system:kube-controller-manager  system:kube-controller-manager  [,]  [,update]
 system:node  system:node  [,]  [,get,list,watch]
+
+**Roles**
+User_Name Role_Name apiGroups verbs
 ===Audit Result===
 
 5.1.3
@@ -26,6 +29,9 @@ Minimize wildcard use in Roles and ClusterRoles (Manual)
 User_Name ClusterRole_Name apiGroups verbs
 cluster-admin  cluster-admin  [,*]  [,*]
 cluster-admin  cluster-admin  NONE  [,*]
+
+**Roles**
+User_Name Role_Name apiGroups verbs
 ===Audit Result===
 
 5.1.4
@@ -40,6 +46,10 @@ system:controller:replicaset-controller  system:controller:replicaset-controller
 system:controller:replication-controller  system:controller:replication-controller  [,]  [,create,delete,list,patch,watch]
 system:controller:statefulset-controller  system:controller:statefulset-controller  [,]  [,create,delete,get,patch,update]
 system:node  system:node  [,]  [,create,delete]
+
+================================================================
+**Roles**
+User_Name Role_Name apiGroups verbs
 ===Audit Result===
 
 5.1.5
@@ -47,10 +57,13 @@ Ensure that default service accounts are not actively used. (Manual)
 ===Audit Result===
 **Service_Accounts**
 Name Namespace secrets
-default  default   NULL
-default  kube-node-lease   NULL
-default  kube-public   NULL
-default  kube-system   NULL
+default  default  default-token-9mkxr
+default  kube-node-lease  default-token-tdk9p
+default  kube-public  default-token-njr9f
+default  kube-system  default-token-t2jxz
+default  nfs-client-provisioner  default-token-bx6pc
+default  sock-shop  default-token-9ctw4
+default  twistlock  default-token-bs6vf
 ===Audit Result===
 
 5.1.6
@@ -58,18 +71,36 @@ Ensure that Service Account Tokens are only mounted where necessary (Manual)
 ===Audit Result===
 **Pods**
 pod_Name Namespace
-coredns-787d4945fb-g6mgj  kube-system  
-coredns-787d4945fb-vxcvp  kube-system  
-etcd-k8s-master  kube-system  
-kube-apiserver-k8s-master  kube-system  
-kube-controller-manager-k8s-master  kube-system  
-kube-proxy-5gzhx  kube-system  
-kube-proxy-m6cf4  kube-system  
-kube-scheduler-k8s-master  kube-system  
+coredns-558bd4d5db-2gp52  kube-system  
+coredns-558bd4d5db-z5nqm  kube-system  
+etcd-k8smaster  kube-system  
+kube-apiserver-k8smaster  kube-system  
+kube-controller-manager-k8smaster  kube-system  
+kube-flannel-ds-ngg4d  kube-system  
+kube-flannel-ds-qt8st  kube-system  
+kube-proxy-lztkd  kube-system  
+kube-proxy-wmd86  kube-system  
+kube-scheduler-k8smaster  kube-system  
+carts-b4d4ffb5c-r9psf  sock-shop  
+carts-db-6c6c68b747-k4v7d  sock-shop  
+catalogue-759cc6b86-sg56z  sock-shop  
+catalogue-db-96f6f6b4c-mhkx7  sock-shop  
+front-end-5c89db9f57-2c8dk  sock-shop  
+orders-7664c64d75-4lzms  sock-shop  
+orders-db-659949975f-bb4mw  sock-shop  
+payment-7bcdbf45c9-dvcpl  sock-shop  
+queue-master-5f6d6d4796-5tm6m  sock-shop  
+rabbitmq-5bcbb547d7-n477j  sock-shop  
+session-db-7cf97f8d4f-dm598  sock-shop  
+shipping-7f7999ffb7-f29kt  sock-shop  
+user-68df64db9c-plxmp  sock-shop  
+user-db-6df7444fc-zsv9g  sock-shop  
+twistlock-defender-ds-56q8r  twistlock  
 ================================================
 **Service_Accounts**
 Name Namespace secrets
 default  default  
+nfs-client-provisioner  default  
 default  kube-node-lease  
 default  kube-public  
 attachdetach-controller  kube-system  
@@ -87,6 +118,7 @@ endpointslice-controller  kube-system
 endpointslicemirroring-controller  kube-system  
 ephemeral-volume-controller  kube-system  
 expand-controller  kube-system  
+flannel  kube-system  
 generic-garbage-collector  kube-system  
 horizontal-pod-autoscaler  kube-system  
 job-controller  kube-system  
@@ -107,6 +139,10 @@ statefulset-controller  kube-system
 token-cleaner  kube-system  
 ttl-after-finished-controller  kube-system  
 ttl-controller  kube-system  
+default  nfs-client-provisioner  
+default  sock-shop  
+default  twistlock  
+twistlock-service  twistlock  
 ===Audit Result===
 
 5.1.7
@@ -122,6 +158,9 @@ Limit use of the Bind, Impersonate and Escalate permissions in the Kubernetes cl
 **ClusterRoles**
 User_Name ClusterRole_Name apiGroups verbs
 system:controller:clusterrole-aggregation-controller  system:controller:clusterrole-aggregation-controller  [,rbac.authorization.k8s.io]  [,escalate,get,list,patch,update,watch]
+
+**Roles**
+User_Name Role_Name apiGroups verbs
 ===Audit Result===
 
 5.2.1
@@ -146,6 +185,8 @@ Minimize the admission of containers wishing to share the host IPC namespace (Au
 Minimize the admission of containers wishing to share the host network namespace (Automated)
 ===Audit Result===
 **PodSecurityPolicy**
+PSP_Name
+psp.flannel.unprivileged
 ===Audit Result===
 
 5.2.5
@@ -158,24 +199,32 @@ Minimize the admission of containers with allowPrivilegeEscalation (Automated)
 Minimize the admission of root containers (Automated)
 ===Audit Result===
 **PodSecurityPolicy**
+PSP_Name runAsUser
+psp.flannel.unprivileged  RunAsAny
 ===Audit Result===
 
 5.2.7
 Minimize the admission of containers with the NET_RAW capability (Automated)
 ===Audit Result===
 **PodSecurityPolicy**
+PSP_Name requiredDropCapabilities
+psp.flannel.unprivileged requiredDropCapabilities not be setted
 ===Audit Result===
 
 5.2.8
 Minimize the admission of containers with added capabilities (Automated)
 ===Audit Result===
 **PodSecurityPolicy**
+PSP_Name allowedCapabilities
+psp.flannel.unprivileged  [,NET_ADMIN,NET_RAW]
 ===Audit Result===
 
 5.2.9
 Minimize the admission of containers with capabilities assigned (Manual)
 ===Audit Result===
 **PodSecurityPolicy**
+PSP_Name requiredDropCapabilities
+psp.flannel.unprivileged requiredDropCapabilities not be setted
 ===Audit Result===
 
 5.3.1
@@ -187,11 +236,14 @@ Ensure that the CNI in use supports Network Policies (Manual)
 Ensure that all Namespaces have Network Policies defined (Manual)
 ===Audit Result===
 Networkpolicy_Name
-NAME              STATUS   AGE
-default           Active   131d
-kube-node-lease   Active   131d
-kube-public       Active   131d
-kube-system       Active   131d
+NAME                     STATUS   AGE
+default                  Active   601d
+kube-node-lease          Active   601d
+kube-public              Active   601d
+kube-system              Active   601d
+nfs-client-provisioner   Active   595d
+sock-shop                Active   595d
+twistlock                Active   595d
 ===Audit Result===
 
 5.4.1
@@ -214,68 +266,113 @@ admission-control-config-file is not setted!
 5.7.1
 Create administrative boundaries between resources using namespaces (Manual)
 ===Audit Result===
-NAME              STATUS   AGE
-default           Active   131d
-kube-node-lease   Active   131d
-kube-public       Active   131d
-kube-system       Active   131d
+NAME                     STATUS   AGE
+default                  Active   601d
+kube-node-lease          Active   601d
+kube-public              Active   601d
+kube-system              Active   601d
+nfs-client-provisioner   Active   595d
+sock-shop                Active   595d
+twistlock                Active   595d
 ===Audit Result===
 
 5.7.2
 Ensure that the seccomp profile is set to docker/default in your pod definitions (Manual)
 ===Audit Result===
 ===pod list===
-NAMESPACE     NAME                                 READY   STATUS             RESTARTS         AGE
-kube-system   coredns-787d4945fb-g6mgj             0/1     CrashLoopBackOff   522 (105s ago)   131d
-kube-system   coredns-787d4945fb-vxcvp             0/1     CrashLoopBackOff   523 (95s ago)    131d
-kube-system   etcd-k8s-master                      1/1     Running            4                131d
-kube-system   kube-apiserver-k8s-master            1/1     Running            11               131d
-kube-system   kube-controller-manager-k8s-master   1/1     Running            6                131d
-kube-system   kube-proxy-5gzhx                     1/1     Running            3                131d
-kube-system   kube-proxy-m6cf4                     1/1     Running            4                131d
-kube-system   kube-scheduler-k8s-master            1/1     Running            7 (17d ago)      131d
+NAMESPACE     NAME                                READY   STATUS    RESTARTS   AGE
+kube-system   coredns-558bd4d5db-2gp52            1/1     Running   0          601d
+kube-system   coredns-558bd4d5db-z5nqm            1/1     Running   0          601d
+kube-system   etcd-k8smaster                      1/1     Running   0          601d
+kube-system   kube-apiserver-k8smaster            1/1     Running   0          601d
+kube-system   kube-controller-manager-k8smaster   1/1     Running   1          601d
+kube-system   kube-flannel-ds-ngg4d               1/1     Running   0          601d
+kube-system   kube-flannel-ds-qt8st               1/1     Running   0          601d
+kube-system   kube-proxy-lztkd                    1/1     Running   0          601d
+kube-system   kube-proxy-wmd86                    1/1     Running   0          601d
+kube-system   kube-scheduler-k8smaster            1/1     Running   1          601d
+sock-shop     carts-b4d4ffb5c-r9psf               1/1     Running   0          346d
+sock-shop     carts-db-6c6c68b747-k4v7d           1/1     Running   0          346d
+sock-shop     catalogue-759cc6b86-sg56z           0/1     Running   519        346d
+sock-shop     catalogue-db-96f6f6b4c-mhkx7        1/1     Running   0          346d
+sock-shop     front-end-5c89db9f57-2c8dk          1/1     Running   0          346d
+sock-shop     orders-7664c64d75-4lzms             1/1     Running   0          346d
+sock-shop     orders-db-659949975f-bb4mw          1/1     Running   0          346d
+sock-shop     payment-7bcdbf45c9-dvcpl            1/1     Running   0          346d
+sock-shop     queue-master-5f6d6d4796-5tm6m       1/1     Running   0          346d
+sock-shop     rabbitmq-5bcbb547d7-n477j           2/2     Running   0          346d
+sock-shop     session-db-7cf97f8d4f-dm598         1/1     Running   0          346d
+sock-shop     shipping-7f7999ffb7-f29kt           1/1     Running   0          346d
+sock-shop     user-68df64db9c-plxmp               0/1     Running   522        346d
+sock-shop     user-db-6df7444fc-zsv9g             1/1     Running   0          346d
+twistlock     twistlock-defender-ds-56q8r         1/1     Running   0          595d
 ===Enable seccompProfile list===
- Pod etcd-k8s-master 
- Pod kube-apiserver-k8s-master 
- Pod kube-controller-manager-k8s-master 
- Pod kube-scheduler-k8s-master 
 ===Audit Result===
 
 5.7.3
 Apply Security Context to Your Pods and Containers (Manual)
 ===Audit Result===
 ===pod list===
-NAMESPACE     NAME                                 READY   STATUS             RESTARTS         AGE
-kube-system   coredns-787d4945fb-g6mgj             0/1     CrashLoopBackOff   522 (105s ago)   131d
-kube-system   coredns-787d4945fb-vxcvp             0/1     CrashLoopBackOff   523 (95s ago)    131d
-kube-system   etcd-k8s-master                      1/1     Running            4                131d
-kube-system   kube-apiserver-k8s-master            1/1     Running            11               131d
-kube-system   kube-controller-manager-k8s-master   1/1     Running            6                131d
-kube-system   kube-proxy-5gzhx                     1/1     Running            3                131d
-kube-system   kube-proxy-m6cf4                     1/1     Running            4                131d
-kube-system   kube-scheduler-k8s-master            1/1     Running            7 (17d ago)      131d
+NAMESPACE     NAME                                READY   STATUS    RESTARTS   AGE
+kube-system   coredns-558bd4d5db-2gp52            1/1     Running   0          601d
+kube-system   coredns-558bd4d5db-z5nqm            1/1     Running   0          601d
+kube-system   etcd-k8smaster                      1/1     Running   0          601d
+kube-system   kube-apiserver-k8smaster            1/1     Running   0          601d
+kube-system   kube-controller-manager-k8smaster   1/1     Running   1          601d
+kube-system   kube-flannel-ds-ngg4d               1/1     Running   0          601d
+kube-system   kube-flannel-ds-qt8st               1/1     Running   0          601d
+kube-system   kube-proxy-lztkd                    1/1     Running   0          601d
+kube-system   kube-proxy-wmd86                    1/1     Running   0          601d
+kube-system   kube-scheduler-k8smaster            1/1     Running   1          601d
+sock-shop     carts-b4d4ffb5c-r9psf               1/1     Running   0          346d
+sock-shop     carts-db-6c6c68b747-k4v7d           1/1     Running   0          346d
+sock-shop     catalogue-759cc6b86-sg56z           0/1     Running   519        346d
+sock-shop     catalogue-db-96f6f6b4c-mhkx7        1/1     Running   0          346d
+sock-shop     front-end-5c89db9f57-2c8dk          1/1     Running   0          346d
+sock-shop     orders-7664c64d75-4lzms             1/1     Running   0          346d
+sock-shop     orders-db-659949975f-bb4mw          1/1     Running   0          346d
+sock-shop     payment-7bcdbf45c9-dvcpl            1/1     Running   0          346d
+sock-shop     queue-master-5f6d6d4796-5tm6m       1/1     Running   0          346d
+sock-shop     rabbitmq-5bcbb547d7-n477j           2/2     Running   0          346d
+sock-shop     session-db-7cf97f8d4f-dm598         1/1     Running   0          346d
+sock-shop     shipping-7f7999ffb7-f29kt           1/1     Running   0          346d
+sock-shop     user-68df64db9c-plxmp               0/1     Running   522        346d
+sock-shop     user-db-6df7444fc-zsv9g             1/1     Running   0          346d
+twistlock     twistlock-defender-ds-56q8r         1/1     Running   0          595d
 ===Enable Security Context list===
-NAME                                 securityContext_name
-coredns-787d4945fb-g6mgj             map[allowPrivilegeEscalation:false capabilities:map[add:[NET_BIND_SERVICE] drop:[all]] readOnlyRootFilesystem:true]
-coredns-787d4945fb-vxcvp             map[allowPrivilegeEscalation:false capabilities:map[add:[NET_BIND_SERVICE] drop:[all]] readOnlyRootFilesystem:true]
-etcd-k8s-master                      <none>
-kube-apiserver-k8s-master            <none>
-kube-controller-manager-k8s-master   <none>
-kube-proxy-5gzhx                     map[privileged:true]
-kube-proxy-m6cf4                     map[privileged:true]
-kube-scheduler-k8s-master            <none>
+NAME                                securityContext_name
+coredns-558bd4d5db-2gp52            map[allowPrivilegeEscalation:false capabilities:map[add:[NET_BIND_SERVICE] drop:[all]] readOnlyRootFilesystem:true]
+coredns-558bd4d5db-z5nqm            map[allowPrivilegeEscalation:false capabilities:map[add:[NET_BIND_SERVICE] drop:[all]] readOnlyRootFilesystem:true]
+etcd-k8smaster                      <none>
+kube-apiserver-k8smaster            <none>
+kube-controller-manager-k8smaster   <none>
+kube-flannel-ds-ngg4d               map[capabilities:map[add:[NET_ADMIN NET_RAW]] privileged:false]
+kube-flannel-ds-qt8st               map[capabilities:map[add:[NET_ADMIN NET_RAW]] privileged:false]
+kube-proxy-lztkd                    map[privileged:true]
+kube-proxy-wmd86                    map[privileged:true]
+kube-scheduler-k8smaster            <none>
+carts-b4d4ffb5c-r9psf               map[capabilities:map[add:[NET_BIND_SERVICE] drop:[all]] readOnlyRootFilesystem:true runAsNonRoot:true runAsUser:10001]
+carts-db-6c6c68b747-k4v7d           map[capabilities:map[add:[CHOWN SETGID SETUID] drop:[all]] readOnlyRootFilesystem:true]
+catalogue-759cc6b86-sg56z           map[capabilities:map[add:[NET_BIND_SERVICE] drop:[all]] readOnlyRootFilesystem:true runAsNonRoot:true runAsUser:10001]
+catalogue-db-96f6f6b4c-mhkx7        <none>
+front-end-5c89db9f57-2c8dk          map[capabilities:map[drop:[all]] readOnlyRootFilesystem:true runAsNonRoot:true runAsUser:10001]
+orders-7664c64d75-4lzms             map[capabilities:map[add:[NET_BIND_SERVICE] drop:[all]] readOnlyRootFilesystem:true runAsNonRoot:true runAsUser:10001]
+orders-db-659949975f-bb4mw          map[capabilities:map[add:[CHOWN SETGID SETUID] drop:[all]] readOnlyRootFilesystem:true]
+payment-7bcdbf45c9-dvcpl            map[capabilities:map[add:[NET_BIND_SERVICE] drop:[all]] readOnlyRootFilesystem:true runAsNonRoot:true runAsUser:10001]
+queue-master-5f6d6d4796-5tm6m       <none>
+rabbitmq-5bcbb547d7-n477j           map[capabilities:map[add:[CHOWN SETGID SETUID DAC_OVERRIDE] drop:[all]] readOnlyRootFilesystem:true]
+session-db-7cf97f8d4f-dm598         map[capabilities:map[add:[CHOWN SETGID SETUID] drop:[all]] readOnlyRootFilesystem:true]
+shipping-7f7999ffb7-f29kt           map[capabilities:map[add:[NET_BIND_SERVICE] drop:[all]] readOnlyRootFilesystem:true runAsNonRoot:true runAsUser:10001]
+user-68df64db9c-plxmp               map[capabilities:map[add:[NET_BIND_SERVICE] drop:[all]] readOnlyRootFilesystem:true runAsNonRoot:true runAsUser:10001]
+user-db-6df7444fc-zsv9g             map[capabilities:map[add:[CHOWN SETGID SETUID] drop:[all]] readOnlyRootFilesystem:true]
+twistlock-defender-ds-56q8r         map[capabilities:map[add:[NET_ADMIN NET_RAW SYS_ADMIN SYS_PTRACE SYS_CHROOT MKNOD SETFCAP IPC_LOCK]] privileged:false readOnlyRootFilesystem:true]
 ===Audit Result===
 
 5.7.4
 The default namespace should not be used (Manual)
 ===Audit Result===
-NAME                        TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)          AGE
-service/k8s-nessus          NodePort    10.111.239.194   <none>        8834:31433/TCP   26d
-service/k8s-nginx-service   NodePort    10.110.103.129   <none>        7777:30152/TCP   39d
-service/kubernetes          ClusterIP   10.96.0.1        <none>        443/TCP          131d
-
-NAME                   COMPLETIONS   DURATION   AGE
-job.batch/kube-bench   1/1           5m21s      24d
+NAME                 TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)   AGE
+service/kubernetes   ClusterIP   10.96.0.1    <none>        443/TCP   601d
 ===Audit Result===
 
 2.1
@@ -286,13 +383,10 @@ Software Tampering(檢視系統軟體版本已知漏洞)
 2.3
 External Device Boot(開機僅可透過合法的韌體)
 ===Audit Result===
-Linux 5.19.0-46-generic x86_64
-rc  linux-image-5.19.0-32-generic              5.19.0-32.33~22.04.1                    amd64        Signed kernel image generic
-rc  linux-image-5.19.0-35-generic              5.19.0-35.36~22.04.1                    amd64        Signed kernel image generic
-rc  linux-image-5.19.0-43-generic              5.19.0-43.44~22.04.1                    amd64        Signed kernel image generic
-ii  linux-image-5.19.0-45-generic              5.19.0-45.46~22.04.1                    amd64        Signed kernel image generic
-ii  linux-image-5.19.0-46-generic              5.19.0-46.47~22.04.1                    amd64        Signed kernel image generic
-ii  linux-image-generic-hwe-22.04              5.19.0.46.47~22.04.21                   amd64        Generic Linux kernel image
+Linux 4.15.0-163-generic x86_64
+ii  linux-image-4.15.0-163-generic         4.15.0-163.171                                  amd64        Signed kernel image generic
+ii  linux-image-4.15.0-20-generic          4.15.0-20.21                                    amd64        Signed kernel image generic
+ii  linux-image-generic                    4.15.0.163.152                                  amd64        Generic Linux kernel image
 ===Audit Result===
 
 2.7
@@ -303,32 +397,32 @@ User Session Tampering(確保應用程式session隨機安全性)
 4.1
 Poor key generation(應使用安全金鑰長度)
 ===Audit Result===
-/etc/kubernetes/pki/ca.key : Private-Key: (2048 bit, 2 primes)
-/etc/kubernetes/pki/front-proxy-ca.key : Private-Key: (2048 bit, 2 primes)
-/etc/kubernetes/pki/etcd/ca.key : Private-Key: (2048 bit, 2 primes)
-/etc/kubernetes/pki/etcd/server.key : Private-Key: (2048 bit, 2 primes)
-/etc/kubernetes/pki/etcd/healthcheck-client.key : Private-Key: (2048 bit, 2 primes)
-/etc/kubernetes/pki/etcd/peer.key : Private-Key: (2048 bit, 2 primes)
-/etc/kubernetes/pki/front-proxy-client.key : Private-Key: (2048 bit, 2 primes)
-/etc/kubernetes/pki/sa.key : Private-Key: (2048 bit, 2 primes)
-/etc/kubernetes/pki/apiserver-kubelet-client.key : Private-Key: (2048 bit, 2 primes)
-/etc/kubernetes/pki/apiserver-etcd-client.key : Private-Key: (2048 bit, 2 primes)
-/etc/kubernetes/pki/apiserver.key : Private-Key: (2048 bit, 2 primes)
+/etc/kubernetes/pki/apiserver-kubelet-client.key : RSA Private-Key: (2048 bit, 2 primes)
+/etc/kubernetes/pki/apiserver.key : RSA Private-Key: (2048 bit, 2 primes)
+/etc/kubernetes/pki/apiserver-etcd-client.key : RSA Private-Key: (2048 bit, 2 primes)
+/etc/kubernetes/pki/ca.key : RSA Private-Key: (2048 bit, 2 primes)
+/etc/kubernetes/pki/front-proxy-ca.key : RSA Private-Key: (2048 bit, 2 primes)
+/etc/kubernetes/pki/front-proxy-client.key : RSA Private-Key: (2048 bit, 2 primes)
+/etc/kubernetes/pki/sa.key : RSA Private-Key: (2048 bit, 2 primes)
+/etc/kubernetes/pki/etcd/healthcheck-client.key : RSA Private-Key: (2048 bit, 2 primes)
+/etc/kubernetes/pki/etcd/peer.key : RSA Private-Key: (2048 bit, 2 primes)
+/etc/kubernetes/pki/etcd/server.key : RSA Private-Key: (2048 bit, 2 primes)
+/etc/kubernetes/pki/etcd/ca.key : RSA Private-Key: (2048 bit, 2 primes)
 ===Audit Result===
 
 4.3
 Weak cryptographic algorithms(應使用安全金鑰演算法)
 ===Audit Result===
-/etc/kubernetes/pki/apiserver-etcd-client.crt :         Signature Algorithm: sha256WithRSAEncryption
+/etc/kubernetes/pki/ca.crt :         Signature Algorithm: sha256WithRSAEncryption
 /etc/kubernetes/pki/front-proxy-client.crt :         Signature Algorithm: sha256WithRSAEncryption
 /etc/kubernetes/pki/apiserver.crt :         Signature Algorithm: sha256WithRSAEncryption
+/etc/kubernetes/pki/apiserver-kubelet-client.crt :         Signature Algorithm: sha256WithRSAEncryption
+/etc/kubernetes/pki/apiserver-etcd-client.crt :         Signature Algorithm: sha256WithRSAEncryption
 /etc/kubernetes/pki/front-proxy-ca.crt :         Signature Algorithm: sha256WithRSAEncryption
-/etc/kubernetes/pki/etcd/peer.crt :         Signature Algorithm: sha256WithRSAEncryption
+/etc/kubernetes/pki/etcd/healthcheck-client.crt :         Signature Algorithm: sha256WithRSAEncryption
 /etc/kubernetes/pki/etcd/ca.crt :         Signature Algorithm: sha256WithRSAEncryption
 /etc/kubernetes/pki/etcd/server.crt :         Signature Algorithm: sha256WithRSAEncryption
-/etc/kubernetes/pki/etcd/healthcheck-client.crt :         Signature Algorithm: sha256WithRSAEncryption
-/etc/kubernetes/pki/ca.crt :         Signature Algorithm: sha256WithRSAEncryption
-/etc/kubernetes/pki/apiserver-kubelet-client.crt :         Signature Algorithm: sha256WithRSAEncryption
+/etc/kubernetes/pki/etcd/peer.crt :         Signature Algorithm: sha256WithRSAEncryption
 ===Audit Result===
 
 4.5

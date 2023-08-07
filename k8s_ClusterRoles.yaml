@@ -9,12 +9,12 @@ items:
   metadata:
     annotations:
       rbac.authorization.kubernetes.io/autoupdate: "true"
-    creationTimestamp: "2023-03-14T08:31:55Z"
+    creationTimestamp: "2021-12-10T08:40:51Z"
     labels:
       kubernetes.io/bootstrapping: rbac-defaults
     name: admin
-    resourceVersion: "349"
-    uid: 0cd2d3c7-c853-4be4-a881-029d83275709
+    resourceVersion: "427"
+    uid: 87d08318-b4f5-4789-99e3-97545a475e0a
   rules:
   - apiGroups:
     - ""
@@ -52,14 +52,8 @@ items:
   - apiGroups:
     - ""
     resources:
-    - pods/eviction
-    verbs:
-    - create
-  - apiGroups:
-    - ""
-    resources:
     - configmaps
-    - events
+    - endpoints
     - persistentvolumeclaims
     - replicationcontrollers
     - replicationcontrollers/scale
@@ -73,12 +67,6 @@ items:
     - deletecollection
     - patch
     - update
-  - apiGroups:
-    - ""
-    resources:
-    - serviceaccounts/token
-    verbs:
-    - create
   - apiGroups:
     - apps
     resources:
@@ -157,19 +145,6 @@ items:
     - patch
     - update
   - apiGroups:
-    - coordination.k8s.io
-    resources:
-    - leases
-    verbs:
-    - create
-    - delete
-    - deletecollection
-    - get
-    - list
-    - patch
-    - update
-    - watch
-  - apiGroups:
     - ""
     resources:
     - configmaps
@@ -206,14 +181,6 @@ items:
     - ""
     resources:
     - namespaces
-    verbs:
-    - get
-    - list
-    - watch
-  - apiGroups:
-    - discovery.k8s.io
-    resources:
-    - endpointslices
     verbs:
     - get
     - list
@@ -320,12 +287,12 @@ items:
   metadata:
     annotations:
       rbac.authorization.kubernetes.io/autoupdate: "true"
-    creationTimestamp: "2023-03-14T08:31:55Z"
+    creationTimestamp: "2021-12-10T08:40:51Z"
     labels:
       kubernetes.io/bootstrapping: rbac-defaults
     name: cluster-admin
-    resourceVersion: "73"
-    uid: 66e2094d-0440-448e-b745-0a15d772a238
+    resourceVersion: "86"
+    uid: d5b40e51-945b-485d-8130-d3f595649f59
   rules:
   - apiGroups:
     - '*'
@@ -346,13 +313,13 @@ items:
   metadata:
     annotations:
       rbac.authorization.kubernetes.io/autoupdate: "true"
-    creationTimestamp: "2023-03-14T08:31:55Z"
+    creationTimestamp: "2021-12-10T08:40:51Z"
     labels:
       kubernetes.io/bootstrapping: rbac-defaults
       rbac.authorization.k8s.io/aggregate-to-admin: "true"
     name: edit
-    resourceVersion: "348"
-    uid: e15d4edc-78dc-4f52-b5a1-b0b580a9e3d6
+    resourceVersion: "426"
+    uid: 33f54f12-b026-44af-b98d-84cb88ea8c57
   rules:
   - apiGroups:
     - ""
@@ -390,14 +357,8 @@ items:
   - apiGroups:
     - ""
     resources:
-    - pods/eviction
-    verbs:
-    - create
-  - apiGroups:
-    - ""
-    resources:
     - configmaps
-    - events
+    - endpoints
     - persistentvolumeclaims
     - replicationcontrollers
     - replicationcontrollers/scale
@@ -411,12 +372,6 @@ items:
     - deletecollection
     - patch
     - update
-  - apiGroups:
-    - ""
-    resources:
-    - serviceaccounts/token
-    verbs:
-    - create
   - apiGroups:
     - apps
     resources:
@@ -495,19 +450,6 @@ items:
     - patch
     - update
   - apiGroups:
-    - coordination.k8s.io
-    resources:
-    - leases
-    verbs:
-    - create
-    - delete
-    - deletecollection
-    - get
-    - list
-    - patch
-    - update
-    - watch
-  - apiGroups:
     - ""
     resources:
     - configmaps
@@ -544,14 +486,6 @@ items:
     - ""
     resources:
     - namespaces
-    verbs:
-    - get
-    - list
-    - watch
-  - apiGroups:
-    - discovery.k8s.io
-    resources:
-    - endpointslices
     verbs:
     - get
     - list
@@ -636,10 +570,48 @@ items:
 - apiVersion: rbac.authorization.k8s.io/v1
   kind: ClusterRole
   metadata:
-    creationTimestamp: "2023-03-14T08:31:58Z"
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"rbac.authorization.k8s.io/v1","kind":"ClusterRole","metadata":{"annotations":{},"name":"flannel"},"rules":[{"apiGroups":["extensions"],"resourceNames":["psp.flannel.unprivileged"],"resources":["podsecuritypolicies"],"verbs":["use"]},{"apiGroups":[""],"resources":["pods"],"verbs":["get"]},{"apiGroups":[""],"resources":["nodes"],"verbs":["list","watch"]},{"apiGroups":[""],"resources":["nodes/status"],"verbs":["patch"]}]}
+    creationTimestamp: "2021-12-10T08:43:44Z"
+    name: flannel
+    resourceVersion: "640"
+    uid: 2764e7f1-2cef-4736-a2ec-612780209ab3
+  rules:
+  - apiGroups:
+    - extensions
+    resourceNames:
+    - psp.flannel.unprivileged
+    resources:
+    - podsecuritypolicies
+    verbs:
+    - use
+  - apiGroups:
+    - ""
+    resources:
+    - pods
+    verbs:
+    - get
+  - apiGroups:
+    - ""
+    resources:
+    - nodes
+    verbs:
+    - list
+    - watch
+  - apiGroups:
+    - ""
+    resources:
+    - nodes/status
+    verbs:
+    - patch
+- apiVersion: rbac.authorization.k8s.io/v1
+  kind: ClusterRole
+  metadata:
+    creationTimestamp: "2021-12-10T08:40:53Z"
     name: kubeadm:get-nodes
-    resourceVersion: "234"
-    uid: 3ec6754d-a20c-41e1-ba93-ee5148102f9e
+    resourceVersion: "222"
+    uid: 9926350c-9bf0-4475-8be9-57bb27a2f10b
   rules:
   - apiGroups:
     - ""
@@ -651,14 +623,60 @@ items:
   kind: ClusterRole
   metadata:
     annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"rbac.authorization.k8s.io/v1","kind":"ClusterRole","metadata":{"annotations":{},"name":"nfs-client-provisioner-runner"},"rules":[{"apiGroups":[""],"resources":["persistentvolumes"],"verbs":["get","list","watch","create","delete"]},{"apiGroups":[""],"resources":["persistentvolumeclaims"],"verbs":["get","list","watch","update"]},{"apiGroups":["storage.k8s.io"],"resources":["storageclasses"],"verbs":["get","list","watch"]},{"apiGroups":[""],"resources":["events"],"verbs":["create","update","patch"]}]}
+    creationTimestamp: "2021-12-16T06:37:32Z"
+    name: nfs-client-provisioner-runner
+    resourceVersion: "3547"
+    uid: 4dbc8c46-f0c5-4f28-ab66-c098f6136ba5
+  rules:
+  - apiGroups:
+    - ""
+    resources:
+    - persistentvolumes
+    verbs:
+    - get
+    - list
+    - watch
+    - create
+    - delete
+  - apiGroups:
+    - ""
+    resources:
+    - persistentvolumeclaims
+    verbs:
+    - get
+    - list
+    - watch
+    - update
+  - apiGroups:
+    - storage.k8s.io
+    resources:
+    - storageclasses
+    verbs:
+    - get
+    - list
+    - watch
+  - apiGroups:
+    - ""
+    resources:
+    - events
+    verbs:
+    - create
+    - update
+    - patch
+- apiVersion: rbac.authorization.k8s.io/v1
+  kind: ClusterRole
+  metadata:
+    annotations:
       rbac.authorization.kubernetes.io/autoupdate: "true"
-    creationTimestamp: "2023-03-14T08:31:55Z"
+    creationTimestamp: "2021-12-10T08:40:51Z"
     labels:
       kubernetes.io/bootstrapping: rbac-defaults
       rbac.authorization.k8s.io/aggregate-to-admin: "true"
     name: system:aggregate-to-admin
-    resourceVersion: "81"
-    uid: 7ba4180e-cb4e-474a-ad79-243862996c19
+    resourceVersion: "94"
+    uid: 469effca-13f8-4cb9-9685-2087ec0e53a4
   rules:
   - apiGroups:
     - authorization.k8s.io
@@ -685,13 +703,13 @@ items:
   metadata:
     annotations:
       rbac.authorization.kubernetes.io/autoupdate: "true"
-    creationTimestamp: "2023-03-14T08:31:55Z"
+    creationTimestamp: "2021-12-10T08:40:51Z"
     labels:
       kubernetes.io/bootstrapping: rbac-defaults
       rbac.authorization.k8s.io/aggregate-to-edit: "true"
     name: system:aggregate-to-edit
-    resourceVersion: "82"
-    uid: f93cb6f1-4d5a-419c-8e77-6fadb3e0989e
+    resourceVersion: "95"
+    uid: fd7910b8-3fa3-47b3-b9ec-b88a30dd7a30
   rules:
   - apiGroups:
     - ""
@@ -729,14 +747,8 @@ items:
   - apiGroups:
     - ""
     resources:
-    - pods/eviction
-    verbs:
-    - create
-  - apiGroups:
-    - ""
-    resources:
     - configmaps
-    - events
+    - endpoints
     - persistentvolumeclaims
     - replicationcontrollers
     - replicationcontrollers/scale
@@ -750,12 +762,6 @@ items:
     - deletecollection
     - patch
     - update
-  - apiGroups:
-    - ""
-    resources:
-    - serviceaccounts/token
-    verbs:
-    - create
   - apiGroups:
     - apps
     resources:
@@ -833,31 +839,18 @@ items:
     - deletecollection
     - patch
     - update
-  - apiGroups:
-    - coordination.k8s.io
-    resources:
-    - leases
-    verbs:
-    - create
-    - delete
-    - deletecollection
-    - get
-    - list
-    - patch
-    - update
-    - watch
 - apiVersion: rbac.authorization.k8s.io/v1
   kind: ClusterRole
   metadata:
     annotations:
       rbac.authorization.kubernetes.io/autoupdate: "true"
-    creationTimestamp: "2023-03-14T08:31:55Z"
+    creationTimestamp: "2021-12-10T08:40:51Z"
     labels:
       kubernetes.io/bootstrapping: rbac-defaults
       rbac.authorization.k8s.io/aggregate-to-view: "true"
     name: system:aggregate-to-view
-    resourceVersion: "83"
-    uid: 0408e1fc-6d81-49aa-9f95-3af6bcab2246
+    resourceVersion: "96"
+    uid: f538688e-67ae-40dd-a7bc-10ef9190c0ad
   rules:
   - apiGroups:
     - ""
@@ -896,14 +889,6 @@ items:
     - ""
     resources:
     - namespaces
-    verbs:
-    - get
-    - list
-    - watch
-  - apiGroups:
-    - discovery.k8s.io
-    resources:
-    - endpointslices
     verbs:
     - get
     - list
@@ -990,12 +975,12 @@ items:
   metadata:
     annotations:
       rbac.authorization.kubernetes.io/autoupdate: "true"
-    creationTimestamp: "2023-03-14T08:31:56Z"
+    creationTimestamp: "2021-12-10T08:40:51Z"
     labels:
       kubernetes.io/bootstrapping: rbac-defaults
     name: system:auth-delegator
-    resourceVersion: "89"
-    uid: 6fb53114-d2f9-4720-af9b-aa341c8f928d
+    resourceVersion: "102"
+    uid: ea48de2b-6806-4494-8d6d-8ccb28e4cfc0
   rules:
   - apiGroups:
     - authentication.k8s.io
@@ -1014,12 +999,12 @@ items:
   metadata:
     annotations:
       rbac.authorization.kubernetes.io/autoupdate: "true"
-    creationTimestamp: "2023-03-14T08:31:55Z"
+    creationTimestamp: "2021-12-10T08:40:51Z"
     labels:
       kubernetes.io/bootstrapping: rbac-defaults
     name: system:basic-user
-    resourceVersion: "76"
-    uid: b64ef543-1539-492f-a86c-efd628220d90
+    resourceVersion: "89"
+    uid: 1fdfbce3-bb8c-4a3f-834c-e08cbf822a07
   rules:
   - apiGroups:
     - authorization.k8s.io
@@ -1033,12 +1018,12 @@ items:
   metadata:
     annotations:
       rbac.authorization.kubernetes.io/autoupdate: "true"
-    creationTimestamp: "2023-03-14T08:31:56Z"
+    creationTimestamp: "2021-12-10T08:40:51Z"
     labels:
       kubernetes.io/bootstrapping: rbac-defaults
     name: system:certificates.k8s.io:certificatesigningrequests:nodeclient
-    resourceVersion: "94"
-    uid: e486c27b-eab3-4d15-82a9-970c1ecb38ff
+    resourceVersion: "107"
+    uid: 8aed26e2-c74e-4447-b632-9cd915579c59
   rules:
   - apiGroups:
     - certificates.k8s.io
@@ -1051,12 +1036,12 @@ items:
   metadata:
     annotations:
       rbac.authorization.kubernetes.io/autoupdate: "true"
-    creationTimestamp: "2023-03-14T08:31:56Z"
+    creationTimestamp: "2021-12-10T08:40:51Z"
     labels:
       kubernetes.io/bootstrapping: rbac-defaults
     name: system:certificates.k8s.io:certificatesigningrequests:selfnodeclient
-    resourceVersion: "95"
-    uid: 73a8b27f-f62d-44e9-9a00-d23789f8ee8b
+    resourceVersion: "108"
+    uid: 934563e5-dbe8-4aa6-bb5a-8c3fdb578e4a
   rules:
   - apiGroups:
     - certificates.k8s.io
@@ -1069,12 +1054,12 @@ items:
   metadata:
     annotations:
       rbac.authorization.kubernetes.io/autoupdate: "true"
-    creationTimestamp: "2023-03-14T08:31:56Z"
+    creationTimestamp: "2021-12-10T08:40:51Z"
     labels:
       kubernetes.io/bootstrapping: rbac-defaults
     name: system:certificates.k8s.io:kube-apiserver-client-approver
-    resourceVersion: "99"
-    uid: c4b4d766-58e0-44bd-86b5-18f1c569ad93
+    resourceVersion: "112"
+    uid: 1e8fb664-6870-405c-ad3c-65b919010940
   rules:
   - apiGroups:
     - certificates.k8s.io
@@ -1089,12 +1074,12 @@ items:
   metadata:
     annotations:
       rbac.authorization.kubernetes.io/autoupdate: "true"
-    creationTimestamp: "2023-03-14T08:31:56Z"
+    creationTimestamp: "2021-12-10T08:40:51Z"
     labels:
       kubernetes.io/bootstrapping: rbac-defaults
     name: system:certificates.k8s.io:kube-apiserver-client-kubelet-approver
-    resourceVersion: "100"
-    uid: c1a72a72-f1e4-4510-99cd-ce6c9131b625
+    resourceVersion: "113"
+    uid: 44e1c256-5251-4798-b8b2-afc99dd16ad4
   rules:
   - apiGroups:
     - certificates.k8s.io
@@ -1109,12 +1094,12 @@ items:
   metadata:
     annotations:
       rbac.authorization.kubernetes.io/autoupdate: "true"
-    creationTimestamp: "2023-03-14T08:31:56Z"
+    creationTimestamp: "2021-12-10T08:40:51Z"
     labels:
       kubernetes.io/bootstrapping: rbac-defaults
     name: system:certificates.k8s.io:kubelet-serving-approver
-    resourceVersion: "98"
-    uid: 24b9f5b6-e282-4205-8cbb-76636589d113
+    resourceVersion: "111"
+    uid: ee91360f-0683-4cf0-999d-c3df8a5e4f83
   rules:
   - apiGroups:
     - certificates.k8s.io
@@ -1129,12 +1114,12 @@ items:
   metadata:
     annotations:
       rbac.authorization.kubernetes.io/autoupdate: "true"
-    creationTimestamp: "2023-03-14T08:31:56Z"
+    creationTimestamp: "2021-12-10T08:40:51Z"
     labels:
       kubernetes.io/bootstrapping: rbac-defaults
     name: system:certificates.k8s.io:legacy-unknown-approver
-    resourceVersion: "97"
-    uid: 1451ccfd-3008-4726-a1c0-80e96945ab2c
+    resourceVersion: "110"
+    uid: f8b0f428-a8cf-468b-90cb-df41f95b5070
   rules:
   - apiGroups:
     - certificates.k8s.io
@@ -1149,12 +1134,12 @@ items:
   metadata:
     annotations:
       rbac.authorization.kubernetes.io/autoupdate: "true"
-    creationTimestamp: "2023-03-14T08:31:56Z"
+    creationTimestamp: "2021-12-10T08:40:51Z"
     labels:
       kubernetes.io/bootstrapping: rbac-defaults
     name: system:controller:attachdetach-controller
-    resourceVersion: "104"
-    uid: c05ae1fd-79bd-40c5-b791-877e0fac2774
+    resourceVersion: "117"
+    uid: 327324a4-9eff-49a6-9df6-e9347c79acf5
   rules:
   - apiGroups:
     - ""
@@ -1226,12 +1211,12 @@ items:
   metadata:
     annotations:
       rbac.authorization.kubernetes.io/autoupdate: "true"
-    creationTimestamp: "2023-03-14T08:31:56Z"
+    creationTimestamp: "2021-12-10T08:40:51Z"
     labels:
       kubernetes.io/bootstrapping: rbac-defaults
     name: system:controller:certificate-controller
-    resourceVersion: "130"
-    uid: 85b69730-d251-4e42-9dad-8c74a282632a
+    resourceVersion: "143"
+    uid: 95569399-e755-4941-8bea-3a8cf786261d
   rules:
   - apiGroups:
     - certificates.k8s.io
@@ -1288,12 +1273,12 @@ items:
   metadata:
     annotations:
       rbac.authorization.kubernetes.io/autoupdate: "true"
-    creationTimestamp: "2023-03-14T08:31:56Z"
+    creationTimestamp: "2021-12-10T08:40:51Z"
     labels:
       kubernetes.io/bootstrapping: rbac-defaults
     name: system:controller:clusterrole-aggregation-controller
-    resourceVersion: "105"
-    uid: 719d1f3b-317b-4df2-b24e-e58afc2fe2a3
+    resourceVersion: "118"
+    uid: 24f8e204-3bc1-4392-8e34-c991ff63bd8c
   rules:
   - apiGroups:
     - rbac.authorization.k8s.io
@@ -1311,12 +1296,12 @@ items:
   metadata:
     annotations:
       rbac.authorization.kubernetes.io/autoupdate: "true"
-    creationTimestamp: "2023-03-14T08:31:56Z"
+    creationTimestamp: "2021-12-10T08:40:51Z"
     labels:
       kubernetes.io/bootstrapping: rbac-defaults
     name: system:controller:cronjob-controller
-    resourceVersion: "106"
-    uid: c3436b3a-75da-44c3-a931-fddfdcce4e47
+    resourceVersion: "119"
+    uid: 85251854-79f9-4b07-a949-42245a4cb423
   rules:
   - apiGroups:
     - batch
@@ -1372,12 +1357,12 @@ items:
   metadata:
     annotations:
       rbac.authorization.kubernetes.io/autoupdate: "true"
-    creationTimestamp: "2023-03-14T08:31:56Z"
+    creationTimestamp: "2021-12-10T08:40:51Z"
     labels:
       kubernetes.io/bootstrapping: rbac-defaults
     name: system:controller:daemon-set-controller
-    resourceVersion: "107"
-    uid: bfe4e7a8-7eb1-4aca-bd69-ed780009d4be
+    resourceVersion: "120"
+    uid: b2f4b796-28b6-4d12-8297-5ea0dea5b30a
   rules:
   - apiGroups:
     - apps
@@ -1451,12 +1436,12 @@ items:
   metadata:
     annotations:
       rbac.authorization.kubernetes.io/autoupdate: "true"
-    creationTimestamp: "2023-03-14T08:31:56Z"
+    creationTimestamp: "2021-12-10T08:40:51Z"
     labels:
       kubernetes.io/bootstrapping: rbac-defaults
     name: system:controller:deployment-controller
-    resourceVersion: "108"
-    uid: 32b5a203-2a09-4d88-952e-ecedd96cfea5
+    resourceVersion: "121"
+    uid: c189a0d6-8d3d-441f-b7eb-bc533718ef8d
   rules:
   - apiGroups:
     - apps
@@ -1518,12 +1503,12 @@ items:
   metadata:
     annotations:
       rbac.authorization.kubernetes.io/autoupdate: "true"
-    creationTimestamp: "2023-03-14T08:31:56Z"
+    creationTimestamp: "2021-12-10T08:40:51Z"
     labels:
       kubernetes.io/bootstrapping: rbac-defaults
     name: system:controller:disruption-controller
-    resourceVersion: "109"
-    uid: daa995b8-c0c4-4f79-a55a-309dce3570b9
+    resourceVersion: "122"
+    uid: 7f8c7003-3121-4fd9-b682-ad4250644bfa
   rules:
   - apiGroups:
     - apps
@@ -1588,23 +1573,17 @@ items:
     - create
     - patch
     - update
-  - apiGroups:
-    - ""
-    resources:
-    - pods/status
-    verbs:
-    - patch
 - apiVersion: rbac.authorization.k8s.io/v1
   kind: ClusterRole
   metadata:
     annotations:
       rbac.authorization.kubernetes.io/autoupdate: "true"
-    creationTimestamp: "2023-03-14T08:31:56Z"
+    creationTimestamp: "2021-12-10T08:40:51Z"
     labels:
       kubernetes.io/bootstrapping: rbac-defaults
     name: system:controller:endpoint-controller
-    resourceVersion: "110"
-    uid: 15934981-4a3f-4ddb-8a67-3646108c1ffc
+    resourceVersion: "123"
+    uid: 71d3d7ea-ee14-4797-a3b4-469cd698e55d
   rules:
   - apiGroups:
     - ""
@@ -1645,12 +1624,12 @@ items:
   metadata:
     annotations:
       rbac.authorization.kubernetes.io/autoupdate: "true"
-    creationTimestamp: "2023-03-14T08:31:56Z"
+    creationTimestamp: "2021-12-10T08:40:51Z"
     labels:
       kubernetes.io/bootstrapping: rbac-defaults
     name: system:controller:endpointslice-controller
-    resourceVersion: "111"
-    uid: 3828ffc5-a386-4b85-9404-7cdf6237ba70
+    resourceVersion: "124"
+    uid: cee98ad8-140b-4ebc-8b11-b32f876e3c23
   rules:
   - apiGroups:
     - ""
@@ -1692,12 +1671,12 @@ items:
   metadata:
     annotations:
       rbac.authorization.kubernetes.io/autoupdate: "true"
-    creationTimestamp: "2023-03-14T08:31:56Z"
+    creationTimestamp: "2021-12-10T08:40:51Z"
     labels:
       kubernetes.io/bootstrapping: rbac-defaults
     name: system:controller:endpointslicemirroring-controller
-    resourceVersion: "112"
-    uid: a71f0c9c-085a-492a-9f0f-a7a00ceab65f
+    resourceVersion: "125"
+    uid: 8f78c53d-fb77-4e67-a755-b52f56402648
   rules:
   - apiGroups:
     - ""
@@ -1744,12 +1723,12 @@ items:
   metadata:
     annotations:
       rbac.authorization.kubernetes.io/autoupdate: "true"
-    creationTimestamp: "2023-03-14T08:31:56Z"
+    creationTimestamp: "2021-12-10T08:40:51Z"
     labels:
       kubernetes.io/bootstrapping: rbac-defaults
     name: system:controller:ephemeral-volume-controller
-    resourceVersion: "114"
-    uid: fdf59bff-2669-4bcc-b76a-c14cdd6e9ecd
+    resourceVersion: "127"
+    uid: 207398f4-820b-43f5-8509-7ca160da304c
   rules:
   - apiGroups:
     - ""
@@ -1788,12 +1767,12 @@ items:
   metadata:
     annotations:
       rbac.authorization.kubernetes.io/autoupdate: "true"
-    creationTimestamp: "2023-03-14T08:31:56Z"
+    creationTimestamp: "2021-12-10T08:40:51Z"
     labels:
       kubernetes.io/bootstrapping: rbac-defaults
     name: system:controller:expand-controller
-    resourceVersion: "113"
-    uid: 534a913a-10b2-40b3-ab28-04a53173e2c5
+    resourceVersion: "126"
+    uid: 3b925688-9f60-4db8-b90d-0ac120b853bf
   rules:
   - apiGroups:
     - ""
@@ -1855,12 +1834,12 @@ items:
   metadata:
     annotations:
       rbac.authorization.kubernetes.io/autoupdate: "true"
-    creationTimestamp: "2023-03-14T08:31:56Z"
+    creationTimestamp: "2021-12-10T08:40:51Z"
     labels:
       kubernetes.io/bootstrapping: rbac-defaults
     name: system:controller:generic-garbage-collector
-    resourceVersion: "115"
-    uid: cbfe6f19-f0a9-4e89-8f54-552ed13f0ef8
+    resourceVersion: "128"
+    uid: f9adbb8f-7ed3-4e96-b6ae-802eb43b2841
   rules:
   - apiGroups:
     - '*'
@@ -1887,12 +1866,12 @@ items:
   metadata:
     annotations:
       rbac.authorization.kubernetes.io/autoupdate: "true"
-    creationTimestamp: "2023-03-14T08:31:56Z"
+    creationTimestamp: "2021-12-10T08:40:51Z"
     labels:
       kubernetes.io/bootstrapping: rbac-defaults
     name: system:controller:horizontal-pod-autoscaler
-    resourceVersion: "116"
-    uid: 220fcfba-57fd-4d5d-84a7-8a1b6cb05534
+    resourceVersion: "129"
+    uid: 13cdde0d-f95d-4529-b739-50f19ca6a4bb
   rules:
   - apiGroups:
     - autoscaling
@@ -1944,13 +1923,6 @@ items:
     - get
     - list
   - apiGroups:
-    - external.metrics.k8s.io
-    resources:
-    - '*'
-    verbs:
-    - get
-    - list
-  - apiGroups:
     - ""
     - events.k8s.io
     resources:
@@ -1964,12 +1936,12 @@ items:
   metadata:
     annotations:
       rbac.authorization.kubernetes.io/autoupdate: "true"
-    creationTimestamp: "2023-03-14T08:31:56Z"
+    creationTimestamp: "2021-12-10T08:40:51Z"
     labels:
       kubernetes.io/bootstrapping: rbac-defaults
     name: system:controller:job-controller
-    resourceVersion: "117"
-    uid: ed88722c-1832-4046-86a5-c7f3c94c80de
+    resourceVersion: "130"
+    uid: 5ef303b3-c633-4dad-87fa-485ddd42e562
   rules:
   - apiGroups:
     - batch
@@ -1978,7 +1950,6 @@ items:
     verbs:
     - get
     - list
-    - patch
     - update
     - watch
   - apiGroups:
@@ -2017,12 +1988,12 @@ items:
   metadata:
     annotations:
       rbac.authorization.kubernetes.io/autoupdate: "true"
-    creationTimestamp: "2023-03-14T08:31:56Z"
+    creationTimestamp: "2021-12-10T08:40:51Z"
     labels:
       kubernetes.io/bootstrapping: rbac-defaults
     name: system:controller:namespace-controller
-    resourceVersion: "118"
-    uid: 395f7352-22e4-4e99-86af-a9cd3f0b42bb
+    resourceVersion: "131"
+    uid: 2226d8db-3384-44f0-9667-fd9015b1dede
   rules:
   - apiGroups:
     - ""
@@ -2054,12 +2025,12 @@ items:
   metadata:
     annotations:
       rbac.authorization.kubernetes.io/autoupdate: "true"
-    creationTimestamp: "2023-03-14T08:31:56Z"
+    creationTimestamp: "2021-12-10T08:40:51Z"
     labels:
       kubernetes.io/bootstrapping: rbac-defaults
     name: system:controller:node-controller
-    resourceVersion: "119"
-    uid: 226d5c4e-1810-4fe5-adf7-a4652a97f58f
+    resourceVersion: "132"
+    uid: 5f6a973d-9d03-43cd-9271-5746c88b0f04
   rules:
   - apiGroups:
     - ""
@@ -2083,7 +2054,6 @@ items:
     resources:
     - pods/status
     verbs:
-    - patch
     - update
   - apiGroups:
     - ""
@@ -2093,15 +2063,6 @@ items:
     - delete
     - list
   - apiGroups:
-    - networking.k8s.io
-    resources:
-    - clustercidrs
-    verbs:
-    - create
-    - get
-    - list
-    - update
-  - apiGroups:
     - ""
     - events.k8s.io
     resources:
@@ -2110,23 +2071,17 @@ items:
     - create
     - patch
     - update
-  - apiGroups:
-    - ""
-    resources:
-    - pods
-    verbs:
-    - get
 - apiVersion: rbac.authorization.k8s.io/v1
   kind: ClusterRole
   metadata:
     annotations:
       rbac.authorization.kubernetes.io/autoupdate: "true"
-    creationTimestamp: "2023-03-14T08:31:56Z"
+    creationTimestamp: "2021-12-10T08:40:51Z"
     labels:
       kubernetes.io/bootstrapping: rbac-defaults
     name: system:controller:persistent-volume-binder
-    resourceVersion: "120"
-    uid: 5998bcf0-5d04-4456-bb16-73e7fdf7efbc
+    resourceVersion: "133"
+    uid: bdeab687-73db-4cb6-989a-e022052e2c08
   rules:
   - apiGroups:
     - ""
@@ -2228,12 +2183,12 @@ items:
   metadata:
     annotations:
       rbac.authorization.kubernetes.io/autoupdate: "true"
-    creationTimestamp: "2023-03-14T08:31:56Z"
+    creationTimestamp: "2021-12-10T08:40:51Z"
     labels:
       kubernetes.io/bootstrapping: rbac-defaults
     name: system:controller:pod-garbage-collector
-    resourceVersion: "121"
-    uid: 45f86daf-d202-4169-b965-e908bb03c43e
+    resourceVersion: "134"
+    uid: 08911b2e-3518-43f2-8edc-b9333b0e8d11
   rules:
   - apiGroups:
     - ""
@@ -2250,23 +2205,17 @@ items:
     verbs:
     - get
     - list
-  - apiGroups:
-    - ""
-    resources:
-    - pods/status
-    verbs:
-    - patch
 - apiVersion: rbac.authorization.k8s.io/v1
   kind: ClusterRole
   metadata:
     annotations:
       rbac.authorization.kubernetes.io/autoupdate: "true"
-    creationTimestamp: "2023-03-14T08:31:56Z"
+    creationTimestamp: "2021-12-10T08:40:51Z"
     labels:
       kubernetes.io/bootstrapping: rbac-defaults
     name: system:controller:pv-protection-controller
-    resourceVersion: "132"
-    uid: cf7f654b-781e-4a34-a0f6-49835d1eedb3
+    resourceVersion: "145"
+    uid: ae3ae660-3f1e-4d41-bb8b-48926e0cb9d7
   rules:
   - apiGroups:
     - ""
@@ -2291,12 +2240,12 @@ items:
   metadata:
     annotations:
       rbac.authorization.kubernetes.io/autoupdate: "true"
-    creationTimestamp: "2023-03-14T08:31:56Z"
+    creationTimestamp: "2021-12-10T08:40:51Z"
     labels:
       kubernetes.io/bootstrapping: rbac-defaults
     name: system:controller:pvc-protection-controller
-    resourceVersion: "131"
-    uid: d70289f9-9c25-437a-a78c-16866a0d5f22
+    resourceVersion: "144"
+    uid: c2be8140-bf80-4f72-96ef-905ea1765c06
   rules:
   - apiGroups:
     - ""
@@ -2329,12 +2278,12 @@ items:
   metadata:
     annotations:
       rbac.authorization.kubernetes.io/autoupdate: "true"
-    creationTimestamp: "2023-03-14T08:31:56Z"
+    creationTimestamp: "2021-12-10T08:40:51Z"
     labels:
       kubernetes.io/bootstrapping: rbac-defaults
     name: system:controller:replicaset-controller
-    resourceVersion: "122"
-    uid: 41d28409-197b-4f2e-9917-d6e799abe955
+    resourceVersion: "135"
+    uid: 386ca390-4be6-4380-9e7c-51c8d654d746
   rules:
   - apiGroups:
     - apps
@@ -2384,12 +2333,12 @@ items:
   metadata:
     annotations:
       rbac.authorization.kubernetes.io/autoupdate: "true"
-    creationTimestamp: "2023-03-14T08:31:56Z"
+    creationTimestamp: "2021-12-10T08:40:51Z"
     labels:
       kubernetes.io/bootstrapping: rbac-defaults
     name: system:controller:replication-controller
-    resourceVersion: "123"
-    uid: ad14171e-3bf7-48c8-a12f-12194cc50eb5
+    resourceVersion: "136"
+    uid: 02e61325-be62-4c20-955f-14562228c449
   rules:
   - apiGroups:
     - ""
@@ -2436,12 +2385,12 @@ items:
   metadata:
     annotations:
       rbac.authorization.kubernetes.io/autoupdate: "true"
-    creationTimestamp: "2023-03-14T08:31:56Z"
+    creationTimestamp: "2021-12-10T08:40:51Z"
     labels:
       kubernetes.io/bootstrapping: rbac-defaults
     name: system:controller:resourcequota-controller
-    resourceVersion: "124"
-    uid: 912d0000-ce88-4ba7-a1f8-d78834813dcb
+    resourceVersion: "137"
+    uid: eb8d9fc5-c3bb-4b48-ae41-2d61d8d7ab23
   rules:
   - apiGroups:
     - '*'
@@ -2470,12 +2419,12 @@ items:
   metadata:
     annotations:
       rbac.authorization.kubernetes.io/autoupdate: "true"
-    creationTimestamp: "2023-03-14T08:31:56Z"
+    creationTimestamp: "2021-12-10T08:40:51Z"
     labels:
       kubernetes.io/bootstrapping: rbac-defaults
     name: system:controller:root-ca-cert-publisher
-    resourceVersion: "134"
-    uid: f2a63767-99cd-4aed-8b75-c4e15e32193a
+    resourceVersion: "147"
+    uid: d43fb056-2c46-4278-acbd-76fbc269ad05
   rules:
   - apiGroups:
     - ""
@@ -2498,12 +2447,12 @@ items:
   metadata:
     annotations:
       rbac.authorization.kubernetes.io/autoupdate: "true"
-    creationTimestamp: "2023-03-14T08:31:56Z"
+    creationTimestamp: "2021-12-10T08:40:51Z"
     labels:
       kubernetes.io/bootstrapping: rbac-defaults
     name: system:controller:route-controller
-    resourceVersion: "125"
-    uid: 031ae9f1-34dd-4a6e-ad36-360766ff1272
+    resourceVersion: "138"
+    uid: 74e13975-dbb3-4e60-8ad8-2b9cb35f5536
   rules:
   - apiGroups:
     - ""
@@ -2532,12 +2481,12 @@ items:
   metadata:
     annotations:
       rbac.authorization.kubernetes.io/autoupdate: "true"
-    creationTimestamp: "2023-03-14T08:31:56Z"
+    creationTimestamp: "2021-12-10T08:40:51Z"
     labels:
       kubernetes.io/bootstrapping: rbac-defaults
     name: system:controller:service-account-controller
-    resourceVersion: "126"
-    uid: c195b879-2039-4a54-aee4-ed943a62d821
+    resourceVersion: "139"
+    uid: 92a0b150-82f5-4240-a769-9fa3a98ffa42
   rules:
   - apiGroups:
     - ""
@@ -2559,12 +2508,12 @@ items:
   metadata:
     annotations:
       rbac.authorization.kubernetes.io/autoupdate: "true"
-    creationTimestamp: "2023-03-14T08:31:56Z"
+    creationTimestamp: "2021-12-10T08:40:51Z"
     labels:
       kubernetes.io/bootstrapping: rbac-defaults
     name: system:controller:service-controller
-    resourceVersion: "127"
-    uid: 462c0b1c-f2c7-45a5-89e9-16c1117cd88b
+    resourceVersion: "140"
+    uid: e9a43222-8122-49d6-8a7c-484f755f8a20
   rules:
   - apiGroups:
     - ""
@@ -2602,12 +2551,12 @@ items:
   metadata:
     annotations:
       rbac.authorization.kubernetes.io/autoupdate: "true"
-    creationTimestamp: "2023-03-14T08:31:56Z"
+    creationTimestamp: "2021-12-10T08:40:51Z"
     labels:
       kubernetes.io/bootstrapping: rbac-defaults
     name: system:controller:statefulset-controller
-    resourceVersion: "128"
-    uid: 87b1cebd-61d1-4ff3-a8d9-59d1dd9162a8
+    resourceVersion: "141"
+    uid: a65e202f-6de2-4ba6-a425-851848144c30
   rules:
   - apiGroups:
     - ""
@@ -2679,12 +2628,12 @@ items:
   metadata:
     annotations:
       rbac.authorization.kubernetes.io/autoupdate: "true"
-    creationTimestamp: "2023-03-14T08:31:56Z"
+    creationTimestamp: "2021-12-10T08:40:51Z"
     labels:
       kubernetes.io/bootstrapping: rbac-defaults
     name: system:controller:ttl-after-finished-controller
-    resourceVersion: "133"
-    uid: ed6ead79-1c51-4b92-8013-12c918a632b5
+    resourceVersion: "146"
+    uid: adf4d265-d6f2-415f-8c67-7355b443cd75
   rules:
   - apiGroups:
     - batch
@@ -2709,12 +2658,12 @@ items:
   metadata:
     annotations:
       rbac.authorization.kubernetes.io/autoupdate: "true"
-    creationTimestamp: "2023-03-14T08:31:56Z"
+    creationTimestamp: "2021-12-10T08:40:51Z"
     labels:
       kubernetes.io/bootstrapping: rbac-defaults
     name: system:controller:ttl-controller
-    resourceVersion: "129"
-    uid: be7a165c-de5b-491a-8055-6608d7b1cec7
+    resourceVersion: "142"
+    uid: 990c8579-b40e-4714-aa05-b438a8e2dad9
   rules:
   - apiGroups:
     - ""
@@ -2737,10 +2686,10 @@ items:
 - apiVersion: rbac.authorization.k8s.io/v1
   kind: ClusterRole
   metadata:
-    creationTimestamp: "2023-03-14T08:31:59Z"
+    creationTimestamp: "2021-12-10T08:40:54Z"
     name: system:coredns
-    resourceVersion: "251"
-    uid: e35ab171-0e75-49b8-9a91-5f6c511c3741
+    resourceVersion: "236"
+    uid: b50cee47-9c53-4bb1-96f6-6a6d460f32c7
   rules:
   - apiGroups:
     - ""
@@ -2758,24 +2707,17 @@ items:
     - nodes
     verbs:
     - get
-  - apiGroups:
-    - discovery.k8s.io
-    resources:
-    - endpointslices
-    verbs:
-    - list
-    - watch
 - apiVersion: rbac.authorization.k8s.io/v1
   kind: ClusterRole
   metadata:
     annotations:
       rbac.authorization.kubernetes.io/autoupdate: "true"
-    creationTimestamp: "2023-03-14T08:31:55Z"
+    creationTimestamp: "2021-12-10T08:40:51Z"
     labels:
       kubernetes.io/bootstrapping: rbac-defaults
     name: system:discovery
-    resourceVersion: "74"
-    uid: 578f9b7e-8de3-4407-b0ae-c6145a635ae2
+    resourceVersion: "87"
+    uid: c775f9f9-dfb3-4603-95bc-7d0e92ce3b7e
   rules:
   - nonResourceURLs:
     - /api
@@ -2796,12 +2738,12 @@ items:
   metadata:
     annotations:
       rbac.authorization.kubernetes.io/autoupdate: "true"
-    creationTimestamp: "2023-03-14T08:31:56Z"
+    creationTimestamp: "2021-12-10T08:40:51Z"
     labels:
       kubernetes.io/bootstrapping: rbac-defaults
     name: system:heapster
-    resourceVersion: "84"
-    uid: dd44abba-23b1-4db5-b87a-40fe3b522680
+    resourceVersion: "97"
+    uid: b627b4d5-7508-46ba-89be-67c362f29b4d
   rules:
   - apiGroups:
     - ""
@@ -2827,12 +2769,12 @@ items:
   metadata:
     annotations:
       rbac.authorization.kubernetes.io/autoupdate: "true"
-    creationTimestamp: "2023-03-14T08:31:56Z"
+    creationTimestamp: "2021-12-10T08:40:51Z"
     labels:
       kubernetes.io/bootstrapping: rbac-defaults
     name: system:kube-aggregator
-    resourceVersion: "90"
-    uid: f53c4859-f1b2-4c7c-af28-453734843872
+    resourceVersion: "103"
+    uid: eac79bb6-6f60-49d1-9413-af7cde365c48
   rules:
   - apiGroups:
     - ""
@@ -2848,12 +2790,12 @@ items:
   metadata:
     annotations:
       rbac.authorization.kubernetes.io/autoupdate: "true"
-    creationTimestamp: "2023-03-14T08:31:56Z"
+    creationTimestamp: "2021-12-10T08:40:51Z"
     labels:
       kubernetes.io/bootstrapping: rbac-defaults
     name: system:kube-controller-manager
-    resourceVersion: "91"
-    uid: 4e2c25d2-65b9-4c00-8553-82cbd3b311c9
+    resourceVersion: "104"
+    uid: 7ea407bd-74dd-4593-8f85-8b7c0211d6b2
   rules:
   - apiGroups:
     - ""
@@ -2953,12 +2895,12 @@ items:
   metadata:
     annotations:
       rbac.authorization.kubernetes.io/autoupdate: "true"
-    creationTimestamp: "2023-03-14T08:31:56Z"
+    creationTimestamp: "2021-12-10T08:40:51Z"
     labels:
       kubernetes.io/bootstrapping: rbac-defaults
     name: system:kube-dns
-    resourceVersion: "92"
-    uid: d7d80524-6ef5-4f0a-be07-820ebc210bf5
+    resourceVersion: "105"
+    uid: 1b64f5f2-7f59-4be8-9767-1e948df18c91
   rules:
   - apiGroups:
     - ""
@@ -2973,12 +2915,12 @@ items:
   metadata:
     annotations:
       rbac.authorization.kubernetes.io/autoupdate: "true"
-    creationTimestamp: "2023-03-14T08:31:56Z"
+    creationTimestamp: "2021-12-10T08:40:51Z"
     labels:
       kubernetes.io/bootstrapping: rbac-defaults
     name: system:kube-scheduler
-    resourceVersion: "103"
-    uid: 1b42e836-70a6-46d8-a9d4-af15a38b9602
+    resourceVersion: "116"
+    uid: 62987e63-d501-4d08-b46e-ad086eee2115
   rules:
   - apiGroups:
     - ""
@@ -3142,12 +3084,12 @@ items:
   metadata:
     annotations:
       rbac.authorization.kubernetes.io/autoupdate: "true"
-    creationTimestamp: "2023-03-14T08:31:56Z"
+    creationTimestamp: "2021-12-10T08:40:51Z"
     labels:
       kubernetes.io/bootstrapping: rbac-defaults
     name: system:kubelet-api-admin
-    resourceVersion: "87"
-    uid: 754b6a97-f65b-4b38-a43d-85b5974fcaae
+    resourceVersion: "100"
+    uid: 4a58b0bd-34f9-472d-b326-9949b27b6dc0
   rules:
   - apiGroups:
     - ""
@@ -3178,12 +3120,12 @@ items:
   metadata:
     annotations:
       rbac.authorization.kubernetes.io/autoupdate: "true"
-    creationTimestamp: "2023-03-14T08:31:55Z"
+    creationTimestamp: "2021-12-10T08:40:51Z"
     labels:
       kubernetes.io/bootstrapping: rbac-defaults
     name: system:monitoring
-    resourceVersion: "75"
-    uid: 04225fdd-f814-43d0-be92-8381c6d0085f
+    resourceVersion: "88"
+    uid: 92ed0920-9e96-47c4-ac28-096de6cb2a8c
   rules:
   - nonResourceURLs:
     - /healthz
@@ -3191,7 +3133,6 @@ items:
     - /livez
     - /livez/*
     - /metrics
-    - /metrics/slis
     - /readyz
     - /readyz/*
     verbs:
@@ -3201,12 +3142,12 @@ items:
   metadata:
     annotations:
       rbac.authorization.kubernetes.io/autoupdate: "true"
-    creationTimestamp: "2023-03-14T08:31:56Z"
+    creationTimestamp: "2021-12-10T08:40:51Z"
     labels:
       kubernetes.io/bootstrapping: rbac-defaults
     name: system:node
-    resourceVersion: "85"
-    uid: 4e25b956-da1f-4fe9-96ba-c35850cf6241
+    resourceVersion: "98"
+    uid: 98b1f006-9039-4dff-b44a-bdc75dc09a23
   rules:
   - apiGroups:
     - authentication.k8s.io
@@ -3380,12 +3321,12 @@ items:
   metadata:
     annotations:
       rbac.authorization.kubernetes.io/autoupdate: "true"
-    creationTimestamp: "2023-03-14T08:31:56Z"
+    creationTimestamp: "2021-12-10T08:40:51Z"
     labels:
       kubernetes.io/bootstrapping: rbac-defaults
     name: system:node-bootstrapper
-    resourceVersion: "88"
-    uid: d6a76e6e-48e4-4070-9549-b34017d1b6a5
+    resourceVersion: "101"
+    uid: 3a25f1ca-f853-4cd0-8ab0-c13c6628003a
   rules:
   - apiGroups:
     - certificates.k8s.io
@@ -3401,12 +3342,12 @@ items:
   metadata:
     annotations:
       rbac.authorization.kubernetes.io/autoupdate: "true"
-    creationTimestamp: "2023-03-14T08:31:56Z"
+    creationTimestamp: "2021-12-10T08:40:51Z"
     labels:
       kubernetes.io/bootstrapping: rbac-defaults
     name: system:node-problem-detector
-    resourceVersion: "86"
-    uid: 53560de8-feca-4c6d-9122-3765b21445ca
+    resourceVersion: "99"
+    uid: 8a838649-1f4c-4c58-80fb-7977babc5ea0
   rules:
   - apiGroups:
     - ""
@@ -3434,12 +3375,12 @@ items:
   metadata:
     annotations:
       rbac.authorization.kubernetes.io/autoupdate: "true"
-    creationTimestamp: "2023-03-14T08:31:56Z"
+    creationTimestamp: "2021-12-10T08:40:51Z"
     labels:
       kubernetes.io/bootstrapping: rbac-defaults
     name: system:node-proxier
-    resourceVersion: "102"
-    uid: 0fc34b01-2e29-4c03-8be9-910a5edb5981
+    resourceVersion: "115"
+    uid: f02ba5c5-286d-4d7a-a824-647e438a902c
   rules:
   - apiGroups:
     - ""
@@ -3478,12 +3419,12 @@ items:
   metadata:
     annotations:
       rbac.authorization.kubernetes.io/autoupdate: "true"
-    creationTimestamp: "2023-03-14T08:31:56Z"
+    creationTimestamp: "2021-12-10T08:40:51Z"
     labels:
       kubernetes.io/bootstrapping: rbac-defaults
     name: system:persistent-volume-provisioner
-    resourceVersion: "93"
-    uid: 551c8501-5c40-46dc-ae85-07e48e4f0885
+    resourceVersion: "106"
+    uid: 5b77b1f8-1ad1-4dc1-8145-8c1fca9c8730
   rules:
   - apiGroups:
     - ""
@@ -3532,12 +3473,12 @@ items:
   metadata:
     annotations:
       rbac.authorization.kubernetes.io/autoupdate: "true"
-    creationTimestamp: "2023-03-14T08:31:55Z"
+    creationTimestamp: "2021-12-10T08:40:51Z"
     labels:
       kubernetes.io/bootstrapping: rbac-defaults
     name: system:public-info-viewer
-    resourceVersion: "77"
-    uid: 5bcfa4a1-7b39-4fab-848e-49e0409bde57
+    resourceVersion: "90"
+    uid: 92daebc4-601a-4421-984f-b93f988d7df8
   rules:
   - nonResourceURLs:
     - /healthz
@@ -3552,12 +3493,12 @@ items:
   metadata:
     annotations:
       rbac.authorization.kubernetes.io/autoupdate: "true"
-    creationTimestamp: "2023-03-14T08:31:56Z"
+    creationTimestamp: "2021-12-10T08:40:51Z"
     labels:
       kubernetes.io/bootstrapping: rbac-defaults
     name: system:service-account-issuer-discovery
-    resourceVersion: "101"
-    uid: 323c2fe2-1f33-409a-ad80-a9c4a640dafe
+    resourceVersion: "114"
+    uid: b28033ac-269d-4187-b0b4-bba2cfa3e443
   rules:
   - nonResourceURLs:
     - /.well-known/openid-configuration
@@ -3569,12 +3510,12 @@ items:
   metadata:
     annotations:
       rbac.authorization.kubernetes.io/autoupdate: "true"
-    creationTimestamp: "2023-03-14T08:31:56Z"
+    creationTimestamp: "2021-12-10T08:40:51Z"
     labels:
       kubernetes.io/bootstrapping: rbac-defaults
     name: system:volume-scheduler
-    resourceVersion: "96"
-    uid: 84c39c08-0e03-4b10-810e-be67c3f26f42
+    resourceVersion: "109"
+    uid: 6c89d573-d60a-4d0a-8b7d-da634632408b
   rules:
   - apiGroups:
     - ""
@@ -3604,6 +3545,23 @@ items:
     - patch
     - update
     - watch
+- apiVersion: rbac.authorization.k8s.io/v1
+  kind: ClusterRole
+  metadata:
+    creationTimestamp: "2021-12-16T06:59:55Z"
+    name: twistlock-view
+    resourceVersion: "5306"
+    uid: e48923b6-1aef-416d-88a7-47603226b590
+  rules:
+  - apiGroups:
+    - rbac.authorization.k8s.io
+    resources:
+    - roles
+    - rolebindings
+    - clusterroles
+    - clusterrolebindings
+    verbs:
+    - list
 - aggregationRule:
     clusterRoleSelectors:
     - matchLabels:
@@ -3613,13 +3571,13 @@ items:
   metadata:
     annotations:
       rbac.authorization.kubernetes.io/autoupdate: "true"
-    creationTimestamp: "2023-03-14T08:31:55Z"
+    creationTimestamp: "2021-12-10T08:40:51Z"
     labels:
       kubernetes.io/bootstrapping: rbac-defaults
       rbac.authorization.k8s.io/aggregate-to-edit: "true"
     name: view
-    resourceVersion: "344"
-    uid: 63e3fcc2-8d5d-402c-8d81-b0f3cf36d7c9
+    resourceVersion: "424"
+    uid: f631e28b-a326-4020-ba83-b22f3efac81a
   rules:
   - apiGroups:
     - ""
@@ -3658,14 +3616,6 @@ items:
     - ""
     resources:
     - namespaces
-    verbs:
-    - get
-    - list
-    - watch
-  - apiGroups:
-    - discovery.k8s.io
-    resources:
-    - endpointslices
     verbs:
     - get
     - list
@@ -3750,3 +3700,4 @@ items:
 kind: List
 metadata:
   resourceVersion: ""
+  selfLink: ""

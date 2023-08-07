@@ -1,1 +1,47 @@
-error: the server doesn't have a resource type "psp"
+apiVersion: v1
+items:
+- apiVersion: policy/v1beta1
+  kind: PodSecurityPolicy
+  metadata:
+    annotations:
+      apparmor.security.beta.kubernetes.io/allowedProfileNames: runtime/default
+      apparmor.security.beta.kubernetes.io/defaultProfileName: runtime/default
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"policy/v1beta1","kind":"PodSecurityPolicy","metadata":{"annotations":{"apparmor.security.beta.kubernetes.io/allowedProfileNames":"runtime/default","apparmor.security.beta.kubernetes.io/defaultProfileName":"runtime/default","seccomp.security.alpha.kubernetes.io/allowedProfileNames":"docker/default","seccomp.security.alpha.kubernetes.io/defaultProfileName":"docker/default"},"name":"psp.flannel.unprivileged"},"spec":{"allowPrivilegeEscalation":false,"allowedCapabilities":["NET_ADMIN","NET_RAW"],"allowedHostPaths":[{"pathPrefix":"/etc/cni/net.d"},{"pathPrefix":"/etc/kube-flannel"},{"pathPrefix":"/run/flannel"}],"defaultAddCapabilities":[],"defaultAllowPrivilegeEscalation":false,"fsGroup":{"rule":"RunAsAny"},"hostIPC":false,"hostNetwork":true,"hostPID":false,"hostPorts":[{"max":65535,"min":0}],"privileged":false,"readOnlyRootFilesystem":false,"requiredDropCapabilities":[],"runAsUser":{"rule":"RunAsAny"},"seLinux":{"rule":"RunAsAny"},"supplementalGroups":{"rule":"RunAsAny"},"volumes":["configMap","secret","emptyDir","hostPath"]}}
+      seccomp.security.alpha.kubernetes.io/allowedProfileNames: docker/default
+      seccomp.security.alpha.kubernetes.io/defaultProfileName: docker/default
+    creationTimestamp: "2021-12-10T08:43:44Z"
+    name: psp.flannel.unprivileged
+    resourceVersion: "639"
+    uid: e7cf43d5-a665-4901-aa55-710b6404a002
+  spec:
+    allowPrivilegeEscalation: false
+    allowedCapabilities:
+    - NET_ADMIN
+    - NET_RAW
+    allowedHostPaths:
+    - pathPrefix: /etc/cni/net.d
+    - pathPrefix: /etc/kube-flannel
+    - pathPrefix: /run/flannel
+    defaultAllowPrivilegeEscalation: false
+    fsGroup:
+      rule: RunAsAny
+    hostNetwork: true
+    hostPorts:
+    - max: 65535
+      min: 0
+    runAsUser:
+      rule: RunAsAny
+    seLinux:
+      rule: RunAsAny
+    supplementalGroups:
+      rule: RunAsAny
+    volumes:
+    - configMap
+    - secret
+    - emptyDir
+    - hostPath
+kind: List
+metadata:
+  resourceVersion: ""
+  selfLink: ""
