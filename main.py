@@ -10,8 +10,9 @@ import json
 import argparse
 import base64
 
-global outputDirectory
+global outputDirectory,clair_IP
 outputDirectory={}
+clair_IP=getclairIP()
 
 f = open('output.csv', 'w')
 writer = csv.writer(f)
@@ -132,7 +133,7 @@ def outputDirectorySortedResult(directoryList):
 
 def main():
     map_table, ignore_table, ch5_yaml = preloadConfig()
-    checkClair() #run clair
+    checkClair(clair_IP) #run clair
     benchMarks = loadAllTest()
     for i in range(len(benchMarks)):
         runTest(benchMarks[i])

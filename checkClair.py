@@ -5,7 +5,7 @@ import datetime
 import requests
 import glob
 
-def checkClair():
+def checkClair(clair_IP):
 	Pod_outputDirectory={}
 	clair_outputDirectory={}
 
@@ -48,7 +48,7 @@ def checkClair():
 
 			    #print(scanOutput)
 			    #get json file of scan result
-			    scanResultUrl="http://192.168.118.234:6060/matcher/api/v1/vulnerability_report/"+imageHashID
+			    scanResultUrl="http://"+clair_IP+":6060/matcher/api/v1/vulnerability_report/"+imageHashID
 			    responseStatuses = {200: "Website Available",301: "Permanent Redirect",302: "Temporary Redirect",404: "Not Found",500: "Internal Server Error",503: "Service Unavailable"}
 
 			    try:

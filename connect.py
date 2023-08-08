@@ -6,7 +6,7 @@ import re
 import glob
 import argparse
 
-global pass1
+global pass1,clair_IP
 
 def runAudit(num, command):
     #print(command+"\n")
@@ -19,12 +19,17 @@ def runAudit(num, command):
         #line.insert(0,"")
         line=e.readlines()
     return line
+def getclairIP():
+    return clair_IP
 
 parser = argparse.ArgumentParser()
 parser.add_argument("-TargetedIP", help="Target IP address of kubernetes you want to login via ssh connection)")
 parser.add_argument("-Username", help="User name to login via ssh connection")
 parser.add_argument("-Password", help="Password to login via ssh connection")
+parser.add_argument("-image_scan_IP", help="Server IP of image vulnerability scanning")
 args = parser.parse_args()
+
+clair_IP=args.image_scan_IP
 
 ssh = paramiko.SSHClient()
 ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
