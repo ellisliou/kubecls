@@ -62,8 +62,12 @@ def checkClair(clair_IP):
 				if(imageHashID==tempList[k]):
 					findResult=1
 			if(findResult==0):
+				tempList.append(imageHashID)
 				clair_outputDirectory[imageHashID]=json.loads(web_response.text)
-			Pod_outputDirectory[i]={"pod_name":temp_item["metadata"]["name"],"image_name":temp_item["spec"]["containers"][0]["image"],"imagePullPolicy":temp_item["spec"]["containers"][0]["imagePullPolicy"],"image_Hash_ID":imageHashID}
+				Pod_outputDirectory[imageHashID]={"image_name":temp_item["spec"]["containers"][0]["image"],"pod_info":[{"pod_name":temp_item["metadata"]["name"],"imagePullPolicy":temp_item["spec"]["containers"][0]["imagePullPolicy"]}]}
+			else:
+				Pod_outputDirectory[imageHashID]["pod_info"]=Pod_outputDirectory[imageHashID]["pod_info"]+[{"pod_name":temp_item["metadata"]["name"],"imagePullPolicy":temp_item["spec"]["containers"][0]["imagePullPolicy"]}]
+			#Pod_outputDirectory[i]={"pod_name":temp_item["metadata"]["name"],"image_name":temp_item["spec"]["containers"][0]["image"],"imagePullPolicy":temp_item["spec"]["containers"][0]["imagePullPolicy"],"image_Hash_ID":imageHashID}
 		with open("pod_info.json", "w") as outfile:
 			json.dump(Pod_outputDirectory, outfile)
 		with open("clair_result.json", "w") as outfile:
