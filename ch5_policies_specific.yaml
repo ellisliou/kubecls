@@ -328,3 +328,8 @@ groups:
       - 3GPP818id: 5.2
         text: "Implementation Flaw(開發過程應考量資安風險)"
         type: "manual"
+
+      - 3GPP818id: 6.2
+        text: "Root-Owned File Write Permission Abuse"
+        type: "manual"
+        audit_function: "showSudoAccount"

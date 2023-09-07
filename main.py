@@ -3,6 +3,7 @@ from parseYaml import checks, parsed_yaml_file
 from connect import *
 from checkPolicy import *
 from checkClair import *
+from HalfautoToAuto import *
 import re
 import glob
 import yaml
@@ -133,7 +134,9 @@ def outputDirectorySortedResult(directoryList):
 
 def main():
     map_table, ignore_table, ch5_yaml = preloadConfig()
-    checkClair(clair_IP) #run clair
+    if clair_IP!=None:
+        print(clair_IP)
+        checkClair(clair_IP) #run clair
     benchMarks = loadAllTest()
     for i in range(len(benchMarks)):
         runTest(benchMarks[i])
@@ -167,9 +170,14 @@ def main():
 
     print('[*]CIS-CH5 completed!')
 
+    tmpdirectory ={}
+    tmpdirectory=half_auto_To_auto(outputDirectory)
+    with open("origin.json", "w") as outfile:
+        json.dump(tmpdirectory, outfile)
+
     #print(json.dumps(outputDirectorySortedResult(outputDirectory), indent = 4))
     tmpdirectory ={}
-    tmpdirectory=outputDirectorySortedResult(outputDirectory)
+    tmpdirectory=outputDirectorySortedResult(half_auto_To_auto(outputDirectory))
     
     with open("output_total.json", "w") as outfile:
         json.dump(tmpdirectory, outfile)

@@ -19,6 +19,7 @@ def runAudit(num, command):
         #line.insert(0,"")
         line=e.readlines()
     return line
+    
 def getclairIP():
     return clair_IP
 
@@ -226,6 +227,21 @@ class k8s_config_check:
             secretList=secretList+directoryList[i][0:-1]+" : "+keyContent[0]
         return secretList
 
+    def showSudoAccount(self,configYamlList):
+        secretList=""
+        directoryList=runAudit(0,"sudo -S getent group sudo | cut -d: -f4")
+        secretList="第一種、以下帳號位於sudo群組，可提權至最高權限，請確認其合適性：\n"
+        tmplist=directoryList[0].split(',')
+        if directoryList:
+            for i in range(len(tmplist)):
+                secretList=secretList+str(i+1)+". "+tmplist[i]
+        secretList=secretList+"\n第二種、以下帳號具有root權限或位於root群組，具有最高權限，請確認其合適性：\n"
+        directoryList=runAudit(0,"sudo -S awk -F: '{if($3 == 0 ||$4==0) print $1, \"is a superuser!\" }' /etc/passwd")
+        for i in range(len(directoryList)):
+            secretList=secretList+directoryList[i]
+
+        return secretList
+
     def getMaxId(self):
         return len(self.yaml)
 
@@ -263,6 +279,8 @@ class k8sChecks(k8s_config_check):
                 self.line =self.privateKeyLength(configYamlList)
             elif self.it["audit_function"] == "privateKeyAlgorithmh":
                 self.line =self.privateKeyAlgorithmh(configYamlList)
+            elif self.it["audit_function"] == "showSudoAccount":
+                self.line =self.showSudoAccount(configYamlList)
         else:
             self.line =""
 
