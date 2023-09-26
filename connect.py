@@ -1,3 +1,4 @@
+from datetime import datetime
 import paramiko
 import getpass
 import json
@@ -6,7 +7,14 @@ import re
 import glob
 import argparse
 
+start_time = datetime.now().strftime("%Y%m%d-%H:%M:%S")
+
 global pass1,clair_IP
+connect_log = open('connect_log.txt', 'w')
+connect_log.write('connection start time: '+start_time+"\n")
+
+def connect_log_close():
+    connect_log.close()
 
 def runAudit(num, command):
     #print(command+"\n")
@@ -38,6 +46,7 @@ ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
 pass1=args.Password
 ssh.connect(hostname=args.TargetedIP, username=args.Username, password=args.Password, allow_agent = 'true', timeout=10)
 print('[*]Login successfully with SSH connection ')
+connect_log.write('[*]Login successfully with SSH connection\n')
 #print(runAudit(0,"/usr/local/kubernetes/current/stage2/usr/bin/kubectl config view"))
 
 class k8s_config_check:

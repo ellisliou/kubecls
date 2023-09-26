@@ -1,0 +1,5 @@
+[*]Load mapping table between 3GPP-818-ID and CIS-1.20-ID
+[*]Retrieve related configuration in k8s with yaml format
+[*]CIS-CH1、CIS-CH2、CIS-CH3 are audited!
+[*]CIS-CH5 completed!
+scanning finish time: 20230926-161945

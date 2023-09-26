@@ -5,18 +5,24 @@ import datetime
 import requests
 import glob
 
+clair_log = open('clair_log.txt', 'w')
+
+def clair_log_close():
+	clair_log.close()
+
 def checkClair(clair_IP):
 	Pod_outputDirectory={}
 	clair_outputDirectory={}
 
 	file = open("k8s_pods.yaml")
 	file = yaml.load(file, Loader=yaml.FullLoader)
-	f_exec_log = open('execlog.txt', 'a')
 
-	if file is None: #k8s_pods
+	if not file: #k8s_pods
 		print("Pods is empty!\n")
+		clair_log.write("Pods is empty!\n")
 	else:
 		print("Total items: ",len(file["items"]),"\n")
+		clair_log.write("Total items: "+str(len(file["items"]))+"\n")
 		tempList=[]
 		for i in range(len(file["items"])):
 			temp_item=file["items"][i]
@@ -32,19 +38,23 @@ def checkClair(clair_IP):
 				manifestJson=json.loads(manifestOutput)
 				imageHashID=manifestJson["hash"]
 				print("Image hash: "+imageHashID)
+				clair_log.write("Image hash: "+imageHashID)
 			except:
 				print("Unknown image name or tag name\n")
+				clair_log.write("Unknown image name or tag name\n")
 				scanStatus=1 #abnormal status
 
 			try:
 				subprocess.call(["./clairctl-linux-amd64","-D","report",imageName])
 				print("Image scanning is completed!")
+				clair_log.write("Image scanning is completed!")
 			except:
 				print("Clair service is unavailable\n")
+				clair_log.write("Clair service is unavailable\n")
 				scanStatus=1 #abnormal status
 
 			if(scanStatus==0):
-			    f_exec_log.write("Scan start:"+imageName+","+imageHashID+","+str(datetime.datetime.now())+"\n")
+			    f_clair_log.write("Scan start:"+imageName+","+imageHashID+","+str(datetime.datetime.now())+"\n")
 
 			    #print(scanOutput)
 			    #get json file of scan result
@@ -54,9 +64,11 @@ def checkClair(clair_IP):
 			    try:
 			        web_response = requests.get(scanResultUrl,timeout=3)
 			        print(scanResultUrl, responseStatuses[web_response.status_code],"\n\n")
+			        clair_log.write(scanResultUrl, responseStatuses[web_response.status_code],"\n\n")
 			        #print(web_response.text)
 			    except:
 			        print("Connection error\n")
+			        clair_log.write("Connection error\n")
 			findResult=0
 			for k in range(len(tempList)):
 				if(imageHashID==tempList[k]):

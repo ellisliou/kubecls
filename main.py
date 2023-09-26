@@ -4,12 +4,14 @@ from connect import *
 from checkPolicy import *
 from checkClair import *
 from HalfautoToAuto import *
+from datetime import datetime
 import re
 import glob
 import yaml
 import json
 import argparse
 import base64
+import zipfile
 
 global outputDirectory,clair_IP
 outputDirectory={}
@@ -18,7 +20,9 @@ clair_IP=getclairIP()
 f = open('output.csv', 'w')
 writer = csv.writer(f)
 f_ch5_test = open('ch5_test.txt', 'w')
+main_log = open('main_log.txt', 'w')
 
+main_log.write("[*]Load mapping table between 3GPP-818-ID and CIS-1.20-ID\n")
 print('[*]Load mapping table between 3GPP-818-ID and CIS-1.20-ID')
 
 configYamlList= []
@@ -46,6 +50,7 @@ for i in range(len(k8sConfigList)):
     count+=1
     #print(count)
 print('[*]Retrieve related configuration in k8s with yaml format')
+main_log.write("[*]Retrieve related configuration in k8s with yaml format\n")
 
 def preloadConfig():
     #map_table=open("map_table.yaml")
@@ -134,13 +139,15 @@ def outputDirectorySortedResult(directoryList):
 
 def main():
     map_table, ignore_table, ch5_yaml = preloadConfig()
-    if clair_IP!=None:
+    if clair_IP:
         print(clair_IP)
         checkClair(clair_IP) #run clair
     benchMarks = loadAllTest()
     for i in range(len(benchMarks)):
         runTest(benchMarks[i])
     print('[*]CIS-CH1、CIS-CH2、CIS-CH3 are audited!')
+    main_log.write("[*]CIS-CH1、CIS-CH2、CIS-CH3 are audited!\n")
+
     
     ch5Yf=k8s_config_check(ch5_yaml)
     count=0
@@ -169,11 +176,12 @@ def main():
             #print(count)
 
     print('[*]CIS-CH5 completed!')
+    main_log.write('[*]CIS-CH5 completed!\n')
 
-    tmpdirectory ={}
-    tmpdirectory=half_auto_To_auto(outputDirectory)
-    with open("origin.json", "w") as outfile:
-        json.dump(tmpdirectory, outfile)
+    #tmpdirectory ={}
+    #tmpdirectory=half_auto_To_auto(outputDirectory)
+    #with open("origin.json", "w") as outfile:
+    #    json.dump(tmpdirectory, outfile)
 
     #print(json.dumps(outputDirectorySortedResult(outputDirectory), indent = 4))
     tmpdirectory ={}
@@ -185,6 +193,31 @@ def main():
     with open("output_v1.json", "w") as outfile:
         json.dump(outputVersionV1(tmpdirectory), outfile)
 
+    end_time = datetime.now().strftime("%Y%m%d-%H%M%S")
+    main_log.write('scanning finish time: '+end_time+"\n")
+
+    main_log.close()
+    f.close()
+    connect_log_close()
+    clair_log_close()
+
+    with zipfile.ZipFile(end_time+'.zip', mode='w') as zf:
+        zf.write("ch5_test.txt")
+        zf.write("output.csv")
+        zf.write("main_log.txt")
+        zf.write("connect_log.txt")
+        zf.write("clair_log.txt")
+        zf.write("output_v1.json")
+        zf.write("output_total.json")
+        zf.write("k8s_api.yaml")
+        zf.write("k8s_psp.yaml")
+        zf.write("k8s_pods.yaml")
+        zf.write("k8s_serviceaccounts.yaml")
+        zf.write("k8s_Roles.yaml")
+        zf.write("k8s_ClusterRoles.yaml")
+        zf.write("k8s_rolebinding.yaml")
+        zf.write("k8s_clusterrolebindings.yaml")
+        zf.write("k8s_node.yaml")
 
 if __name__ == "__main__":
     main()
