@@ -4,78 +4,69 @@ items:
   kind: Node
   metadata:
     annotations:
-      flannel.alpha.coreos.com/backend-data: '{"VNI":1,"VtepMAC":"b6:58:8b:fc:42:58"}'
-      flannel.alpha.coreos.com/backend-type: vxlan
-      flannel.alpha.coreos.com/kube-subnet-manager: "true"
-      flannel.alpha.coreos.com/public-ip: 192.168.30.81
-      kubeadm.alpha.kubernetes.io/cri-socket: /var/run/dockershim.sock
+      kubeadm.alpha.kubernetes.io/cri-socket: unix:///var/run/crio/crio.sock
       node.alpha.kubernetes.io/ttl: "0"
       volumes.kubernetes.io/controller-managed-attach-detach: "true"
-    creationTimestamp: "2021-12-10T08:40:50Z"
+    creationTimestamp: "2023-03-14T08:31:54Z"
     labels:
       beta.kubernetes.io/arch: amd64
       beta.kubernetes.io/os: linux
       kubernetes.io/arch: amd64
-      kubernetes.io/hostname: k8smaster
+      kubernetes.io/hostname: k8s-master
       kubernetes.io/os: linux
       node-role.kubernetes.io/control-plane: ""
-      node-role.kubernetes.io/master: ""
       node.kubernetes.io/exclude-from-external-load-balancers: ""
-    name: k8smaster
-    resourceVersion: "28385116"
-    uid: d76251bc-27be-4b32-8168-b0364febdd8b
+    name: k8s-master
+    resourceVersion: "62642"
+    uid: 73b10b46-027c-4c34-97c3-caacea2fbd8e
   spec:
     podCIDR: 10.244.0.0/24
     podCIDRs:
     - 10.244.0.0/24
     taints:
     - effect: NoSchedule
-      key: node-role.kubernetes.io/master
+      key: node-role.kubernetes.io/control-plane
   status:
     addresses:
-    - address: 192.168.30.81
+    - address: 192.168.118.238
       type: InternalIP
-    - address: k8smaster
+    - address: k8s-master
       type: Hostname
     allocatable:
-      cpu: "4"
-      ephemeral-storage: "94634127204"
+      cpu: "2"
+      ephemeral-storage: "141177898365"
+      hugepages-1Gi: "0"
       hugepages-2Mi: "0"
-      memory: 8065684Ki
+      memory: 3862044Ki
       pods: "110"
     capacity:
-      cpu: "4"
-      ephemeral-storage: 102684600Ki
+      cpu: "2"
+      ephemeral-storage: 153187824Ki
+      hugepages-1Gi: "0"
       hugepages-2Mi: "0"
-      memory: 8168084Ki
+      memory: 3964444Ki
       pods: "110"
     conditions:
-    - lastHeartbeatTime: "2021-12-10T08:44:02Z"
-      lastTransitionTime: "2021-12-10T08:44:02Z"
-      message: Flannel is running on this node
-      reason: FlannelIsUp
-      status: "False"
-      type: NetworkUnavailable
-    - lastHeartbeatTime: "2022-08-26T02:51:56Z"
-      lastTransitionTime: "2021-12-16T06:18:56Z"
+    - lastHeartbeatTime: "2023-11-29T07:08:47Z"
+      lastTransitionTime: "2023-03-14T08:31:52Z"
       message: kubelet has sufficient memory available
       reason: KubeletHasSufficientMemory
       status: "False"
       type: MemoryPressure
-    - lastHeartbeatTime: "2022-08-26T02:51:56Z"
-      lastTransitionTime: "2021-12-16T06:18:56Z"
+    - lastHeartbeatTime: "2023-11-29T07:08:47Z"
+      lastTransitionTime: "2023-03-14T08:31:52Z"
       message: kubelet has no disk pressure
       reason: KubeletHasNoDiskPressure
       status: "False"
       type: DiskPressure
-    - lastHeartbeatTime: "2022-08-26T02:51:56Z"
-      lastTransitionTime: "2021-12-16T06:18:56Z"
+    - lastHeartbeatTime: "2023-11-29T07:08:47Z"
+      lastTransitionTime: "2023-03-14T08:31:52Z"
       message: kubelet has sufficient PID available
       reason: KubeletHasSufficientPID
       status: "False"
       type: PIDPressure
-    - lastHeartbeatTime: "2022-08-26T02:51:56Z"
-      lastTransitionTime: "2021-12-16T06:18:56Z"
+    - lastHeartbeatTime: "2023-11-29T07:08:47Z"
+      lastTransitionTime: "2023-11-28T02:03:36Z"
       message: kubelet is posting ready status. AppArmor enabled
       reason: KubeletReady
       status: "True"
@@ -85,122 +76,118 @@ items:
         Port: 10250
     images:
     - names:
-      - k8s.gcr.io/etcd@sha256:4ad90a11b55313b182afc186b9876c8e891531b8db4c9bf1541953021618d0e2
-      - k8s.gcr.io/etcd:3.4.13-0
-      sizeBytes: 253392289
+      - registry.k8s.io/etcd@sha256:b0fdb657c0bd10d8c96ed2ce762842384709a9fc54d532220d5252f1f99b4d1d
+      - registry.k8s.io/etcd@sha256:dd75ec974b0a2a6f6bb47001ba09207976e625db898d1b16735528c009cb171c
+      - registry.k8s.io/etcd:3.5.6-0
+      sizeBytes: 300835513
     - names:
-      - k8s.gcr.io/kube-apiserver@sha256:de881fa0e51e86be2ac97991b3b30fabf3f7310e97c112202b0734263e3f6636
-      - k8s.gcr.io/kube-apiserver:v1.21.7
-      sizeBytes: 125730365
+      - registry.k8s.io/kube-apiserver@sha256:0f03b93af45f39704b7da175db31e20da63d2ab369f350e59de8cbbef9d703e0
+      - registry.k8s.io/kube-apiserver@sha256:503c838a7524274cf5d058bb62d46e39bdc135723ed9f81f91481615b4cc42d6
+      - registry.k8s.io/kube-apiserver:v1.26.2
+      sizeBytes: 135197934
     - names:
-      - k8s.gcr.io/kube-controller-manager@sha256:d05d7e5c66628a5c2311836387f50756debf0c416ee99e24f111539b55988d1a
-      - k8s.gcr.io/kube-controller-manager:v1.21.7
-      sizeBytes: 119930742
+      - registry.k8s.io/kube-controller-manager@sha256:5434d52f88eb16bc5e98ccb65e97e97cb5cf7861749afbf26174d27c4ece1fad
+      - registry.k8s.io/kube-controller-manager@sha256:e600951ece24aef7e456e92c7c07abddcae5bb92b2c997374d99c67015b1768f
+      - registry.k8s.io/kube-controller-manager:v1.26.2
+      sizeBytes: 124564568
     - names:
-      - k8s.gcr.io/kube-proxy@sha256:ed16fc3467873e99ad90389160330b57eed80ad71faec5bba154059ced8dd6f8
-      - k8s.gcr.io/kube-proxy:v1.21.7
-      sizeBytes: 103559050
+      - registry.k8s.io/kube-proxy@sha256:5dac6611aceb1452a5d4036108a15ceb0699c083a942977e30640d521e7d2078
+      - registry.k8s.io/kube-proxy@sha256:66a91efea0d262d19033fec6980132f643eac6321cf42993f3ba559139803758
+      - registry.k8s.io/kube-proxy:v1.26.2
+      sizeBytes: 67216101
     - names:
-      - quay.io/coreos/flannel@sha256:9a296fbb67790659adc3701e287adde3c59803b7fcefe354f1fc482840cdb3d9
-      - quay.io/coreos/flannel:v0.15.1
-      sizeBytes: 69516425
+      - registry.k8s.io/kube-scheduler@sha256:78ce2dc8099431b72acbf4c0000b65b67a6fa082d3ce4050c8d836a66d2e428c
+      - registry.k8s.io/kube-scheduler@sha256:da109877fd8fd0feba2f9a4cb6a199797452c17ddcfaf7b023cf0bac09e51417
+      - registry.k8s.io/kube-scheduler:v1.26.2
+      sizeBytes: 57672792
     - names:
-      - k8s.gcr.io/kube-scheduler@sha256:415afb38d7d610177753f1bd62fd6ef1bf3eec85cc17e100735775d7b7de1ccf
-      - k8s.gcr.io/kube-scheduler:v1.21.7
-      sizeBytes: 50876278
+      - registry.k8s.io/coredns/coredns@sha256:8e352a029d304ca7431c6507b56800636c321cb52289686a581ab70aaa8a2e2a
+      - registry.k8s.io/coredns/coredns@sha256:bdb36ee882c13135669cfc2bb91c808a33926ad1a411fee07bd2dc344bb8f782
+      - registry.k8s.io/coredns/coredns:v1.9.3
+      sizeBytes: 48934166
     - names:
-      - k8s.gcr.io/coredns/coredns@sha256:cc8fb77bc2a0541949d1d9320a641b82fd392b0d3d8145469ca4709ae769980e
-      - k8s.gcr.io/coredns/coredns:v1.8.0
-      sizeBytes: 42454755
+      - registry.k8s.io/pause@sha256:7031c1b283388d2c2e09b57badb803c05ebed362dc88d84b480cc47f72a21097
+      - registry.k8s.io/pause@sha256:8d4106c88ec0bd28001e34c975d65175d994072d65341f62a8ab0754b0fafe10
+      - registry.k8s.io/pause:3.9
+      sizeBytes: 750414
     - names:
-      - rancher/mirrored-flannelcni-flannel-cni-plugin@sha256:bfe8f30c74bc6f31eba0cc6659e396dbdd5ab171314ed542cc238ae046660ede
-      - rancher/mirrored-flannelcni-flannel-cni-plugin:v1.0.0
-      sizeBytes: 9031177
-    - names:
-      - k8s.gcr.io/pause@sha256:6c3835cab3980f11b83277305d0d736051c32b17606f5ec59f1dda67c9ba3810
-      - k8s.gcr.io/pause:3.4.1
-      sizeBytes: 682696
+      - registry.k8s.io/pause@sha256:3d380ca8864549e74af4b29c10f9cb0956236dfb01c40ca076fb6c37253234db
+      - registry.k8s.io/pause@sha256:c2280d2f5f56cf9c9a01bb64b2db4651e35efd6d62a54dcfc12049fe6449c5e4
+      - registry.k8s.io/pause:3.6
+      sizeBytes: 690326
     nodeInfo:
       architecture: amd64
-      bootID: dc997aa5-dbb3-434c-a76b-35a6e74df8cf
-      containerRuntimeVersion: docker://20.10.7
-      kernelVersion: 4.15.0-163-generic
-      kubeProxyVersion: v1.21.7
-      kubeletVersion: v1.21.7
-      machineID: 40d10b3594be4c18bafff0046386d09d
+      bootID: 5cdb4d20-e7ce-43c5-9323-d0c776b1a2d9
+      containerRuntimeVersion: cri-o://1.26.1
+      kernelVersion: 6.2.0-37-generic
+      kubeProxyVersion: v1.26.2
+      kubeletVersion: v1.26.2
+      machineID: c5968894e4384170a0bb855822fc636c
       operatingSystem: linux
-      osImage: Ubuntu 18.04 LTS
-      systemUUID: B9042442-B95C-2EFB-E84C-A046161CCE49
+      osImage: Ubuntu 22.04.2 LTS
+      systemUUID: 42724d56-e239-ec05-e26f-04813bb69e9b
 - apiVersion: v1
   kind: Node
   metadata:
     annotations:
-      flannel.alpha.coreos.com/backend-data: '{"VNI":1,"VtepMAC":"c2:8e:3e:b5:6c:7d"}'
-      flannel.alpha.coreos.com/backend-type: vxlan
-      flannel.alpha.coreos.com/kube-subnet-manager: "true"
-      flannel.alpha.coreos.com/public-ip: 192.168.30.85
-      kubeadm.alpha.kubernetes.io/cri-socket: /var/run/dockershim.sock
+      kubeadm.alpha.kubernetes.io/cri-socket: unix:///var/run/crio/crio.sock
       node.alpha.kubernetes.io/ttl: "0"
       volumes.kubernetes.io/controller-managed-attach-detach: "true"
-    creationTimestamp: "2021-12-10T08:54:03Z"
+    creationTimestamp: "2023-03-14T08:48:55Z"
     labels:
       beta.kubernetes.io/arch: amd64
       beta.kubernetes.io/os: linux
       kubernetes.io/arch: amd64
-      kubernetes.io/hostname: k8snode1
+      kubernetes.io/hostname: k8s-node1
       kubernetes.io/os: linux
-    name: k8snode1
-    resourceVersion: "28384932"
-    uid: 7730f972-f350-4c75-93b3-30f3d90fef47
+    name: k8s-node1
+    resourceVersion: "62430"
+    uid: 9018e05d-dc79-4479-8efd-6d2dff275232
   spec:
     podCIDR: 10.244.1.0/24
     podCIDRs:
     - 10.244.1.0/24
   status:
     addresses:
-    - address: 192.168.30.151
+    - address: 192.168.118.239
       type: InternalIP
-    - address: k8snode1
+    - address: k8s-node1
       type: Hostname
     allocatable:
-      cpu: "4"
-      ephemeral-storage: "94634127204"
+      cpu: "2"
+      ephemeral-storage: "141177898365"
+      hugepages-1Gi: "0"
       hugepages-2Mi: "0"
-      memory: 8065684Ki
+      memory: 3862048Ki
       pods: "110"
     capacity:
-      cpu: "4"
-      ephemeral-storage: 102684600Ki
+      cpu: "2"
+      ephemeral-storage: 153187824Ki
+      hugepages-1Gi: "0"
       hugepages-2Mi: "0"
-      memory: 8168084Ki
+      memory: 3964448Ki
       pods: "110"
     conditions:
-    - lastHeartbeatTime: "2021-12-10T08:54:37Z"
-      lastTransitionTime: "2021-12-10T08:54:37Z"
-      message: Flannel is running on this node
-      reason: FlannelIsUp
-      status: "False"
-      type: NetworkUnavailable
-    - lastHeartbeatTime: "2022-08-26T02:51:04Z"
-      lastTransitionTime: "2022-08-24T06:15:03Z"
+    - lastHeartbeatTime: "2023-11-29T07:06:16Z"
+      lastTransitionTime: "2023-11-27T06:14:11Z"
       message: kubelet has sufficient memory available
       reason: KubeletHasSufficientMemory
       status: "False"
       type: MemoryPressure
-    - lastHeartbeatTime: "2022-08-26T02:51:04Z"
-      lastTransitionTime: "2022-08-24T06:15:03Z"
+    - lastHeartbeatTime: "2023-11-29T07:06:16Z"
+      lastTransitionTime: "2023-11-27T06:14:11Z"
       message: kubelet has no disk pressure
       reason: KubeletHasNoDiskPressure
       status: "False"
       type: DiskPressure
-    - lastHeartbeatTime: "2022-08-26T02:51:04Z"
-      lastTransitionTime: "2022-08-24T06:15:03Z"
+    - lastHeartbeatTime: "2023-11-29T07:06:16Z"
+      lastTransitionTime: "2023-11-27T06:14:11Z"
       message: kubelet has sufficient PID available
       reason: KubeletHasSufficientPID
       status: "False"
       type: PIDPressure
-    - lastHeartbeatTime: "2022-08-26T02:51:04Z"
-      lastTransitionTime: "2022-08-24T06:15:03Z"
+    - lastHeartbeatTime: "2023-11-29T07:06:16Z"
+      lastTransitionTime: "2023-11-27T06:14:11Z"
       message: kubelet is posting ready status. AppArmor enabled
       reason: KubeletReady
       status: "True"
@@ -210,99 +197,26 @@ items:
         Port: 10250
     images:
     - names:
-      - mongo@sha256:6f90d92eb8ed5c52eb602a734697b329a0441949d9bb737ddcd5dae56552cac9
-      - mongo:latest
-      sizeBytes: 696504912
+      - registry.k8s.io/kube-proxy@sha256:5dac6611aceb1452a5d4036108a15ceb0699c083a942977e30640d521e7d2078
+      - registry.k8s.io/kube-proxy@sha256:66a91efea0d262d19033fec6980132f643eac6321cf42993f3ba559139803758
+      - registry.k8s.io/kube-proxy:v1.26.2
+      sizeBytes: 67216101
     - names:
-      - mongo@sha256:187c20c000cc48184a8af0bc451fa1b4b4c4949d41cf8b2737327d584da323ae
-      sizeBytes: 692642400
-    - names:
-      - weaveworksdemos/user-db@sha256:695bc22c11396c7ae747118c56e619f3b3295d9d4cbec999d30230b3f399a389
-      - weaveworksdemos/user-db:0.3.0
-      sizeBytes: 657263278
-    - names:
-      - weaveworksdemos/catalogue-db@sha256:7ba74ec9adf88f6625b8d85d3323d1ee5232b39877e1590021ea485cf9457251
-      - weaveworksdemos/catalogue-db:0.3.0
-      sizeBytes: 400161654
-    - names:
-      - registry-auth.twistlock.com/tw_b7uceox9ccsh7cww0uz3z8mjpdounbir/twistlock/defender@sha256:427d921fa7b21193eba172308579de00437c146948d4f82b5e9dfde7740ee6b8
-      - registry-auth.twistlock.com/tw_b7uceox9ccsh7cww0uz3z8mjpdounbir/twistlock/defender:defender_21_08_525
-      sizeBytes: 236355469
-    - names:
-      - weaveworksdemos/shipping@sha256:983305c948fded487f4a4acdeab5f898e89d577b4bc1ca3de7750076469ccad4
-      - weaveworksdemos/shipping:0.4.8
-      sizeBytes: 198611718
-    - names:
-      - weaveworksdemos/orders@sha256:b622e40e83433baf6374f15e076b53893f79958640fc6667dff597622eff03b9
-      - weaveworksdemos/orders:0.4.7
-      sizeBytes: 197650258
-    - names:
-      - weaveworksdemos/carts@sha256:434d2f5a6e0e8beef1f253fe96f45b8437a703125fc003434c5282ecf8969a4f
-      - weaveworksdemos/carts:0.4.8
-      sizeBytes: 197631354
-    - names:
-      - rabbitmq@sha256:0297618bd60270f03665448b02b3b1110dfc51fae60a3c6804005169f0904dad
-      - rabbitmq:3.6.8-management
-      sizeBytes: 179449261
-    - names:
-      - weaveworksdemos/queue-master@sha256:6292d3095f4c7aeed8d863527f8ef6d7a75d3128f20fc61e57f398c100142712
-      - weaveworksdemos/queue-master:0.3.1
-      sizeBytes: 178508575
-    - names:
-      - weaveworksdemos/front-end@sha256:26a2d9b6b291dee2dca32fca3f5bff6c2fa07bb5954359afcbc8001cc70eac71
-      - weaveworksdemos/front-end:0.3.12
-      sizeBytes: 119797603
-    - names:
-      - k8s.gcr.io/kube-proxy@sha256:ed16fc3467873e99ad90389160330b57eed80ad71faec5bba154059ced8dd6f8
-      - k8s.gcr.io/kube-proxy:v1.21.7
-      sizeBytes: 103559050
-    - names:
-      - quay.io/coreos/flannel@sha256:9a296fbb67790659adc3701e287adde3c59803b7fcefe354f1fc482840cdb3d9
-      - quay.io/coreos/flannel:v0.15.1
-      sizeBytes: 69516425
-    - names:
-      - weaveworksdemos/catalogue@sha256:0147a65b7116569439eefb1a6dbed455fe022464ef70e0c3cab75bc4a226b39b
-      - weaveworksdemos/catalogue:0.3.5
-      sizeBytes: 41221511
-    - names:
-      - weaveworksdemos/user@sha256:2ffccc332963c89e035fea52201012208bf62df43a55fe461ad6598a5c757ab7
-      - weaveworksdemos/user:0.4.7
-      sizeBytes: 35704702
-    - names:
-      - weaveworksdemos/payment@sha256:5ab1c9877480a018d4dda10d6dfa382776e6bca9fc1c60bacbb80903fde8cfe0
-      - weaveworksdemos/payment:0.4.3
-      sizeBytes: 32459351
-    - names:
-      - redis@sha256:4bed291aa5efb9f0d77b76ff7d4ab71eee410962965d052552db1fb80576431d
-      - redis:alpine
-      sizeBytes: 32383799
-    - names:
-      - kbudde/rabbitmq-exporter@sha256:81d8a4124bc262433e054e9df03a7abb750be31c40d13c2344b2161eebf2a20e
-      - kbudde/rabbitmq-exporter:latest
-      sizeBytes: 13931999
-    - names:
-      - kbudde/rabbitmq-exporter@sha256:8a10a1f59e30862b87a47cbb76e5dbf8eb0b584caf40b78f96c98b9ce95998ad
-      sizeBytes: 13621851
-    - names:
-      - rancher/mirrored-flannelcni-flannel-cni-plugin@sha256:bfe8f30c74bc6f31eba0cc6659e396dbdd5ab171314ed542cc238ae046660ede
-      - rancher/mirrored-flannelcni-flannel-cni-plugin:v1.0.0
-      sizeBytes: 9031177
-    - names:
-      - k8s.gcr.io/pause@sha256:6c3835cab3980f11b83277305d0d736051c32b17606f5ec59f1dda67c9ba3810
-      - k8s.gcr.io/pause:3.4.1
-      sizeBytes: 682696
+      - registry.k8s.io/pause@sha256:3d380ca8864549e74af4b29c10f9cb0956236dfb01c40ca076fb6c37253234db
+      - registry.k8s.io/pause@sha256:c2280d2f5f56cf9c9a01bb64b2db4651e35efd6d62a54dcfc12049fe6449c5e4
+      - registry.k8s.io/pause:3.6
+      sizeBytes: 690326
     nodeInfo:
       architecture: amd64
-      bootID: 08f391f6-7803-4614-8ad4-cc36a9dd7cd0
-      containerRuntimeVersion: docker://20.10.7
-      kernelVersion: 4.15.0-163-generic
-      kubeProxyVersion: v1.21.7
-      kubeletVersion: v1.21.7
-      machineID: 335c7eac05eb42d19ace7193b72bb667
+      bootID: 44288005-f608-424d-8676-b812ac906c40
+      containerRuntimeVersion: cri-o://1.26.1
+      kernelVersion: 6.2.0-37-generic
+      kubeProxyVersion: v1.26.2
+      kubeletVersion: v1.26.2
+      machineID: c5968894e4384170a0bb855822fc636c
       operatingSystem: linux
-      osImage: Ubuntu 18.04 LTS
-      systemUUID: CBAB2442-0EDF-5AD8-67BC-8C5C7F58BB39
+      osImage: Ubuntu 22.04.2 LTS
+      systemUUID: 59ed4d56-c2d5-e623-3c55-8a37ef3c2ece
 kind: List
 metadata:
   resourceVersion: ""
-  selfLink: ""

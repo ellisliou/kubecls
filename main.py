@@ -184,8 +184,12 @@ def main():
     #    json.dump(tmpdirectory, outfile)
 
     #print(json.dumps(outputDirectorySortedResult(outputDirectory), indent = 4))
+    tmpPKI={}
+    tmpPKI[0]=runAudit(0,"echo ZmluZCAvZXRjL2t1YmVybmV0ZXMvcGtpLyB8IHhhcmdzIHN0YXQgLWMgImZpbGUgbmFtZSBpcyAiJW4iLCBmaWxlIG93bnNob3AgaXMgIiVVOiVH | base64 -d | sh")
+    tmpPKI[1]=runAudit(0,"echo ZmluZCAvZXRjL2t1YmVybmV0ZXMvcGtpLyAtbmFtZSAnKi5jcnQnIHwgeGFyZ3Mgc3RhdCAtYyAiZmlsZSBuYW1lIGlzICIlbiIsIGZpbGUgcGVybWlzc2lvbnMgaXMgIiVh | base64 -d | sh")
+    tmpPKI[2]=runAudit(0,"echo ZmluZCAvZXRjL2t1YmVybmV0ZXMvcGtpLyAtbmFtZSAnKi5rZXknIHwgeGFyZ3Mgc3RhdCAtYyAiZmlsZSBuYW1lIGlzICIlbiIsIGZpbGUgcGVybWlzc2lvbnMgaXMgIiVh | base64 -d | sh")
     tmpdirectory ={}
-    tmpdirectory=outputDirectorySortedResult(half_auto_To_auto(outputDirectory))
+    tmpdirectory=outputDirectorySortedResult(half_auto_To_auto(outputDirectory,tmpPKI))
     
     with open("output_total.json", "w") as outfile:
         json.dump(tmpdirectory, outfile)
@@ -201,23 +205,23 @@ def main():
     connect_log_close()
     clair_log_close()
 
-    with zipfile.ZipFile(end_time+'.zip', mode='w') as zf:
-        zf.write("ch5_test.txt")
-        zf.write("output.csv")
-        zf.write("main_log.txt")
-        zf.write("connect_log.txt")
-        zf.write("clair_log.txt")
-        zf.write("output_v1.json")
-        zf.write("output_total.json")
-        zf.write("k8s_api.yaml")
-        zf.write("k8s_psp.yaml")
-        zf.write("k8s_pods.yaml")
-        zf.write("k8s_serviceaccounts.yaml")
-        zf.write("k8s_Roles.yaml")
-        zf.write("k8s_ClusterRoles.yaml")
-        zf.write("k8s_rolebinding.yaml")
-        zf.write("k8s_clusterrolebindings.yaml")
-        zf.write("k8s_node.yaml")
+    # with zipfile.ZipFile(end_time+'.zip', mode='w') as zf:
+    #     zf.write("ch5_test.txt")
+    #     zf.write("output.csv")
+    #     zf.write("main_log.txt")
+    #     zf.write("connect_log.txt")
+    #     zf.write("clair_log.txt")
+    #     zf.write("output_v1.json")
+    #     zf.write("output_total.json")
+    #     zf.write("k8s_api.yaml")
+    #     zf.write("k8s_psp.yaml")
+    #     zf.write("k8s_pods.yaml")
+    #     zf.write("k8s_serviceaccounts.yaml")
+    #     zf.write("k8s_Roles.yaml")
+    #     zf.write("k8s_ClusterRoles.yaml")
+    #     zf.write("k8s_rolebinding.yaml")
+    #     zf.write("k8s_clusterrolebindings.yaml")
+    #     zf.write("k8s_node.yaml")
 
 if __name__ == "__main__":
     main()
