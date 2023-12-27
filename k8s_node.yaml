@@ -17,7 +17,7 @@ items:
       node-role.kubernetes.io/control-plane: ""
       node.kubernetes.io/exclude-from-external-load-balancers: ""
     name: k8s-master
-    resourceVersion: "62642"
+    resourceVersion: "131385"
     uid: 73b10b46-027c-4c34-97c3-caacea2fbd8e
   spec:
     podCIDR: 10.244.0.0/24
@@ -37,35 +37,35 @@ items:
       ephemeral-storage: "141177898365"
       hugepages-1Gi: "0"
       hugepages-2Mi: "0"
-      memory: 3862044Ki
+      memory: 3862028Ki
       pods: "110"
     capacity:
       cpu: "2"
       ephemeral-storage: 153187824Ki
       hugepages-1Gi: "0"
       hugepages-2Mi: "0"
-      memory: 3964444Ki
+      memory: 3964428Ki
       pods: "110"
     conditions:
-    - lastHeartbeatTime: "2023-11-29T07:08:47Z"
+    - lastHeartbeatTime: "2023-12-27T06:27:02Z"
       lastTransitionTime: "2023-03-14T08:31:52Z"
       message: kubelet has sufficient memory available
       reason: KubeletHasSufficientMemory
       status: "False"
       type: MemoryPressure
-    - lastHeartbeatTime: "2023-11-29T07:08:47Z"
+    - lastHeartbeatTime: "2023-12-27T06:27:02Z"
       lastTransitionTime: "2023-03-14T08:31:52Z"
       message: kubelet has no disk pressure
       reason: KubeletHasNoDiskPressure
       status: "False"
       type: DiskPressure
-    - lastHeartbeatTime: "2023-11-29T07:08:47Z"
+    - lastHeartbeatTime: "2023-12-27T06:27:02Z"
       lastTransitionTime: "2023-03-14T08:31:52Z"
       message: kubelet has sufficient PID available
       reason: KubeletHasSufficientPID
       status: "False"
       type: PIDPressure
-    - lastHeartbeatTime: "2023-11-29T07:08:47Z"
+    - lastHeartbeatTime: "2023-12-27T06:27:02Z"
       lastTransitionTime: "2023-11-28T02:03:36Z"
       message: kubelet is posting ready status. AppArmor enabled
       reason: KubeletReady
@@ -117,9 +117,9 @@ items:
       sizeBytes: 690326
     nodeInfo:
       architecture: amd64
-      bootID: 5cdb4d20-e7ce-43c5-9323-d0c776b1a2d9
+      bootID: 7c29cbe6-f0ef-41f1-b117-596a687939f6
       containerRuntimeVersion: cri-o://1.26.1
-      kernelVersion: 6.2.0-37-generic
+      kernelVersion: 6.2.0-39-generic
       kubeProxyVersion: v1.26.2
       kubeletVersion: v1.26.2
       machineID: c5968894e4384170a0bb855822fc636c
@@ -141,7 +141,7 @@ items:
       kubernetes.io/hostname: k8s-node1
       kubernetes.io/os: linux
     name: k8s-node1
-    resourceVersion: "62430"
+    resourceVersion: "131376"
     uid: 9018e05d-dc79-4479-8efd-6d2dff275232
   spec:
     podCIDR: 10.244.1.0/24
@@ -158,36 +158,36 @@ items:
       ephemeral-storage: "141177898365"
       hugepages-1Gi: "0"
       hugepages-2Mi: "0"
-      memory: 3862048Ki
+      memory: 3862076Ki
       pods: "110"
     capacity:
       cpu: "2"
       ephemeral-storage: 153187824Ki
       hugepages-1Gi: "0"
       hugepages-2Mi: "0"
-      memory: 3964448Ki
+      memory: 3964476Ki
       pods: "110"
     conditions:
-    - lastHeartbeatTime: "2023-11-29T07:06:16Z"
-      lastTransitionTime: "2023-11-27T06:14:11Z"
+    - lastHeartbeatTime: "2023-12-27T06:26:57Z"
+      lastTransitionTime: "2023-12-25T08:31:35Z"
       message: kubelet has sufficient memory available
       reason: KubeletHasSufficientMemory
       status: "False"
       type: MemoryPressure
-    - lastHeartbeatTime: "2023-11-29T07:06:16Z"
-      lastTransitionTime: "2023-11-27T06:14:11Z"
+    - lastHeartbeatTime: "2023-12-27T06:26:57Z"
+      lastTransitionTime: "2023-12-25T08:31:35Z"
       message: kubelet has no disk pressure
       reason: KubeletHasNoDiskPressure
       status: "False"
       type: DiskPressure
-    - lastHeartbeatTime: "2023-11-29T07:06:16Z"
-      lastTransitionTime: "2023-11-27T06:14:11Z"
+    - lastHeartbeatTime: "2023-12-27T06:26:57Z"
+      lastTransitionTime: "2023-12-25T08:31:35Z"
       message: kubelet has sufficient PID available
       reason: KubeletHasSufficientPID
       status: "False"
       type: PIDPressure
-    - lastHeartbeatTime: "2023-11-29T07:06:16Z"
-      lastTransitionTime: "2023-11-27T06:14:11Z"
+    - lastHeartbeatTime: "2023-12-27T06:26:57Z"
+      lastTransitionTime: "2023-12-25T08:31:35Z"
       message: kubelet is posting ready status. AppArmor enabled
       reason: KubeletReady
       status: "True"
@@ -208,9 +208,9 @@ items:
       sizeBytes: 690326
     nodeInfo:
       architecture: amd64
-      bootID: 44288005-f608-424d-8676-b812ac906c40
+      bootID: b63ce613-0cff-4e5b-a0bc-f669e2c2fe33
       containerRuntimeVersion: cri-o://1.26.1
-      kernelVersion: 6.2.0-37-generic
+      kernelVersion: 6.2.0-39-generic
       kubeProxyVersion: v1.26.2
       kubeletVersion: v1.26.2
       machineID: c5968894e4384170a0bb855822fc636c

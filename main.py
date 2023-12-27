@@ -160,7 +160,6 @@ def main():
             f_ch5_test.writelines(ch5Yf.check.line)
             f_ch5_test.write("===Audit Result===\n\n")
             if str(ch5Yf.check.id) in ignore_table.keys():
-                #print("ignore: ",ch5Yf.check.id,"\n")
                 pass
             elif ch5Yf.check.type=="3GPP818":
                 if str(ch5Yf.check.id) not in outputDirectory.keys():
@@ -168,10 +167,12 @@ def main():
                 else:
                     outputDirectory[str(ch5Yf.check.id)]=outputDirectory[str(ch5Yf.check.id)]+[{'CISResult':"Manual",'audit output':ch5Yf.check.line}]
             elif ch5Yf.check.type=="CIS":
-                if map_table[str(ch5Yf.check.id)] not in outputDirectory.keys():
+                if str(map_table[str(ch5Yf.check.id)]) not in outputDirectory.keys():
                     outputDirectory[str(map_table[ch5Yf.check.id])]=[{'3GPP818ID':str(map_table[ch5Yf.check.id])},{'CISID': ch5Yf.check.id,'CISResult':"Manual",'audit output':ch5Yf.check.line}]
                 else:
                     outputDirectory[str(map_table[ch5Yf.check.id])]=outputDirectory[str(map_table[ch5Yf.check.id])]+[{'CISID': ch5Yf.check.id,'CISResult':"Manual",'audit output':ch5Yf.check.line}]
+            else:
+                print(ch5Yf.check.id)
             count+=1
             #print(count)
 
@@ -184,10 +185,21 @@ def main():
     #    json.dump(tmpdirectory, outfile)
 
     #print(json.dumps(outputDirectorySortedResult(outputDirectory), indent = 4))
+    with open("output_origin.json", "w") as outfile:
+        json.dump(outputDirectory, outfile)
+
     tmpPKI={}
     tmpPKI[0]=runAudit(0,"echo ZmluZCAvZXRjL2t1YmVybmV0ZXMvcGtpLyB8IHhhcmdzIHN0YXQgLWMgImZpbGUgbmFtZSBpcyAiJW4iLCBmaWxlIG93bnNob3AgaXMgIiVVOiVH | base64 -d | sh")
     tmpPKI[1]=runAudit(0,"echo ZmluZCAvZXRjL2t1YmVybmV0ZXMvcGtpLyAtbmFtZSAnKi5jcnQnIHwgeGFyZ3Mgc3RhdCAtYyAiZmlsZSBuYW1lIGlzICIlbiIsIGZpbGUgcGVybWlzc2lvbnMgaXMgIiVh | base64 -d | sh")
     tmpPKI[2]=runAudit(0,"echo ZmluZCAvZXRjL2t1YmVybmV0ZXMvcGtpLyAtbmFtZSAnKi5rZXknIHwgeGFyZ3Mgc3RhdCAtYyAiZmlsZSBuYW1lIGlzICIlbiIsIGZpbGUgcGVybWlzc2lvbnMgaXMgIiVh | base64 -d | sh")
+    tmpline=outputDirectory["1.1"][1]["audit output"][0]
+    if tmpline.find("--audit-log-path")!=-1:
+        audit_log=tmpline.split("--audit-log-path=")[1].split(' ')[0]
+        tmpPKI[3]=runAudit(0,"stat -c %a "+audit_log)
+    if tmpline.find("--audit-policy-file")!=-1:
+        audit_policy=tmpline.split("--audit-policy-file=")[1].split(' ')[0]
+        tmpPKI[4]=runAudit(0,"stat -c %a "+audit_policy)
+
     tmpdirectory ={}
     tmpdirectory=outputDirectorySortedResult(half_auto_To_auto(outputDirectory,tmpPKI))
     

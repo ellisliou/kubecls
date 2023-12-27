@@ -202,7 +202,7 @@ groups:
       - id: 5.3.2
         text: "Ensure that all Namespaces have Network Policies defined (Manual)"
         type: "manual"
-        audit: 'kubectl get networkpolicy -A -o=custom-columns=Networkpolicy_Name:.metadata.name;kubectl get namespaces'
+        audit: kubectl get networkpolicy -A -o=custom-columns="===Networkpolicy lists===":.metadata.name;kubectl get namespaces -o=custom-columns="===namespaces lists":.metadata.name,"STATUS===":.status.phase
         remediation: |
           Follow the documentation and create NetworkPolicy objects as you need them.
         scored: false
@@ -245,7 +245,7 @@ groups:
       - id: 5.7.1
         text: "Create administrative boundaries between resources using namespaces (Manual)"
         type: "manual"
-        audit: kubectl get namespaces
+        audit: echo "===pod list===";kubectl get pods -A;echo "===namespaces list===";kubectl get namespaces
         remediation: |
           Follow the documentation and create namespaces for objects in your deployment as you need
           them.
@@ -276,7 +276,7 @@ groups:
       - id: 5.7.4
         text: "The default namespace should not be used (Manual)"
         type: "manual"
-        audit: kubectl get all
+        audit: kubectl get all -A
         remediation: |
           Ensure that namespaces are created to allow for appropriate segregation of Kubernetes
           resources and that all new resources are created in a specific namespace.

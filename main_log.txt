@@ -2,4 +2,4 @@
 [*]Retrieve related configuration in k8s with yaml format
 [*]CIS-CH1、CIS-CH2、CIS-CH3 are audited!
 [*]CIS-CH5 completed!
-scanning finish time: 20231129-150939
+scanning finish time: 20231227-142901
