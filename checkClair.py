@@ -1,9 +1,10 @@
 import json
 import yaml
 import subprocess
-import datetime
+from datetime import datetime, timezone, timedelta
 import requests
 import glob
+import jwt
 
 clair_log = open('clair_log.txt', 'w')
 
@@ -38,37 +39,38 @@ def checkClair(clair_IP):
 				manifestJson=json.loads(manifestOutput)
 				imageHashID=manifestJson["hash"]
 				print("Image hash: "+imageHashID)
-				clair_log.write("Image hash: "+imageHashID)
+				clair_log.write("Image hash: "+imageHashID+"\n")
 			except:
 				print("Unknown image name or tag name\n")
 				clair_log.write("Unknown image name or tag name\n")
 				scanStatus=1 #abnormal status
 
 			try:
-				subprocess.call(["./clairctl-linux-amd64","-D","report",imageName])
+				subprocess.call(["./clairctl-linux-amd64","-D","-c","/root/clair-v4.7.2/local-dev/clair/config.yaml","report",imageName])
 				print("Image scanning is completed!")
-				clair_log.write("Image scanning is completed!")
+				clair_log.write("Image scanning is completed!\n")
 			except:
 				print("Clair service is unavailable\n")
 				clair_log.write("Clair service is unavailable\n")
 				scanStatus=1 #abnormal status
 
 			if(scanStatus==0):
-			    f_clair_log.write("Scan start:"+imageName+","+imageHashID+","+str(datetime.datetime.now())+"\n")
+				clair_log.write("Scan start:"+imageName+","+imageHashID+","+str(datetime.now())+"\n")
 
-			    #print(scanOutput)
-			    #get json file of scan result
-			    scanResultUrl="http://"+clair_IP+":6060/matcher/api/v1/vulnerability_report/"+imageHashID
-			    responseStatuses = {200: "Website Available",301: "Permanent Redirect",302: "Temporary Redirect",404: "Not Found",500: "Internal Server Error",503: "Service Unavailable"}
+				scanResultUrl="http://"+clair_IP+":6060/matcher/api/v1/vulnerability_report/"+imageHashID
+				responseStatuses = {200: "Website Available",301: "Permanent Redirect",302: "Temporary Redirect",404: "Not Found",500: "Internal Server Error",503: "Service Unavailable"}
+				jwttoken=jwt.encode({"iss": "clairctl","exp": datetime.now(tz=timezone.utc) + timedelta(seconds=60),"nbf": datetime.now(tz=timezone.utc) - timedelta(seconds=120),"iat": datetime.now(tz=timezone.utc)},"secret",algorithm="HS256")
+				print(jwttoken)
+				headers={"Authorization":"Bearer "+jwttoken}
 
-			    try:
-			        web_response = requests.get(scanResultUrl,timeout=3)
-			        print(scanResultUrl, responseStatuses[web_response.status_code],"\n\n")
-			        clair_log.write(scanResultUrl, responseStatuses[web_response.status_code],"\n\n")
-			        #print(web_response.text)
-			    except:
-			        print("Connection error\n")
-			        clair_log.write("Connection error\n")
+				try:
+					web_response = requests.get(scanResultUrl,headers=headers,timeout=30)
+					print(scanResultUrl, responseStatuses[web_response.status_code],"\n\n")
+					clair_log.write(scanResultUrl+"\n"+responseStatuses[web_response.status_code]+"\n\n")
+					#print(web_response.text)
+				except:
+					print("Connection error\n")
+					clair_log.write("Connection error\n")
 			findResult=0
 			for k in range(len(tempList)):
 				if(imageHashID==tempList[k]):

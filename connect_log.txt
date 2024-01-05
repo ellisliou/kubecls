@@ -1,2 +1,1 @@
-connection start time: 20231227-14:28:47
-[*]Login successfully with SSH connection
+connection start time: 20240105-11:40:56
